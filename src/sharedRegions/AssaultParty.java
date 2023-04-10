@@ -4,12 +4,12 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
+import src.utils.Constants;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.

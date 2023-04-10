@@ -1,13 +1,14 @@
 /**
  * Root package
  */
-package src;
+package src.heist;
 
 import src.sharedRegions.AssaultParty;
 import src.sharedRegions.CollectionSite;
 import src.sharedRegions.ConcentrationSite;
 import src.sharedRegions.GeneralRepository;
 import src.sharedRegions.Museum;
+import src.utils.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;

@@ -1,10 +1,10 @@
 package src.entities;
 
-import src.Constants;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
+import src.utils.Constants;
 
 /**
  * Master Thief, the thief that commands the heist

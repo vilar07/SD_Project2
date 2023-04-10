@@ -3,11 +3,11 @@ package src.sharedRegions;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.ConcentrationSiteInterface;
+import src.utils.Constants;
 
 /**
  * Concentration Site where ordinary thieves wait for orders

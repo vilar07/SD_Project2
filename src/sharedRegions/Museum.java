@@ -1,12 +1,13 @@
 package src.sharedRegions;
 
 import java.util.Random;
-import src.Constants;
+
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
 import src.room.Room;
+import src.utils.Constants;
 
 /**
  * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 

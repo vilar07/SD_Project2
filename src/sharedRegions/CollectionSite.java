@@ -6,11 +6,11 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import src.Constants;
 import src.entities.MasterThief;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
+import src.utils.Constants;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored

@@ -2,12 +2,12 @@ package src.entities;
 
 import java.util.Random;
 
-import src.Constants;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
+import src.utils.Constants;
 
 /**
  * Ordinary Thief, one of the thieves involved in the heist
