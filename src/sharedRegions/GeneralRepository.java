@@ -21,7 +21,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
     /**
      * State of the Master Thief
      */
-    private int masterThiefState;
+    private String masterThiefState;
 
     /**
      * Information of the Ordinary Thieves
@@ -43,18 +43,18 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public GeneralRepository() {
         logger = new Logger();
-        masterThiefState = 0;
+        masterThiefState = "----";
         ordinaryThieves = new OrdinaryThiefLogging[Constants.NUM_THIEVES - 1];
         for (int i = 0; i < ordinaryThieves.length; i++) {
-            ordinaryThieves[i] = new OrdinaryThiefLogging(0, 'W', 0);
+            ordinaryThieves[i] = new OrdinaryThiefLogging("----", '-', '-');
         }
         assaultParties = new AssaultPartyLogging[Constants.ASSAULT_PARTIES_NUMBER];
         for (int i = 0; i < assaultParties.length; i++) {
             AssaultPartyElemLogging[] elems = new AssaultPartyElemLogging[Constants.ASSAULT_PARTY_SIZE];
             for (int j = 0; j < elems.length; j++) {
-                elems[j] = new AssaultPartyElemLogging(0, 0, 0);
+                elems[j] = new AssaultPartyElemLogging('-', "--", '-');
             }
-            assaultParties[i] = new AssaultPartyLogging(0, elems);
+            assaultParties[i] = new AssaultPartyLogging('-', elems);
         }
         rooms = new RoomLogging[Constants.NUM_ROOMS];
         for (int i = 0; i < rooms.length; i++) {
@@ -81,7 +81,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      */
     public synchronized void printState() {
         StringBuilder stringBuilder = new StringBuilder(
-                 String.format("%4d   %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d    %4d %c  %d\n",
+                 String.format("%4s   %4s %c  %c    %4s %c  %c    %4s %c  %c    %4s %c  %c    %4s %c  %c    %4s %c  %c\n",
                         masterThiefState, 
                         ordinaryThieves[0].getState(), ordinaryThieves[0].getSituation(), ordinaryThieves[0].getMaxDisplacement(),
                         ordinaryThieves[1].getState(), ordinaryThieves[1].getSituation(), ordinaryThieves[1].getMaxDisplacement(),
@@ -90,7 +90,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
                         ordinaryThieves[4].getState(), ordinaryThieves[4].getSituation(), ordinaryThieves[4].getMaxDisplacement(),
                         ordinaryThieves[5].getState(), ordinaryThieves[5].getSituation(), ordinaryThieves[5].getMaxDisplacement()
                 )
-        ).append(String.format("      %d    %d  %2d  %d   %d  %2d  %d   %d  %2d  %d   %d   %d   %2d  %d   %d  %2d  %d   %d  %2d  %d   %2d %2d   %2d %2d   %2d %2d   %2d %2d   %2d %2d\n",
+        ).append(String.format("      %c    %c  %2s  %c   %c  %2s  %c   %c  %2s  %c   %c   %c   %2s  %c   %c  %2s  %c   %c  %2s  %c   %2d %2d   %2d %2d   %2d %2d   %2d %2d   %2d %2d\n",
                         assaultParties[0].getRoom(), 
                         assaultParties[0].getElems()[0].getID(), assaultParties[0].getElems()[0].getPos(), assaultParties[0].getElems()[0].getCv(),
                         assaultParties[0].getElems()[1].getID(), assaultParties[0].getElems()[1].getPos(), assaultParties[0].getElems()[1].getCv(),
@@ -122,7 +122,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      * Sets the Master Thief state
      * @param state the state code to change to
      */
-    public void setMasterThiefState(int state) {
+    public void setMasterThiefState(String state) {
         masterThiefState = state;
         printState();
     }
@@ -134,10 +134,10 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      * @param situation the situation of the thief
      * @param maxDisplacement the maximum displacement of the thief
      */
-    public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement) {
+    public void setOrdinaryThiefState(int id, String state, char situation, int maxDisplacement) {
         ordinaryThieves[id].setState(state);
         ordinaryThieves[id].setSituation(situation);
-        ordinaryThieves[id].setMaxDisplacement(maxDisplacement);
+        ordinaryThieves[id].setMaxDisplacement((char) (maxDisplacement + '0'));
         printState();
     }
 
@@ -146,7 +146,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      * @param id the identification of the thief
      * @param state the state code to change to
      */
-    public void setOrdinaryThiefState(int id, int state) {
+    public void setOrdinaryThiefState(int id, String state) {
         setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
     }
 
@@ -156,7 +156,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      * @param room the room identification
      */
     public void setAssaultPartyRoom(int party, int room) {
-        assaultParties[party].setRoom(room + 1);
+        assaultParties[party].setRoom((char) (room + 1 + '0'));
         printState();
     }
 
@@ -171,19 +171,19 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
         int idx = 0;
         for (int i = elems.length - 1; i >= 0; i--) {
-            if (elems[i].getID() == thief + 1) {
-                elems[i].setPos(pos);
-                elems[i].setCv(cv);
+            if (elems[i].getID() == (char) (thief + 1 + '0')) {
+                elems[i].setPos(Integer.toString(pos));
+                elems[i].setCv((char) (cv + '0'));
                 printState();
                 return;
             }
-            if (elems[i].getID() == 0) {
+            if (elems[i].getID() == '-') {
                 idx = i;
             }
         }
-        elems[idx].setID(thief + 1);
-        elems[idx].setPos(pos);
-        elems[idx].setCv(cv);
+        elems[idx].setID((char) ((thief + 1) + '0'));
+        elems[idx].setPos(Integer.toString(pos));
+        elems[idx].setCv((char) (cv + '0'));
         printState();
     }
 
@@ -192,12 +192,12 @@ public class GeneralRepository implements GeneralRepositoryInterface {
      * @param party the party number
      */
     public void disbandAssaultParty(int party) {
-        assaultParties[party].setRoom(0);
+        assaultParties[party].setRoom('-');
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
         for (int i = 0; i < elems.length; i++) {
-            elems[i].setID(0);
-            elems[i].setPos(0);
-            elems[i].setCv(0);
+            elems[i].setID('-');
+            elems[i].setPos("--");
+            elems[i].setCv('-');
         }
     }
 

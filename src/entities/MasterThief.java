@@ -44,22 +44,22 @@ public class MasterThief extends Thread {
      * Enumerated reference type with the possible states of the Master Thief lifecycle
      */
     public enum State {
-        PLANNING_THE_HEIST (1000),
-        DECIDING_WHAT_TO_DO (2000),
-        ASSEMBLING_A_GROUP (3000),
-        WAITING_FOR_ARRIVAL (4000),
-        PRESENTING_THE_REPORT (5000);
+        PLANNING_THE_HEIST ("PLAN"),
+        DECIDING_WHAT_TO_DO ("DECI"),
+        ASSEMBLING_A_GROUP ("AGRP"),
+        WAITING_FOR_ARRIVAL ("WAIT"),
+        PRESENTING_THE_REPORT ("PRES");
 
         /**
          * Code associated with each state (to be used in logging)
          */
-        private final int code;
+        private final String code;
 
         /**
          * State constructor
          * @param code code of the state
          */
-        State(int code) {
+        State(String code) {
             this.code = code;
         }
     }

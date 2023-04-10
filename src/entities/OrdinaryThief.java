@@ -72,22 +72,22 @@ public class OrdinaryThief extends Thread {
      * Enumerated reference type with the possible states of the Ordinary Thief lifecycle
      */
     public enum State {
-        CONCENTRATION_SITE (1000),
-        COLLECTION_SITE (2000),
-        CRAWLING_INWARDS (3000),
-        AT_A_ROOM (4000),
-        CRAWLING_OUTWARDS (5000);
+        CONCENTRATION_SITE ("CONC"),
+        COLLECTION_SITE ("COLL"),
+        CRAWLING_INWARDS ("CRIN"),
+        AT_A_ROOM ("ROOM"),
+        CRAWLING_OUTWARDS ("COUT");
 
         /**
          * Code associated with each state (to be used in logging)
          */
-        private final int code;
+        private final String code;
 
         /**
          * State constructor
          * @param code code of the state
          */
-        State(int code) {
+        State(String code) {
             this.code = code;
         }
     }
