@@ -60,6 +60,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         for (int i = 0; i < rooms.length; i++) {
             rooms[i] = new RoomLogging(0, 0);
         }
+        printHead();
     }
     
     /**

@@ -24,11 +24,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     private boolean finished;
 
     /**
-     * Identification of the next Assault Party
-     */
-    private int assaultPartyID;
-
-    /**
      * Public constructor for the Concentration Site shared region
      */
     public ConcentrationSite() {
@@ -57,7 +52,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
             }
         }
         assaultParty.setRoom(room, master.getGeneralRepository());
-        assaultPartyID = assaultParty.getID();
         OrdinaryThief[] ordinaryThieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < ordinaryThieves.length; i++) {
             ordinaryThieves[i] = this.thieves.poll();

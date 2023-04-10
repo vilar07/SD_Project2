@@ -134,8 +134,8 @@ public class MasterThief extends Thread {
      * Get next room that is not empty
      * @return the room identification
      */
-    private int getNextRoom() {  // penso que alguma coisa esteja mal aqui .. apenas dá print duas vezes dentro do if
-        for (int i = 0; i < emptyRooms.length; i++) { //As empty Rooms são inicializadas todas a False, mas em nenhum sítio sao colocadas a true (quando deixa de existir paintings nela)
+    private int getNextRoom() {
+        for (int i = 0; i < emptyRooms.length; i++) {
             if (!emptyRooms[i]) {
                 return i;
             }

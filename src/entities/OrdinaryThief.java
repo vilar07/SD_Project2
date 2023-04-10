@@ -1,13 +1,10 @@
 package src.entities;
 
-import java.util.Random;
-
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
 import src.interfaces.MuseumInterface;
-import src.utils.Constants;
 
 /**
  * Ordinary Thief, one of the thieves involved in the heist
@@ -101,17 +98,14 @@ public class OrdinaryThief extends Thread {
      * @param assaultParties the Assault Parties array
      * @param generalRepository the General Repository
      */
-    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository) {
+    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository, int maxDisplacement) {
         this.id = id;
         this.museum = museum;
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
         this.generalRepository = generalRepository;
-        Random random = new Random(System.currentTimeMillis());
-        maxDisplacement = random.nextInt(
-                Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT + 1)
-                + Constants.MIN_THIEF_DISPLACEMENT;
+        this.maxDisplacement = maxDisplacement;
         busyHands = false;
         position = 0;
         nextToCrawl = false;
