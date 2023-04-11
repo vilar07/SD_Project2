@@ -30,23 +30,29 @@ public class HeistToTheMuseum
      */
     public static void main(String[] args) {
         Random random = new Random(System.currentTimeMillis());
+
+        GeneralRepository repository = new GeneralRepository();
+        
+        AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
+        for(int i = 0; i < assaultParties.length; i++) {
+            assaultParties[i] = new AssaultParty(i, repository);
+        }
+
         Room[] rooms = new Room[Constants.NUM_ROOMS];
         for(int i = 0; i < rooms.length; i++) {
             int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
             int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
             rooms[i] = new Room(i, distance, paintings);
         }
-        GeneralRepository repository = new GeneralRepository();
-        Museum museum = new Museum(repository, rooms);
-        CollectionSite collectionSite = new CollectionSite();
-        ConcentrationSite concentrationSite = new ConcentrationSite();
-        AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
-        for(int i = 0; i < assaultParties.length; i++) {
-            assaultParties[i] = new AssaultParty(i);
-        }
+        Museum museum = new Museum(repository, assaultParties, rooms);
 
-        MasterThief masterThief = new MasterThief((CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository);
+        CollectionSite collectionSite = new CollectionSite(repository, assaultParties, museum);
 
+        ConcentrationSite concentrationSite = new ConcentrationSite(repository, assaultParties, collectionSite);
+
+        MasterThief masterThief = new MasterThief((CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, 
+                                                    (GeneralRepositoryInterface) repository
+        );
         OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
         for(int i = 0; i < ordinaryThieves.length; i++) {
             ordinaryThieves[i] = new OrdinaryThief(i, (MuseumInterface) museum, (CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, 

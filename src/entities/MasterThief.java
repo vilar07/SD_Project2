@@ -4,7 +4,6 @@ import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
 import src.interfaces.ConcentrationSiteInterface;
 import src.interfaces.GeneralRepositoryInterface;
-import src.utils.Constants;
 
 /**
  * Master Thief, the thief that commands the heist
@@ -14,11 +13,6 @@ public class MasterThief extends Thread {
      * Current state of the Master Thief
      */
     private MasterThief.State state;
-
-    /**
-     * Perception of the Master Thief about what rooms are empty
-     */
-    private boolean[] emptyRooms;
 
     /**
      * Variable holding the Collection Site shared region
@@ -71,8 +65,6 @@ public class MasterThief extends Thread {
      */
     public MasterThief(CollectionSiteInterface collectionSite,
             ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository) {
-        
-        emptyRooms = new boolean[Constants.NUM_ROOMS];
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
@@ -90,60 +82,6 @@ public class MasterThief extends Thread {
     }
 
     /**
-     * Setter for the empty rooms
-     * @param room the room identification
-     * @param empty true if it is empty, false otherwise
-     */
-    public void setEmptyRoom(int room, boolean empty) {
-        emptyRooms[room] = empty;
-    }
-
-    /**
-     * Getter for the perception of the empty rooms
-     * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
-     */
-    public boolean[] getEmptyRooms() {
-        return emptyRooms;
-    }
-
-    /**
-     * Getter for the General Repository 
-     * @return the General Repository
-     */
-    public GeneralRepositoryInterface getGeneralRepository() {
-        return generalRepository;
-    }
-
-    /**
-     * Getter for the Assault Parties
-     * @return the Assault Parties
-     */
-    public AssaultPartyInterface[] getAssaultParties() {
-        return assaultParties;
-    }
-
-    /**
-     * Getter for the Concentration Site
-     * @return the Concentration Site
-     */
-    public ConcentrationSiteInterface getConcentrationSite() {
-        return concentrationSite;
-    }
-
-    /**
-     * Get next room that is not empty
-     * @return the room identification
-     */
-    private int getNextRoom() {
-        for (int i = 0; i < emptyRooms.length; i++) {
-            if (!emptyRooms[i]) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    /**
      * Lifecycle of the Master Thief
      */
     @Override
@@ -151,12 +89,12 @@ public class MasterThief extends Thread {
         System.out.println("startOperations");
         collectionSite.startOperations();
         char operation;
-        while ((operation = collectionSite.appraiseSit(assaultParties)) != 'E') {
+        while ((operation = collectionSite.appraiseSit()) != 'E') {
             switch (operation) {
                 case 'P':
                 int assaultPartyID = collectionSite.getNextAssaultPartyID();
                 System.out.println("initiating prepareAssaultParty " + assaultPartyID);
-                concentrationSite.prepareAssaultParty(assaultParties[assaultPartyID], getNextRoom()); 
+                concentrationSite.prepareAssaultParty(assaultPartyID); 
                 System.out.println("finished prepareAssaultParty " + assaultPartyID + "; initiating sendAssaultParty " + assaultPartyID);
                 assaultParties[assaultPartyID].sendAssaultParty();
                 System.out.println("finished sendAssaultParty " + assaultPartyID);

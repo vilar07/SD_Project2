@@ -21,22 +21,17 @@ public class Museum implements MuseumInterface {
      */
     private final GeneralRepositoryInterface generalRepository;
 
+    private final AssaultPartyInterface[] assaultParties;
+
     /**
      * Museum constructor, initializes rooms
      * @param generalRepository the General Repository
      */
-    public Museum(GeneralRepositoryInterface generalRepository, Room[] rooms) {
-        this.rooms = rooms;
+    public Museum(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, Room[] rooms) {
         this.generalRepository = generalRepository;
+        this.assaultParties = assaultParties;
+        this.rooms = rooms;
         generalRepository.setInitialRoomStates(this.rooms);
-    }
-
-    /**
-     * Getter for the General Repository
-     * @return the General Repository
-     */
-    public GeneralRepositoryInterface getGeneralRepository() {
-        return generalRepository;
     }
 
     /**
@@ -57,18 +52,13 @@ public class Museum implements MuseumInterface {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
         thief.setState(OrdinaryThief.State.AT_A_ROOM);
         boolean res = false;
-        Room room = this.rooms[thief.getAssaultParties()[party].getRoom()];
+        Room room = assaultParties[party].getRoom();
         synchronized (this) {
             res = room.rollACanvas();
             if (res) {
                 thief.setBusyHands(party, res);
                 generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
-        }
-        AssaultPartyInterface assaultParty = thief.getAssaultParties()[party];
-        synchronized (assaultParty) {
-            assaultParty.addThiefReadyToReverse();
-            assaultParty.notifyAll();
         }
         return res;
     }

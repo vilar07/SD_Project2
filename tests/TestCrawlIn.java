@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import src.Constants;
 import src.entities.OrdinaryThief;
 import src.interfaces.AssaultPartyInterface;
 import src.interfaces.CollectionSiteInterface;
@@ -18,6 +17,7 @@ import src.sharedRegions.CollectionSite;
 import src.sharedRegions.ConcentrationSite;
 import src.sharedRegions.GeneralRepository;
 import src.sharedRegions.Museum;
+import src.utils.Constants;
 
 public class TestCrawlIn {
     private static int roomDistance = 25;

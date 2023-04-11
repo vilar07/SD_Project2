@@ -31,16 +31,6 @@ public class OrdinaryThief extends Thread {
     private boolean busyHands;
 
     /**
-     * Position of the Ordinary Thief in relation to the room target
-     */
-    private int position;
-
-    /**
-     * Boolean value which is true if the Ordinary Thief is the next in line to crawl or false otherwise
-     */
-    private boolean nextToCrawl;
-
-    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -107,8 +97,6 @@ public class OrdinaryThief extends Thread {
         this.generalRepository = generalRepository;
         this.maxDisplacement = maxDisplacement;
         busyHands = false;
-        position = 0;
-        nextToCrawl = false;
         setState(State.CONCENTRATION_SITE);
     }
 
@@ -136,46 +124,7 @@ public class OrdinaryThief extends Thread {
         return busyHands;
     }
 
-    /**
-     * Getter for the position of the Ordinary Thief relative to the room target
-     * @return the position (from 0 up to room distance)
-     */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
-     * Getter for Assault Parties
-     * @return array with all Assault Parties
-     */
-    public AssaultPartyInterface[] getAssaultParties() {
-        return assaultParties;
-    }
-
-    /**
-     * Getter for the General Repository
-     * @return the General Repository
-     */
-    public GeneralRepositoryInterface getGeneralRepository() {
-        return generalRepository;
-    }
-
-    /**
-     * Getter for the Collection Site
-     * @return the Collection Site
-     */
-    public CollectionSiteInterface getCollectionSite() {
-        return collectionSite;
-    }
-
-    /**
-     * Getter for the Museum
-     * @return the Museum
-     */
-    public MuseumInterface getMuseum() {
-        return museum;
-    }
-
+    
     /**
      * Returns the Assault Party the Ordinary Thief is a part of
      * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
@@ -190,22 +139,6 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
-     * Getter for the nextToCrawl attribute
-     * @return true if the Ordinary Thief is the next in line to crawl, false otherwise
-     */
-    public boolean isNextToCrawl() {
-        return nextToCrawl;
-    }
-
-    /**
-     * Setter for the nextToCrawl attribute
-     * @param nextToCrawl true if the Ordinary Thief is the next in line to crawl, false otherwise
-     */
-    public void setNextToCrawl(boolean nextToCrawl) {
-        this.nextToCrawl = nextToCrawl;
-    }
-
-    /**
      * Setter for the state of the thief
      * Propagates information to the GeneralRepository
      * @param state the state
@@ -216,17 +149,6 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
-     * Setter for the position of the thief in relation to the room of the museum
-     * Propagates information to the GeneralRepository
-     * @param party the Assault Party the Ordinary Thief belongs to
-     * @param position the position
-     */
-    public void setPosition(int party, int position) {
-        this.position = position;
-        generalRepository.setAssaultPartyMember(party, id, position, hasBusyHands() ? 1 : 0);
-    }
-
-    /**
      * Setter for the busy hands attribute
      * Propagates information to the GeneralRepository
      * @param party the Assault Party the Ordinary Thief belongs to
@@ -234,7 +156,7 @@ public class OrdinaryThief extends Thread {
      */
     public void setBusyHands(int party, boolean busyHands) {
         this.busyHands = busyHands;
-        generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
+        // generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
     }
 
     /**
@@ -242,10 +164,7 @@ public class OrdinaryThief extends Thread {
      * @return 'W' if waiting or 'P' if in party
      */
     private char getSituation() {
-        if (state == State.CONCENTRATION_SITE || state == State.COLLECTION_SITE) {
-            return 'W';
-        }
-        return 'P';
+        return (state == State.CONCENTRATION_SITE || state == State.COLLECTION_SITE) ? 'W' : 'P';
     }
 
     /**
