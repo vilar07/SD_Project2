@@ -72,24 +72,21 @@ public interface AssaultPartyInterface {
     public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository);
 
     /**
-     * Adds an Ordinary Thief to the end of the line
-     * @param thief the Ordinary Thief
-     */
-    public void addThiefToLine(OrdinaryThief thief);
-
-    /**
-     * Increments the number of thieves that are ready to crawl out
-     */
-    public void addThiefReadyToReverse();
-
-    /**
      * Checks if given thief is in the Assault Party
      * @param thief the Ordinary Thief
      * @return true if they are part of the Assault Party, false otherwise
      */
     public boolean isMember(OrdinaryThief thief);
 
+    /**
+     * Removes an Ordinary Thief from the Assault Party, if they are a member of it.
+     * @param thief the Ordinary Thief.
+     */
     public void removeMember(OrdinaryThief thief);
 
+    /**
+     * Returns whether the Assault Party is empty, or still has Ordinary Thieves in action.
+     * @return true if it is empty, false otherwise.
+     */
     public boolean isEmpty();
 }
