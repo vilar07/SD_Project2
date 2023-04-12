@@ -188,6 +188,19 @@ public class GeneralRepository implements GeneralRepositoryInterface {
         printState();
     }
 
+    public void removeAssaultPartyMember(int party, int thief) {
+        AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
+        for (int i = 0; i < elems.length; i++) {
+            if (elems[i].getID() == (char) (thief + 1 + '0')) {
+                elems[i].setID('-');
+                elems[i].setPos("--");
+                elems[i].setCv('-');
+                printState();
+                return;
+            }
+        }
+    }
+
     /**
      * Resets the Assault Party logging details
      * @param party the party number
@@ -200,6 +213,7 @@ public class GeneralRepository implements GeneralRepositoryInterface {
             elems[i].setPos("--");
             elems[i].setCv('-');
         }
+        printState();
     }
 
     /**

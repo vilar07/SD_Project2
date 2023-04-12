@@ -61,10 +61,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             } 
         }
-        if (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
-            System.out.println("Não devia acontecer!");
-            return;
-        }
         assaultParties[assaultParty].setRoom(this.collectionSite.getNextRoom(), generalRepository);
         OrdinaryThief[] ordinaryThieves = new OrdinaryThief[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < ordinaryThieves.length; i++) {
@@ -143,7 +139,6 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
                 }
             }
         }
-        ordinaryThief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
         return assaultParty.getID();
     }
 

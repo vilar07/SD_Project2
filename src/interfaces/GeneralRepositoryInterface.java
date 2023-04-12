@@ -86,4 +86,6 @@ public interface GeneralRepositoryInterface {
      * @param rooms an array with the rooms
      */
     public void setInitialRoomStates(Room[] rooms);
+
+    public void removeAssaultPartyMember(int party, int thief);
 }

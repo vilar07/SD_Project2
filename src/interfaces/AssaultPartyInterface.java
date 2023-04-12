@@ -88,4 +88,8 @@ public interface AssaultPartyInterface {
      * @return true if they are part of the Assault Party, false otherwise
      */
     public boolean isMember(OrdinaryThief thief);
+
+    public void removeMember(OrdinaryThief thief);
+
+    public boolean isEmpty();
 }

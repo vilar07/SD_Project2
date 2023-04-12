@@ -37,7 +37,7 @@ public interface CollectionSiteInterface {
 
     /**
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
-     * - Synchronization point between each busy-handed Ordinary Thief and the Master Thief
+     * - Synchronization point between each Ordinary Thief and the Master Thief
      */
     public void handACanvas(int party);
 
