@@ -87,6 +87,7 @@ public class OrdinaryThief extends Thread {
      * @param concentrationSite the Concentration Site
      * @param assaultParties the Assault Parties array
      * @param generalRepository the General Repository
+     * @param maxDisplacement the maximum displacement
      */
     public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository, int maxDisplacement) {
         this.id = id;

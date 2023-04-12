@@ -16,34 +16,49 @@ import src.room.Room;
 import src.utils.Constants;
 
 /**
- * Collection Site where Master Thief plans and paintings are stored
+ * Collection Site where intelligence and paintings are stored.
  */
 public class CollectionSite implements CollectionSiteInterface {
     /**
-     * Number of paintings acquired
+     * Number of paintings acquired.
      */
     private int paintings;
 
+    /**
+     * Perception of the Master Thief about what rooms are empty.
+     */
     private boolean[] emptyRooms;
 
     /**
-     * FIFO of the available Assault Parties
+     * FIFO of the available Assault Parties.
      */
     private final Deque<Integer> availableParties;
 
     /**
-     * FIFOs of the arriving Ordinary Thieves (one for each Assault Party)
+     * FIFOs of the arriving Ordinary Thieves (one for each Assault Party).
      */
     private final List<Deque<OrdinaryThief>> arrivingThieves;
 
+    /**
+     * The General Repository, where logging happens.
+     */
     private final GeneralRepositoryInterface generalRepository;
 
+    /**
+     * The array holding the Assault Parties shared regions.
+     */
     private final AssaultPartyInterface[] assaultParties;
 
+    /** 
+     * The Museum shared region.
+     */
     private final MuseumInterface museum;
 
     /**
-     * Collection Site constructor
+     * Collection Site constructor.
+     * @param generalRepository the General Repository.
+     * @param assaultParties the Assault Parties.
+     * @param museum the Museum.
      */
     public CollectionSite(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, MuseumInterface museum) {
         this.generalRepository = generalRepository;
@@ -80,7 +95,6 @@ public class CollectionSite implements CollectionSiteInterface {
     /**
      * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
      * sum up results
-     * @param assaultPartyInterfaces an array with the Assault Parties
      * @return next situation
      */
     public synchronized char appraiseSit() {
@@ -160,7 +174,8 @@ public class CollectionSite implements CollectionSiteInterface {
 
     /**
      * Called by the Ordinary Thief to hand a canvas to the Master Thief if they have any
-     * - Synchronization point between each Ordinary Thief and the Master Thief
+     * - Synchronization point between each Ordinary Thief and the Master Thief.
+     * @param party the identification of the Assault Party the thief belongs to.
      */
     public synchronized void handACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
@@ -185,14 +200,9 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
-     * Adds an Assault Party to the end of the FIFO
-     * Called by the last member of the party to crawl out
-     * @param party the Assault Party identification
+     * Returns the next empty room. Uses the perception of the Master Thief, not the Museum information.
+     * @return the room.
      */
-    public void addAssaultParty(int party) {
-        availableParties.add(party);
-    }
-
     public Room getNextRoom() {
         for (int i = 0; i < emptyRooms.length; i++) {
             if (!emptyRooms[i]) {
@@ -203,19 +213,11 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
-     * Getter for the perception of the empty rooms
-     * @return an array with size equal to NUM_ROOMS with elements that are true if the rooms with the corresponding index are empty and false otherwise
-     */
-    public boolean[] getEmptyRooms() {
-        return emptyRooms;
-    }
-
-    /**
      * Setter for the empty rooms
      * @param room the room identification
      * @param empty true if it is empty, false otherwise
      */
-    public void setEmptyRoom(int room, boolean empty) {
+    private void setEmptyRoom(int room, boolean empty) {
         emptyRooms[room] = empty;
     }
 }

@@ -62,6 +62,10 @@ public class MasterThief extends Thread {
      * Public constructor for Master Thief
      * Initializes the state as PLANNING_THE_HEIST and her perception that all rooms of the museum
      * are empty
+     * @param collectionSite the Collection Site
+     * @param concentrationSite the Concentration Site
+     * @param assaultParties the Assault Parties
+     * @param repository the General Repository
      */
     public MasterThief(CollectionSiteInterface collectionSite,
             ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository) {
