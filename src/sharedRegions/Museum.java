@@ -56,7 +56,7 @@ public class Museum implements MuseumInterface {
         synchronized (this) {
             res = room.rollACanvas();
             if (res) {
-                thief.setBusyHands(party, res);
+                assaultParties[party].setBusyHands(thief.getID(), res);
                 generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
         }

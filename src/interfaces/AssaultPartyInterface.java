@@ -89,4 +89,18 @@ public interface AssaultPartyInterface {
      * @return true if it is empty, false otherwise.
      */
     public boolean isEmpty();
+
+    /**
+     * Sets if an Ordinary Thief has a canvas.
+     * @param thief the identification of the Ordinary Thief.
+     * @param canvas true if the thief has a canvas in its possession, false otherwise.
+     */
+    public void setBusyHands(int thief, boolean canvas);
+
+    /**
+     * Returns whether an Ordinary Thief has a canvas.
+     * @param thief the identification of the Ordinary Thief.
+     * @return true if the thief has a canvas in its possession, false otherwise.
+     */
+    public boolean hasBusyHands(int thief);
 }

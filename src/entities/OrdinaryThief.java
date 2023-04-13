@@ -26,11 +26,6 @@ public class OrdinaryThief extends Thread {
     private final int maxDisplacement;
 
     /**
-     * Boolean value which is true if the Ordinary Thief has a canvas in its possession or false otherwise
-     */
-    private boolean busyHands;
-
-    /**
      * Array holding the Assault Parties shared regions
      */
     private final AssaultPartyInterface[] assaultParties;
@@ -97,7 +92,6 @@ public class OrdinaryThief extends Thread {
         this.assaultParties = assaultParties;
         this.generalRepository = generalRepository;
         this.maxDisplacement = maxDisplacement;
-        busyHands = false;
         setState(State.CONCENTRATION_SITE);
     }
 
@@ -116,15 +110,6 @@ public class OrdinaryThief extends Thread {
     public int getMaxDisplacement() {
         return maxDisplacement;
     }
-
-    /**
-     * Getter for if the Ordinary Thief has busy hands
-     * @return true if thief has rolled a canvas, false otherwise
-     */
-    public boolean hasBusyHands() {
-        return busyHands;
-    }
-
     
     /**
      * Returns the Assault Party the Ordinary Thief is a part of
@@ -147,17 +132,6 @@ public class OrdinaryThief extends Thread {
     public void setState(State state) {
         this.state = state;
         generalRepository.setOrdinaryThiefState(id, state.code, getSituation(), maxDisplacement);
-    }
-
-    /**
-     * Setter for the busy hands attribute
-     * Propagates information to the GeneralRepository
-     * @param party the Assault Party the Ordinary Thief belongs to
-     * @param busyHands true if carrying a canvas, false otherwise
-     */
-    public void setBusyHands(int party, boolean busyHands) {
-        this.busyHands = busyHands;
-        // generalRepository.setAssaultPartyMember(party, id, position, busyHands ? 1 : 0);
     }
 
     /**

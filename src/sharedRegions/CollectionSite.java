@@ -149,9 +149,9 @@ public class CollectionSite implements CollectionSiteInterface {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
         for (int i = 0; i < arrivingThieves.size(); i++) {
             for (OrdinaryThief arrivingThief: arrivingThieves.get(i)) {
-                if (arrivingThief.hasBusyHands()) {
+                if (assaultParties[i].hasBusyHands(arrivingThief.getID())) {
                     paintings++;
-                    arrivingThief.setBusyHands(i, false);
+                    assaultParties[i].setBusyHands(arrivingThief.getID(), false);
                 } else {
                     setEmptyRoom(assaultParties[i].getRoom().getID(), true);
                 }

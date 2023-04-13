@@ -54,6 +54,8 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     private final Map<Integer, Integer> thiefPositions;
 
+    private final Map<Integer, Boolean> thiefCanvas;
+
     /**
      * The General Repository, where logging happens.
      */
@@ -82,6 +84,7 @@ public class AssaultParty implements AssaultPartyInterface {
         thievesReadyToReverse = 0;
         nextThiefToCrawl = -1;
         thiefPositions = new HashMap<>();
+        thiefCanvas = new HashMap<>();
     }
 
     /**
@@ -132,7 +135,8 @@ public class AssaultParty implements AssaultPartyInterface {
             }
             if (movement > 0) {
                 thiefPositions.put(thief.getID(), Math.min(thiefPositions.get(thief.getID()) + movement, roomDistance));
-                generalRepository.setAssaultPartyMember(this.id, thief.getID(), thiefPositions.get(thief.getID()), thief.hasBusyHands() ? 1 : 0);
+                generalRepository.setAssaultPartyMember(this.id, thief.getID(), thiefPositions.get(thief.getID()), 
+                                                        thiefCanvas.get(thief.getID()) ? 1 : 0);
                 updateLineIn();
             } else {
                 OrdinaryThief nextThief = getNextInLine(situation);
@@ -197,7 +201,8 @@ public class AssaultParty implements AssaultPartyInterface {
             }
             if (movement > 0) {
                 thiefPositions.put(thief.getID(), Math.max(thiefPositions.get(thief.getID()) - movement, 0));
-                generalRepository.setAssaultPartyMember(this.id, thief.getID(), thiefPositions.get(thief.getID()), thief.hasBusyHands() ? 1 : 0);
+                generalRepository.setAssaultPartyMember(this.id, thief.getID(), thiefPositions.get(thief.getID()), 
+                                                        thiefCanvas.get(thief.getID()) ? 1 : 0);
                 updateLineOut();
                 // System.out.println("currentThief: " + thief.getID() + "; position=" + thiefPositions.get(thief.getID()) + "; MD=" + thief.getMaxDisplacement() + "; situation=" + situation);
             } else {
@@ -269,13 +274,16 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository) {
         this.thieves.clear();
+        this.thiefPositions.clear();
+        this.thiefCanvas.clear();
         this.inOperation = false;
         this.thievesReadyToReverse = 0;
         for (OrdinaryThief thief: thieves) {
             this.thieves.add(thief);
             thiefPositions.put(thief.getID(), 0);
+            thiefCanvas.put(thief.getID(), false);
             generalRepository.setAssaultPartyMember(id, thief.getID(), thiefPositions.get(thief.getID()),
-                    thief.hasBusyHands() ? 1 : 0);
+                                                    thiefCanvas.get(thief.getID()) ? 1 : 0);
         }
     }
 
@@ -305,6 +313,24 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public boolean isEmpty() {
         return this.thieves.isEmpty();
+    }
+
+    /**
+     * Sets if an Ordinary Thief has a canvas.
+     * @param thief the identification of the Ordinary Thief.
+     * @param canvas true if the thief has a canvas in its possession, false otherwise.
+     */
+    public void setBusyHands(int thief, boolean canvas) {
+        this.thiefCanvas.put(thief, canvas);
+    }
+
+    /**
+     * Returns whether an Ordinary Thief has a canvas.
+     * @param thief the identification of the Ordinary Thief.
+     * @return true if the thief has a canvas in its possession, false otherwise.
+     */
+    public boolean hasBusyHands(int thief) {
+        return this.thiefCanvas.get(thief);
     }
 
     /**
