@@ -363,21 +363,28 @@ public class AssaultParty implements AssaultPartyInterface {
      * @param in true if crawling in, false if crawling out
      * @return the maximum possible movement
      */
-    // TODO: esta função não está a devolver o máximo movimento possível, por exemplo, para o caso em que os thieves estão nas posições 19, 18, 16
     private int crawlMid(OrdinaryThief thief, boolean in) {
         OrdinaryThief frontThief = getPreviousInLine(Situation.MID);
         OrdinaryThief backThief = getNextInLine(Situation.MID);
-        int nextPosition, movement, position = thiefPositions.get(thief.getID()), frontPosition = thiefPositions.get(frontThief.getID());
+        int nextPosition;
+        int position = thiefPositions.get(thief.getID());
+        int frontPosition = thiefPositions.get(frontThief.getID());
+        int backPosition = thiefPositions.get(backThief.getID());
         for (int displacement = thief.getMaxDisplacement(); displacement > 0; displacement--) {
-            movement = Math.min(Math.max(Math.abs(position - frontPosition) - Constants.MAX_THIEF_SEPARATION, displacement), 
-                    Constants.MAX_THIEF_SEPARATION - Math.abs(thiefPositions.get(backThief.getID()) - position));
             if (in) {
-                nextPosition = position + movement;
+                nextPosition = position + displacement;
+                if (Math.min(nextPosition - backPosition, frontPosition - backPosition) <= Constants.MAX_THIEF_SEPARATION
+                        && nextPosition - frontPosition <= Constants.MAX_THIEF_SEPARATION
+                        && nextPosition != frontPosition) {
+                    return displacement;
+                }
             } else {
-                nextPosition = position - movement;
-            }
-            if (nextPosition != frontPosition) {
-                return movement;
+                nextPosition = position - displacement;
+                if (Math.min(backPosition - nextPosition, backPosition - frontPosition) <= Constants.MAX_THIEF_SEPARATION
+                        && frontPosition - nextPosition <= Constants.MAX_THIEF_SEPARATION
+                        && nextPosition != frontPosition) {
+                    return displacement;
+                }
             }
         }
         return 0;
