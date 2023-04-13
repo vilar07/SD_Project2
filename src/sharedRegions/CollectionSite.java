@@ -40,7 +40,7 @@ public class CollectionSite implements CollectionSiteInterface {
     private final List<Deque<OrdinaryThief>> arrivingThieves;
 
     /**
-     * The General Repository, where logging happens.
+     * The General Repository where logging occurs.
      */
     private final GeneralRepositoryInterface generalRepository;
 
