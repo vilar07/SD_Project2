@@ -89,7 +89,7 @@ public class CollectionSite implements CollectionSiteInterface {
     * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
     */
     public void startOperations() {
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        ((MasterThief) Thread.currentThread()).setState(MasterThief.DECIDING_WHAT_TO_DO);
     }
 
     /**
@@ -132,7 +132,7 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public synchronized void takeARest() {
         MasterThief masterThief = (MasterThief) Thread.currentThread();
-        masterThief.setState(MasterThief.State.WAITING_FOR_ARRIVAL);
+        masterThief.setState(MasterThief.WAITING_FOR_ARRIVAL);
         while (this.arrivingThieves.get(0).isEmpty() && this.arrivingThieves.get(1).isEmpty()) {
             try {
                 wait();
@@ -169,7 +169,7 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         notifyAll();
-        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        masterThief.setState(MasterThief.DECIDING_WHAT_TO_DO);
     }
 
     /**
@@ -179,7 +179,7 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public synchronized void handACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.COLLECTION_SITE);
+        thief.setState(OrdinaryThief.COLLECTION_SITE);
         this.arrivingThieves.get(party).add(thief);
         notifyAll();
         while (this.arrivingThieves.get(party).contains(thief)) {

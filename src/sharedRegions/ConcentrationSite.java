@@ -62,7 +62,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public void prepareAssaultParty(int assaultParty) {
         MasterThief master = (MasterThief) Thread.currentThread();
-        master.setState(MasterThief.State.ASSEMBLING_A_GROUP);
+        master.setState(MasterThief.ASSEMBLING_A_GROUP);
         synchronized (this) {
             while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
                 try {
@@ -91,7 +91,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
     public synchronized void sumUpResults(int paintings) {
         finished = true;
         notifyAll();
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.State.PRESENTING_THE_REPORT);
+        ((MasterThief) Thread.currentThread()).setState(MasterThief.PRESENTING_THE_REPORT);
         generalRepository.printTail(paintings);
     }
 
@@ -101,7 +101,7 @@ public class ConcentrationSite implements ConcentrationSiteInterface {
      */
     public synchronized boolean amINeeded() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.CONCENTRATION_SITE);
+        thief.setState(OrdinaryThief.CONCENTRATION_SITE);
         thieves.add(thief);
         this.notifyAll();
         if (finished) {

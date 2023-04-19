@@ -41,7 +41,7 @@ public class Museum implements MuseumInterface {
      */
     public boolean rollACanvas(int party) {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.AT_A_ROOM);
+        thief.setState(OrdinaryThief.AT_A_ROOM);
         boolean res = false;
         Room room = assaultParties[party].getRoom();
         synchronized (this) {

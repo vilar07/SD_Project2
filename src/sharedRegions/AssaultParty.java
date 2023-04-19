@@ -104,7 +104,7 @@ public class AssaultParty implements AssaultPartyInterface {
         inOperation = true;
         thievesReadyToReverse = 0;
         notifyAll();
-        masterThief.setState(MasterThief.State.DECIDING_WHAT_TO_DO);
+        masterThief.setState(MasterThief.DECIDING_WHAT_TO_DO);
     }
 
     /**
@@ -114,7 +114,7 @@ public class AssaultParty implements AssaultPartyInterface {
     @Override
     public synchronized boolean crawlIn() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.CRAWLING_INWARDS);
+        thief.setState(OrdinaryThief.CRAWLING_INWARDS);
         int roomDistance = room.getDistance();
         Situation situation;
         do {
@@ -180,7 +180,7 @@ public class AssaultParty implements AssaultPartyInterface {
      */
     public synchronized boolean crawlOut() {
         OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.State.CRAWLING_OUTWARDS);
+        thief.setState(OrdinaryThief.CRAWLING_OUTWARDS);
         Situation situation;
         // System.out.println("currentThief: " + thief.getID() + "; position=" + thiefPositions.get(thief.getID()) + "; MD=" + thief.getMaxDisplacement());
         do {
