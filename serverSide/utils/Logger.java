@@ -4,12 +4,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import serverSide.interfaces.LoggerInterface;
-
 /**
  * Logger responsible for generating and filling the logging file of the simulation
  */
-public class Logger implements LoggerInterface {
+public class Logger {
     /**
      * FileWriter class to open the logging file
      */
@@ -44,7 +42,6 @@ public class Logger implements LoggerInterface {
      * Prints the message to the internal stream
      * @param message message to be logged
      */
-    @Override
     public void print(String message) {
         printWriter.append(message);
         printWriter.flush();
@@ -53,7 +50,6 @@ public class Logger implements LoggerInterface {
     /**
      * Closes the logger and associated streams
      */
-    @Override
     public void close() {
         printWriter.close();
         try {

@@ -1,78 +1,113 @@
 package serverSide.main;
 
-import serverSide.sharedRegions.AssaultParty;
-import serverSide.sharedRegions.CollectionSite;
-import serverSide.sharedRegions.ConcentrationSite;
-import serverSide.sharedRegions.GeneralRepository;
-import serverSide.sharedRegions.Museum;
-import serverSide.utils.Constants;
-
-import java.util.Random;
-
-import serverSide.entities.MasterThief;
-import serverSide.entities.OrdinaryThief;
+import serverSide.entities.*;
 import serverSide.interfaces.AssaultPartyInterface;
 import serverSide.interfaces.CollectionSiteInterface;
 import serverSide.interfaces.ConcentrationSiteInterface;
-import serverSide.interfaces.GeneralRepositoryInterface;
 import serverSide.interfaces.MuseumInterface;
+import serverSide.interfaces.SharedRegionInterface;
+import serverSide.sharedRegions.*;
+import serverSide.utils.Constants;
 import serverSide.utils.Room;
+import commInfra.*;
+import java.net.*;
+import java.util.Random;
 
 /**
- * Concurrent version of the Heist To The Museum.
- * Runs on a single computer.
+ *    Server side of the Heist To The Museum.
+ *
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on a communication channel under the TCP protocol.
  */
+
 public class HeistToTheMuseum
-{   
-    /**
-     * Main method to start the Heist To The Museum.
-     * @param args not used.
-     */
-    public static void main(String[] args) {
-        Random random = new Random(System.currentTimeMillis());
+{
+  /**
+   *  Flag signaling the service is active.
+   */
+   public static boolean waitConnection;
 
-        GeneralRepository repository = new GeneralRepository();
-        
-        AssaultParty[] assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
-        for(int i = 0; i < assaultParties.length; i++) {
-            assaultParties[i] = new AssaultParty(i, repository);
+  /**
+   *  Main method.
+   *
+   *    @param args runtime arguments
+   *        args[0] - port number for listening to service requests
+   */
+   public static void main (String [] args)
+   {
+      GeneralRepository generalRepository;
+      AssaultParty[] assaultParties;
+      CollectionSite collectionSite;
+      ConcentrationSite concentrationSite;
+      Museum museum;
+      SharedRegionInterface sharedRegionInterface;
+      ServerCom serverCom, serverComi;                                         // communication channels
+      int portNumber = -1;                                             // port number for listening to service requests
+
+      if (args.length != 1)
+         {  System.out.println("Wrong number of parameters!");
+           System.exit(1);
+         }
+      try
+      { portNumber = Integer.parseInt (args[0]);
+      }
+      catch (NumberFormatException e)
+      { System.out.println(args[0] + " is not a number!");
+        System.exit(1);
+      }
+      if ((portNumber < 4000) || (portNumber >= 65536))
+         { System.out.println(args[0] + " is not a valid port number!");
+           System.exit(1);
+         }
+
+      /* service is established */
+
+      // Shared regions initialization
+      Random random = new Random(System.currentTimeMillis());
+      generalRepository = new GeneralRepository();
+      assaultParties = new AssaultParty[Constants.ASSAULT_PARTIES_NUMBER];
+      for(int i = 0; i < assaultParties.length; i++) {
+        assaultParties[i] = new AssaultParty(i, generalRepository);
+      }
+      Room[] rooms = new Room[Constants.NUM_ROOMS];
+      for(int i = 0; i < rooms.length; i++) {
+        int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
+        int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
+        rooms[i] = new Room(i, distance, paintings);
+      }
+      museum = new Museum(generalRepository, assaultParties, rooms);
+      collectionSite = new CollectionSite(generalRepository, assaultParties, museum);
+      concentrationSite = new ConcentrationSite(generalRepository, assaultParties, collectionSite);
+
+      // Shared region interfaces initialization
+      AssaultPartyInterface[] assaultPartyInterfaces = new AssaultPartyInterface[Constants.ASSAULT_PARTIES_NUMBER];
+      for (int i = 0; i < assaultPartyInterfaces.length; i++) {
+        assaultPartyInterfaces[i] = new AssaultPartyInterface(assaultParties[i]);
+      }
+      MuseumInterface museumInterface = new MuseumInterface(museum);
+      CollectionSiteInterface collectionSiteInterface = new CollectionSiteInterface(collectionSite);
+      ConcentrationSiteInterface concentrationSiteInterface = new ConcentrationSiteInterface(concentrationSite);
+      sharedRegionInterface = new SharedRegionInterface(assaultPartyInterfaces, collectionSiteInterface, concentrationSiteInterface, museumInterface);
+
+      serverCom = new ServerCom(portNumber);                                         // listening channel at the public port is established
+      serverCom.start();
+      System.out.println("Service is established!");
+      System.out.println("Server is listening for service requests.");
+
+     /* service request processing */
+
+      ServerProxyAgent proxy;                                // service provider agent
+
+      waitConnection = true;
+      while (waitConnection)
+      { try
+        { serverComi = serverCom.accept();                                    // enter listening procedure
+          proxy = new ServerProxyAgent(serverComi, sharedRegionInterface);    // start a service provider agent to address
+          proxy.start();                                                      //   the request of service
         }
-
-        Room[] rooms = new Room[Constants.NUM_ROOMS];
-        for(int i = 0; i < rooms.length; i++) {
-            int distance = Constants.MIN_ROOM_DISTANCE + random.nextInt(Constants.MAX_ROOM_DISTANCE - Constants.MIN_ROOM_DISTANCE + 1);
-            int paintings = Constants.MIN_PAINTINGS + random.nextInt(Constants.MAX_PAINTINGS - Constants.MIN_PAINTINGS + 1);
-            rooms[i] = new Room(i, distance, paintings);
-        }
-        Museum museum = new Museum(repository, assaultParties, rooms);
-
-        CollectionSite collectionSite = new CollectionSite(repository, assaultParties, museum);
-
-        ConcentrationSite concentrationSite = new ConcentrationSite(repository, assaultParties, collectionSite);
-
-        MasterThief masterThief = new MasterThief((CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, (AssaultPartyInterface[]) assaultParties, 
-                                                    (GeneralRepositoryInterface) repository
-        );
-        OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
-        for(int i = 0; i < ordinaryThieves.length; i++) {
-            ordinaryThieves[i] = new OrdinaryThief(i, (MuseumInterface) museum, (CollectionSiteInterface) collectionSite, (ConcentrationSiteInterface) concentrationSite, 
-                                                    (AssaultPartyInterface[]) assaultParties, (GeneralRepositoryInterface) repository, 
-                                                    random.nextInt(Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT + 1) + Constants.MIN_THIEF_DISPLACEMENT
-            );
-        }
-
-        masterThief.start();
-        for(OrdinaryThief ot: ordinaryThieves) {
-            ot.start();
-        }
-
-        try {
-            masterThief.join();
-            for(OrdinaryThief ot: ordinaryThieves) {
-                ot.join();
-            }
-        } catch (InterruptedException e) {
-
-        }
-    }
+        catch (SocketTimeoutException e) {}
+      }
+      serverCom.end();                                                   // operations termination
+      System.out.println("Server was shutdown.");
+   }
 }

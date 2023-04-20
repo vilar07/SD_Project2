@@ -1,16 +1,13 @@
 package serverSide.sharedRegions;
 
-import serverSide.entities.OrdinaryThief;
-import serverSide.interfaces.AssaultPartyInterface;
-import serverSide.interfaces.GeneralRepositoryInterface;
-import serverSide.interfaces.MuseumInterface;
+import serverSide.entities.ServerProxyAgent;
 import serverSide.utils.Room;
 
 /**
  * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 
  * by the Ordinary Thieves of the Assault Party.
  */
-public class Museum implements MuseumInterface {
+public class Museum {
     /**
      * Rooms inside the museum.
      */
@@ -19,15 +16,18 @@ public class Museum implements MuseumInterface {
     /**
      * The General Repository where logging occurs.
      */
-    private final GeneralRepositoryInterface generalRepository;
+    private final GeneralRepository generalRepository;
 
-    private final AssaultPartyInterface[] assaultParties;
+    /**
+     * The Assault Parties shared region.
+     */
+    private final AssaultParty[] assaultParties;
 
     /**
      * Museum constructor, initializes rooms.
      * @param generalRepository the General Repository.
      */
-    public Museum(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, Room[] rooms) {
+    public Museum(GeneralRepository generalRepository, AssaultParty[] assaultParties, Room[] rooms) {
         this.generalRepository = generalRepository;
         this.assaultParties = assaultParties;
         this.rooms = rooms;
@@ -40,14 +40,14 @@ public class Museum implements MuseumInterface {
      * @return true if the thief rolls a canvas, false if the room was already empty.
      */
     public boolean rollACanvas(int party) {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.AT_A_ROOM);
+        ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
+        thief.setOrdinaryThiefState(ServerProxyAgent.AT_A_ROOM);
         boolean res = false;
         Room room = assaultParties[party].getRoom();
         synchronized (this) {
             res = room.rollACanvas();
             if (res) {
-                assaultParties[party].setBusyHands(thief.getID(), res);
+                assaultParties[party].setBusyHands(thief.getOrdinaryThiefID(), res);
                 generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
         }

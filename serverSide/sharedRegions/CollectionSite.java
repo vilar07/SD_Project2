@@ -6,19 +6,14 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import serverSide.entities.MasterThief;
-import serverSide.entities.OrdinaryThief;
-import serverSide.interfaces.AssaultPartyInterface;
-import serverSide.interfaces.CollectionSiteInterface;
-import serverSide.interfaces.GeneralRepositoryInterface;
-import serverSide.interfaces.MuseumInterface;
 import serverSide.utils.Room;
+import serverSide.entities.ServerProxyAgent;
 import serverSide.utils.Constants;
 
 /**
  * Collection Site where intelligence and paintings are stored.
  */
-public class CollectionSite implements CollectionSiteInterface {
+public class CollectionSite {
     /**
      * Number of paintings acquired.
      */
@@ -37,22 +32,22 @@ public class CollectionSite implements CollectionSiteInterface {
     /**
      * FIFOs of the arriving Ordinary Thieves (one for each Assault Party).
      */
-    private final List<Deque<OrdinaryThief>> arrivingThieves;
+    private final List<Deque<ServerProxyAgent>> arrivingThieves;
 
     /**
      * The General Repository where logging occurs.
      */
-    private final GeneralRepositoryInterface generalRepository;
+    private final GeneralRepository generalRepository;
 
     /**
      * The array holding the Assault Parties shared regions.
      */
-    private final AssaultPartyInterface[] assaultParties;
+    private final AssaultParty[] assaultParties;
 
     /** 
      * The Museum shared region.
      */
-    private final MuseumInterface museum;
+    private final Museum museum;
 
     /**
      * Collection Site constructor.
@@ -60,7 +55,7 @@ public class CollectionSite implements CollectionSiteInterface {
      * @param assaultParties the Assault Parties.
      * @param museum the Museum.
      */
-    public CollectionSite(GeneralRepositoryInterface generalRepository, AssaultPartyInterface[] assaultParties, MuseumInterface museum) {
+    public CollectionSite(GeneralRepository generalRepository, AssaultParty[] assaultParties, Museum museum) {
         this.generalRepository = generalRepository;
         this.assaultParties = assaultParties;
         this.museum = museum;
@@ -89,7 +84,7 @@ public class CollectionSite implements CollectionSiteInterface {
     * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
     */
     public void startOperations() {
-        ((MasterThief) Thread.currentThread()).setState(MasterThief.DECIDING_WHAT_TO_DO);
+        ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
     }
 
     /**
@@ -108,7 +103,7 @@ public class CollectionSite implements CollectionSiteInterface {
         }
         List<Integer> assaultPartyRooms = new ArrayList<>();
         Room room;
-        for (AssaultPartyInterface assaultPartyInterface: assaultParties) {
+        for (AssaultParty assaultPartyInterface: assaultParties) {
             room = assaultPartyInterface.getRoom();
             if (room != null) {
                 assaultPartyRooms.add(room.getID());
@@ -131,8 +126,8 @@ public class CollectionSite implements CollectionSiteInterface {
      * Master Thief waits while there are still Assault Parties in operation
      */
     public synchronized void takeARest() {
-        MasterThief masterThief = (MasterThief) Thread.currentThread();
-        masterThief.setState(MasterThief.WAITING_FOR_ARRIVAL);
+        ServerProxyAgent masterThief = (ServerProxyAgent) Thread.currentThread();
+        masterThief.setMasterThiefState(ServerProxyAgent.WAITING_FOR_ARRIVAL);
         while (this.arrivingThieves.get(0).isEmpty() && this.arrivingThieves.get(1).isEmpty()) {
             try {
                 wait();
@@ -146,12 +141,12 @@ public class CollectionSite implements CollectionSiteInterface {
      * Called by the Master Thief to collect all available canvas
      */
     public synchronized void collectACanvas() {
-        MasterThief masterThief = (MasterThief) Thread.currentThread();
+        ServerProxyAgent masterThief = (ServerProxyAgent) Thread.currentThread();
         for (int i = 0; i < arrivingThieves.size(); i++) {
-            for (OrdinaryThief arrivingThief: arrivingThieves.get(i)) {
-                if (assaultParties[i].hasBusyHands(arrivingThief.getID())) {
+            for (ServerProxyAgent arrivingThief: arrivingThieves.get(i)) {
+                if (assaultParties[i].hasBusyHands(arrivingThief.getOrdinaryThiefID())) {
                     paintings++;
-                    assaultParties[i].setBusyHands(arrivingThief.getID(), false);
+                    assaultParties[i].setBusyHands(arrivingThief.getOrdinaryThiefID(), false);
                 } else {
                     setEmptyRoom(assaultParties[i].getRoom().getID(), true);
                 }
@@ -169,7 +164,7 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         notifyAll();
-        masterThief.setState(MasterThief.DECIDING_WHAT_TO_DO);
+        masterThief.setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
     }
 
     /**
@@ -178,8 +173,8 @@ public class CollectionSite implements CollectionSiteInterface {
      * @param party the identification of the Assault Party the thief belongs to.
      */
     public synchronized void handACanvas(int party) {
-        OrdinaryThief thief = (OrdinaryThief) Thread.currentThread();
-        thief.setState(OrdinaryThief.COLLECTION_SITE);
+        ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
+        thief.setOrdinaryThiefState(ServerProxyAgent.COLLECTION_SITE);
         this.arrivingThieves.get(party).add(thief);
         notifyAll();
         while (this.arrivingThieves.get(party).contains(thief)) {

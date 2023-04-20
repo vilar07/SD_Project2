@@ -1,22 +1,21 @@
 package serverSide.interfaces;
 
-import serverSide.utils.Room;
+import commInfra.Message;
+import serverSide.sharedRegions.Museum;
 
 /**
  * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
  */
-public interface MuseumInterface {
-    /**
-     * Roll a canvas.
-     * @param id the room identification.
-     * @return true if the thief rolls a canvas, false if the room was already empty (There were no more paintings in the room).
-     */
-    public boolean rollACanvas(int id);
+public class MuseumInterface {
+    private final Museum museum;
 
-    /**
-     * Getter for a specific room of the Museum.
-     * @param id the room identification.
-     * @return the room.
-     */
-    public Room getRoom(int id);
+    public MuseumInterface(Museum museum) {
+        this.museum = museum;
+    }
+    
+    public Message processAndReply(Message inMessage) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'processAndReply'");
+    }
+    
 }

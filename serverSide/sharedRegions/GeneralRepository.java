@@ -1,6 +1,5 @@
 package serverSide.sharedRegions;
 
-import serverSide.interfaces.GeneralRepositoryInterface;
 import serverSide.utils.Room;
 import serverSide.utils.AssaultPartyElemLogging;
 import serverSide.utils.AssaultPartyLogging;
@@ -12,7 +11,7 @@ import serverSide.utils.RoomLogging;
 /**
  * General Repository where logging occurs.
  */
-public class GeneralRepository implements GeneralRepositoryInterface {
+public class GeneralRepository {
     /**
      * Logger that handles the writing of the internal state of the simulation to the logging file.
      */
