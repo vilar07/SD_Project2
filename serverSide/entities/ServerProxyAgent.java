@@ -50,10 +50,6 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
         this.ordinaryThiefID = id;
     }
 
-    public void setOrdinaryThiefMaxDisplacement(int md) {
-        this.ordinaryThiefMaxDisplacement = md;
-    }
-
     @Override
     public void setOrdinaryThiefState(int state) {
         this.ordinaryThiefState = state;
