@@ -1,4 +1,4 @@
-package src.utils;
+package serverSide.utils;
 
 /**
  * Constants to be used in the Heist To The Museum.

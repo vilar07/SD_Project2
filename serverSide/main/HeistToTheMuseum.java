@@ -1,22 +1,22 @@
-package src.heist;
+package serverSide.main;
 
-import src.sharedRegions.AssaultParty;
-import src.sharedRegions.CollectionSite;
-import src.sharedRegions.ConcentrationSite;
-import src.sharedRegions.GeneralRepository;
-import src.sharedRegions.Museum;
-import src.utils.Constants;
+import serverSide.sharedRegions.AssaultParty;
+import serverSide.sharedRegions.CollectionSite;
+import serverSide.sharedRegions.ConcentrationSite;
+import serverSide.sharedRegions.GeneralRepository;
+import serverSide.sharedRegions.Museum;
+import serverSide.utils.Constants;
 
 import java.util.Random;
 
-import src.entities.MasterThief;
-import src.entities.OrdinaryThief;
-import src.interfaces.AssaultPartyInterface;
-import src.interfaces.CollectionSiteInterface;
-import src.interfaces.ConcentrationSiteInterface;
-import src.interfaces.GeneralRepositoryInterface;
-import src.interfaces.MuseumInterface;
-import src.room.Room;
+import serverSide.entities.MasterThief;
+import serverSide.entities.OrdinaryThief;
+import serverSide.interfaces.AssaultPartyInterface;
+import serverSide.interfaces.CollectionSiteInterface;
+import serverSide.interfaces.ConcentrationSiteInterface;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.interfaces.MuseumInterface;
+import serverSide.utils.Room;
 
 /**
  * Concurrent version of the Heist To The Museum.

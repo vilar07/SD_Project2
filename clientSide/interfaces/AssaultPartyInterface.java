@@ -1,7 +1,7 @@
-package serverSide.interfaces;
+package clientSide.interfaces;
 
-import serverSide.entities.OrdinaryThief;
-import serverSide.utils.Room;
+import clientSide.entities.OrdinaryThief;
+import clientSide.room.Room;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.

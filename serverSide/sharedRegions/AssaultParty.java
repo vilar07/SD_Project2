@@ -1,4 +1,4 @@
-package src.sharedRegions;
+package serverSide.sharedRegions;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import src.entities.MasterThief;
-import src.entities.OrdinaryThief;
-import src.interfaces.AssaultPartyInterface;
-import src.interfaces.GeneralRepositoryInterface;
-import src.room.Room;
-import src.utils.Constants;
+import serverSide.entities.MasterThief;
+import serverSide.entities.OrdinaryThief;
+import serverSide.interfaces.AssaultPartyInterface;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.utils.Room;
+import serverSide.utils.Constants;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.

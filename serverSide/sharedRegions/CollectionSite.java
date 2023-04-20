@@ -1,4 +1,4 @@
-package src.sharedRegions;
+package serverSide.sharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -6,14 +6,14 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import src.entities.MasterThief;
-import src.entities.OrdinaryThief;
-import src.interfaces.AssaultPartyInterface;
-import src.interfaces.CollectionSiteInterface;
-import src.interfaces.GeneralRepositoryInterface;
-import src.interfaces.MuseumInterface;
-import src.room.Room;
-import src.utils.Constants;
+import serverSide.entities.MasterThief;
+import serverSide.entities.OrdinaryThief;
+import serverSide.interfaces.AssaultPartyInterface;
+import serverSide.interfaces.CollectionSiteInterface;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.interfaces.MuseumInterface;
+import serverSide.utils.Room;
+import serverSide.utils.Constants;
 
 /**
  * Collection Site where intelligence and paintings are stored.

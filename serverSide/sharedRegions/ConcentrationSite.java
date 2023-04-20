@@ -1,15 +1,15 @@
-package src.sharedRegions;
+package serverSide.sharedRegions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import src.entities.MasterThief;
-import src.entities.OrdinaryThief;
-import src.interfaces.AssaultPartyInterface;
-import src.interfaces.CollectionSiteInterface;
-import src.interfaces.ConcentrationSiteInterface;
-import src.interfaces.GeneralRepositoryInterface;
-import src.utils.Constants;
+import serverSide.entities.MasterThief;
+import serverSide.entities.OrdinaryThief;
+import serverSide.interfaces.AssaultPartyInterface;
+import serverSide.interfaces.CollectionSiteInterface;
+import serverSide.interfaces.ConcentrationSiteInterface;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.utils.Constants;
 
 /**
  * Concentration Site where ordinary thieves wait for orders.

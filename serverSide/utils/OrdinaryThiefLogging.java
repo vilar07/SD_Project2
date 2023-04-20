@@ -1,4 +1,4 @@
-package src.utils;
+package serverSide.utils;
 
 /**
  * Util class used in GeneralRepository to represent each Ordinary Thief, its identification,

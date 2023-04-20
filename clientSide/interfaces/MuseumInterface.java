@@ -1,6 +1,6 @@
-package serverSide.interfaces;
+package clientSide.interfaces;
 
-import serverSide.utils.Room;
+import clientSide.room.Room;
 
 /**
  * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty

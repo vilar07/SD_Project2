@@ -1,13 +1,13 @@
-package src.sharedRegions;
+package serverSide.sharedRegions;
 
-import src.interfaces.GeneralRepositoryInterface;
-import src.room.Room;
-import src.utils.AssaultPartyElemLogging;
-import src.utils.AssaultPartyLogging;
-import src.utils.Constants;
-import src.utils.Logger;
-import src.utils.OrdinaryThiefLogging;
-import src.utils.RoomLogging;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.utils.Room;
+import serverSide.utils.AssaultPartyElemLogging;
+import serverSide.utils.AssaultPartyLogging;
+import serverSide.utils.Constants;
+import serverSide.utils.Logger;
+import serverSide.utils.OrdinaryThiefLogging;
+import serverSide.utils.RoomLogging;
 
 /**
  * General Repository where logging occurs.

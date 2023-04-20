@@ -1,4 +1,4 @@
-package serverSide.interfaces;
+package clientSide.interfaces;
 
 /**
  * Concentration Site where ordinary thieves wait for orders.

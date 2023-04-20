@@ -1,10 +1,10 @@
-package src.sharedRegions;
+package serverSide.sharedRegions;
 
-import src.entities.OrdinaryThief;
-import src.interfaces.AssaultPartyInterface;
-import src.interfaces.GeneralRepositoryInterface;
-import src.interfaces.MuseumInterface;
-import src.room.Room;
+import serverSide.entities.OrdinaryThief;
+import serverSide.interfaces.AssaultPartyInterface;
+import serverSide.interfaces.GeneralRepositoryInterface;
+import serverSide.interfaces.MuseumInterface;
+import serverSide.utils.Room;
 
 /**
  * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 

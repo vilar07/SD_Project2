@@ -1,6 +1,6 @@
-package serverSide.interfaces;
+package clientSide.interfaces;
 
-import serverSide.utils.Room;
+import clientSide.room.Room;
 
 /**
  * General Repository where logging occurs.

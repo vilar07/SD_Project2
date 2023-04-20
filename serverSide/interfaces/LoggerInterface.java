@@ -1,4 +1,4 @@
-package src.interfaces;
+package serverSide.interfaces;
 
 /**
  * Logger responsible for generating and filling the logging file of the simulation

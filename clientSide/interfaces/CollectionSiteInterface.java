@@ -1,6 +1,6 @@
-package serverSide.interfaces;
+package clientSide.interfaces;
 
-import serverSide.utils.Room;
+import clientSide.room.Room;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored

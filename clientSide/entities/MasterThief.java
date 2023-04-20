@@ -1,9 +1,9 @@
-package serverSide.entities;
+package clientSide.entities;
 
-import serverSide.interfaces.AssaultPartyInterface;
-import serverSide.interfaces.CollectionSiteInterface;
-import serverSide.interfaces.ConcentrationSiteInterface;
-import serverSide.interfaces.GeneralRepositoryInterface;
+import clientSide.interfaces.AssaultPartyInterface;
+import clientSide.interfaces.CollectionSiteInterface;
+import clientSide.interfaces.ConcentrationSiteInterface;
+import clientSide.interfaces.GeneralRepositoryInterface;
 
 /**
  * Master Thief, the thief that commands the heist
