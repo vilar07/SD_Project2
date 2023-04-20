@@ -1,6 +1,8 @@
 package serverSide.interfaces;
 
 import commInfra.Message;
+import commInfra.MessageType;
+import serverSide.entities.ServerProxyAgent;
 import serverSide.sharedRegions.ConcentrationSite;
 
 /**
@@ -12,9 +14,33 @@ public class ConcentrationSiteInterface {
     public ConcentrationSiteInterface(ConcentrationSite concentrationSite) {
         this.concentrationSite = concentrationSite;
     }
-    
+
     public Message processAndReply(Message inMessage) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'processAndReply'");
+        Message outMessage = null;
+        switch (inMessage.getMsgType()) {
+            case MessageType.PREPARE_ASSAULT_PARTY:
+            ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
+            concentrationSite.prepareAssaultParty(inMessage.getAssaultParty());
+            outMessage = new Message(MessageType.PREPARE_ASSAULT_PARTY_DONE, ((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
+            break;
+            case MessageType.SUM_UP_RESULTS:
+            ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
+            concentrationSite.sumUpResults();
+            outMessage = new Message(MessageType.SUM_UP_RESULTS_DONE, ((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
+            break;
+            case MessageType.AM_I_NEEDED:
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+            outMessage = new Message(MessageType.AM_I_NEEDED_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
+                                            concentrationSite.amINeeded());
+            break;
+            case MessageType.PREPARE_EXCURSION:
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+            outMessage = new Message(MessageType.AM_I_NEEDED_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
+                                            concentrationSite.prepareExcursion());
+            break;
+        }
+        return outMessage;
     }
 }
