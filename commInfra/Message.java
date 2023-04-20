@@ -122,6 +122,12 @@ public class Message implements Serializable
    @Override
    public String toString ()
    {
-      return ("Message type = " + msgType);
+      return ("Message type = " + msgType +
+              "\nMaster Thief state = " + masterThiefState +
+              "\nOrdinary Thief state = " + ordinaryThiefState +
+              "\nOrdinary Thief ID = " + ordinaryThiefID +
+              "\nAssault Party ID = " + assaultParty +
+              "\nOperation = " + operation + 
+              (neededThief ? "\nThief is needed": "\nThief is not needed"));
    }
 }
