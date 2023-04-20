@@ -1,6 +1,8 @@
 package serverSide.interfaces;
 
 import commInfra.Message;
+import commInfra.MessageType;
+import serverSide.entities.ServerProxyAgent;
 import serverSide.sharedRegions.Museum;
 
 /**
@@ -14,8 +16,9 @@ public class MuseumInterface {
     }
     
     public Message processAndReply(Message inMessage) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'processAndReply'");
+        ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
+        ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+        museum.rollACanvas(inMessage.getAssaultParty());
+        return new Message(MessageType.ROLL_A_CANVAS_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState());
     }
-    
 }
