@@ -9,117 +9,19 @@ package commInfra;
 
 public class MessageType
 {
-  /**
-   *  Initialization of the logging file name and the number of iterations (service request).
-   */
-
-   public static final int SETNFIC = 1;
-
-  /**
-   *  Logging file was initialized (reply).
-   */
-
-   public static final int NFICDONE = 2;
-
-  /**
-   *  Request hair cut (service request).
-   */
-
-   public static final int REQCUTH = 3;
-
-  /**
-   *  Hair was cut (reply).
-   */
-
-   public static final int CUTHDONE = 4;
-
-  /**
-   *  Barber shop is full (reply).
-   */
-
-   public static final int BSHOPF = 5;
-
-  /**
-   *  Barber goes to sleep (service request).
-   */
-
-   public static final int SLEEP = 6;
-
-  /**
-   *  Barber is asleep (reply).
-   */
-
-   public static final int SLEEPDONE = 7;
-
-  /**
-   *  Call a customer (service request).
-   */
-
-   public static final int CALLCUST = 8;
-
-  /**
-   *  Customer was called (reply).
-   */
-
-   public static final int CCUSTDONE = 9;
-
-  /**
-   *  Barber receives payment (service request).
-   */
-
-   public static final int RECPAY = 10;
-
-  /**
-   *  Payment was received (reply).
-   */
-
-   public static final int RPAYDONE = 11;
-
-  /**
-   *  End of work - barber (service request).
-   */
-
-   public static final int ENDOP = 12;
-
-  /**
-   *  Barber goes home (reply).
-   */
-
-   public static final int EOPDONE = 13;
-
-  /**
-   *  Server shutdown (service request).
-   */
-
-   public static final int SHUT = 14;
-
-  /**
-   *  Server was shutdown (reply).
-   */
-
-   public static final int SHUTDONE = 15;
-
-  /**
-   *  Set barber state (service request).
-   */
-
-   public static final int STBST = 16;
-
-  /**
-   *  Set customer state (service request).
-   */
-
-   public static final int STCST = 17;
-
-  /**
-   *  Set barber and customer states (service request).
-   */
-
-   public static final int STBCST = 18;
-
-  /**
-   *  Setting acknowledged (reply).
-   */
-
-   public static final int SACK = 19;
+  public static final int START_OPERATIONS = 0;
+  public static final int APPRAISE_SIT = 1;
+  public static final int GET_NEXT_ASSAULT_PARTY_ID = 2;
+  public static final int PREPARE_ASSAULT_PARTY = 3;
+  public static final int SEND_ASSAULT_PARTY = 4;
+  public static final int TAKE_A_REST = 5;
+  public static final int COLLECT_A_CANVAS = 6;
+  public static final int SUM_UP_RESULTS = 7;
+  public static final int AM_I_NEEDED = 8;
+  public static final int PREPARE_EXCURSION = 9;
+  public static final int CRAWL_IN = 10;
+  public static final int ROLL_A_CANVAS = 11;
+  public static final int REVERSE_DIRECTION = 12;
+  public static final int CRAWL_OUT = 13;
+  public static final int HAND_A_CANVAS = 14;
 }

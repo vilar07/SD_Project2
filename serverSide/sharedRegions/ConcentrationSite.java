@@ -81,13 +81,12 @@ public class ConcentrationSite {
     /**
      * The Master Thief announces the end of operations
      * and shares the number of paintings acquired in the heist
-     * @param paintings the number of paintings
      */
-    public synchronized void sumUpResults(int paintings) {
+    public synchronized void sumUpResults() {
         finished = true;
         notifyAll();
         ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.PRESENTING_THE_REPORT);
-        generalRepository.printTail(paintings);
+        generalRepository.printTail(collectionSite.getPaintings());
     }
 
     /**
