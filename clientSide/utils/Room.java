@@ -1,4 +1,4 @@
-package serverSide.utils;
+package clientSide.utils;
 
 /**
  * Rooms contains paintings that can be stolen by the Thieves attacking the museum.
