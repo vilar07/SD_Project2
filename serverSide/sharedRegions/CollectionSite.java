@@ -1,10 +1,6 @@
 package serverSide.sharedRegions;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import serverSide.utils.Room;
 import serverSide.entities.ServerProxyAgent;
@@ -61,9 +57,7 @@ public class CollectionSite {
         this.museum = museum;
         paintings = 0;
         emptyRooms = new boolean[Constants.NUM_ROOMS];
-        for (int i = 0; i < emptyRooms.length; i++) {
-            emptyRooms[i] = false;
-        }
+        Arrays.fill(emptyRooms, false);
         availableParties = new ArrayDeque<>();
         arrivingThieves = new LinkedList<>();
         for (int i = 0; i < Constants.ASSAULT_PARTIES_NUMBER; i++) {
@@ -131,7 +125,7 @@ public class CollectionSite {
         while (this.arrivingThieves.get(0).isEmpty() && this.arrivingThieves.get(1).isEmpty()) {
             try {
                 wait();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
 
             }
         }

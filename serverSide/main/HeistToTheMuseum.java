@@ -105,7 +105,7 @@ public class HeistToTheMuseum
           proxy = new ServerProxyAgent(serverComi, sharedRegionInterface);    // start a service provider agent to address
           proxy.start();                                                      //   the request of service
         }
-        catch (SocketTimeoutException e) {}
+        catch (SocketTimeoutException ignored) {}
       }
       serverCom.end();                                                   // operations termination
       System.out.println("Server was shutdown.");
