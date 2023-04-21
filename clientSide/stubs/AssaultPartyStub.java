@@ -1,4 +1,4 @@
-package clientSide.interfaces;
+package clientSide.stubs;
 
 import clientSide.entities.OrdinaryThief;
 import clientSide.room.Room;
@@ -7,7 +7,7 @@ import clientSide.room.Room;
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
  * Assault Party is shared by the thieves
  */
-public interface AssaultPartyInterface {
+public interface AssaultPartyStub {
     /**
      * Called by the Master Thief to send the Assault Party to the museum
      * After that call, Assault Party can start crawling
@@ -62,14 +62,14 @@ public interface AssaultPartyInterface {
      * @param room the room
      * @param generalRepository the General Repository
      */
-    public void setRoom(Room room, GeneralRepositoryInterface generalRepository);
+    public void setRoom(Room room, GeneralRepositoryStub generalRepository);
 
     /**
      * Sets the members of the Assault Party
      * @param thieves array with the Ordinary Thieves
      * @param generalRepository the General Repository
      */
-    public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryInterface generalRepository);
+    public void setMembers(OrdinaryThief[] thieves, GeneralRepositoryStub generalRepository);
 
     /**
      * Checks if given thief is in the Assault Party

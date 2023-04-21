@@ -1,9 +1,9 @@
-package clientSide.interfaces;
+package clientSide.stubs;
 
 /**
  * Concentration Site where ordinary thieves wait for orders.
  */
-public interface ConcentrationSiteInterface {
+public interface ConcentrationSiteStub {
     /**
      * Called by the master thief, when enough ordinary thieves are available and there is still a
      * room with paintings.

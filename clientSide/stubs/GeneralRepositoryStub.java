@@ -1,11 +1,11 @@
-package clientSide.interfaces;
+package clientSide.stubs;
 
 import clientSide.room.Room;
 
 /**
  * General Repository where logging occurs.
  */
-public interface GeneralRepositoryInterface {
+public interface GeneralRepositoryStub {
     /**
      * Prints the head of the logging file.
      */

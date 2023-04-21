@@ -1,11 +1,11 @@
-package clientSide.interfaces;
+package clientSide.stubs;
 
 import clientSide.room.Room;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored
  */
-public interface CollectionSiteInterface {
+public interface CollectionSiteStub {
     /**
      * Getter for the number of paintings acquired
      * @return the number of paintings

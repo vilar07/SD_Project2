@@ -1,9 +1,9 @@
 package clientSide.entities;
 
-import clientSide.interfaces.AssaultPartyInterface;
-import clientSide.interfaces.CollectionSiteInterface;
-import clientSide.interfaces.ConcentrationSiteInterface;
-import clientSide.interfaces.GeneralRepositoryInterface;
+import clientSide.stubs.AssaultPartyStub;
+import clientSide.stubs.CollectionSiteStub;
+import clientSide.stubs.ConcentrationSiteStub;
+import clientSide.stubs.GeneralRepositoryStub;
 
 /**
  * Master Thief, the thief that commands the heist
@@ -23,22 +23,22 @@ public class MasterThief extends Thread {
     /**
      * Variable holding the Collection Site shared region
      */
-    private final CollectionSiteInterface collectionSite;
+    private final CollectionSiteStub collectionSite;
 
     /**
      * Variable holding the Concentration Site shared region
      */
-    private final ConcentrationSiteInterface concentrationSite;
+    private final ConcentrationSiteStub concentrationSite;
 
     /**
      * Array holding the Assault Parties shared regions
      */
-    private final AssaultPartyInterface[] assaultParties;
+    private final AssaultPartyStub[] assaultParties;
 
     /**
      * Variable holding the General Repository shared region
      */
-    private final GeneralRepositoryInterface generalRepository;
+    private final GeneralRepositoryStub generalRepository;
 
     /**
      * Public constructor for Master Thief
@@ -49,8 +49,8 @@ public class MasterThief extends Thread {
      * @param assaultParties the Assault Parties
      * @param repository the General Repository
      */
-    public MasterThief(CollectionSiteInterface collectionSite,
-            ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface repository) {
+    public MasterThief(CollectionSiteStub collectionSite,
+            ConcentrationSiteStub concentrationSite, AssaultPartyStub[] assaultParties, GeneralRepositoryStub repository) {
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;

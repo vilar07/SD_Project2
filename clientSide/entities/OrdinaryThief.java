@@ -1,10 +1,10 @@
 package clientSide.entities;
 
-import clientSide.interfaces.AssaultPartyInterface;
-import clientSide.interfaces.CollectionSiteInterface;
-import clientSide.interfaces.ConcentrationSiteInterface;
-import clientSide.interfaces.GeneralRepositoryInterface;
-import clientSide.interfaces.MuseumInterface;
+import clientSide.stubs.AssaultPartyStub;
+import clientSide.stubs.CollectionSiteStub;
+import clientSide.stubs.ConcentrationSiteStub;
+import clientSide.stubs.GeneralRepositoryStub;
+import clientSide.stubs.MuseumStub;
 
 /**
  * Ordinary Thief, one of the thieves involved in the heist
@@ -34,27 +34,27 @@ public class OrdinaryThief extends Thread {
     /**
      * Array holding the Assault Parties shared regions
      */
-    private final AssaultPartyInterface[] assaultParties;
+    private final AssaultPartyStub[] assaultParties;
 
     /**
      * Variable holding the Concentration Site shared region
      */
-    private final ConcentrationSiteInterface concentrationSite;
+    private final ConcentrationSiteStub concentrationSite;
 
     /**
      * Variable holding the Collection Site shared region
      */
-    private final MuseumInterface museum;
+    private final MuseumStub museum;
 
     /**
      * Variable holding the Collection Site shared region
      */
-    private final CollectionSiteInterface collectionSite;
+    private final CollectionSiteStub collectionSite;
 
     /**
      * Variable holding the General Repository shared region
      */
-    private final GeneralRepositoryInterface generalRepository;
+    private final GeneralRepositoryStub generalRepository;
 
     /**
      * Ordinary Thief constructor
@@ -66,7 +66,7 @@ public class OrdinaryThief extends Thread {
      * @param generalRepository the General Repository
      * @param maxDisplacement the maximum displacement
      */
-    public OrdinaryThief(int id, MuseumInterface museum, CollectionSiteInterface collectionSite, ConcentrationSiteInterface concentrationSite, AssaultPartyInterface[] assaultParties, GeneralRepositoryInterface generalRepository, int maxDisplacement) {
+    public OrdinaryThief(int id, MuseumStub museum, CollectionSiteStub collectionSite, ConcentrationSiteStub concentrationSite, AssaultPartyStub[] assaultParties, GeneralRepositoryStub generalRepository, int maxDisplacement) {
         this.id = id;
         this.museum = museum;
         this.collectionSite = collectionSite;
@@ -98,7 +98,7 @@ public class OrdinaryThief extends Thread {
      * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
      */
     public int getAssaultParty() {
-        for (AssaultPartyInterface assaultParty: assaultParties) {
+        for (AssaultPartyStub assaultParty: assaultParties) {
             if (assaultParty.isMember(this)) {
                 return assaultParty.getID();
             }
