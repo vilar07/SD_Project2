@@ -79,6 +79,7 @@ public class CollectionSite {
     */
     public void startOperations() {
         ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
+        generalRepository.setMasterThiefState(((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
     }
 
     /**
@@ -122,6 +123,7 @@ public class CollectionSite {
     public synchronized void takeARest() {
         ServerProxyAgent masterThief = (ServerProxyAgent) Thread.currentThread();
         masterThief.setMasterThiefState(ServerProxyAgent.WAITING_FOR_ARRIVAL);
+        generalRepository.setMasterThiefState(masterThief.getMasterThiefState());
         while (this.arrivingThieves.get(0).isEmpty() && this.arrivingThieves.get(1).isEmpty()) {
             try {
                 wait();
@@ -159,6 +161,7 @@ public class CollectionSite {
         }
         notifyAll();
         masterThief.setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
+        generalRepository.setMasterThiefState(masterThief.getMasterThiefState());
     }
 
     /**
@@ -169,6 +172,7 @@ public class CollectionSite {
     public synchronized void handACanvas(int party) {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.COLLECTION_SITE);
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState());
         this.arrivingThieves.get(party).add(thief);
         notifyAll();
         while (this.arrivingThieves.get(party).contains(thief)) {

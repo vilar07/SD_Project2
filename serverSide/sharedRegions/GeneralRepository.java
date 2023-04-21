@@ -1,6 +1,7 @@
 package serverSide.sharedRegions;
 
 import serverSide.utils.Room;
+import serverSide.entities.ServerProxyAgent;
 import serverSide.utils.AssaultPartyElemLogging;
 import serverSide.utils.AssaultPartyLogging;
 import serverSide.utils.Constants;
@@ -122,8 +123,26 @@ public class GeneralRepository {
      * Sets the Master Thief state.
      * @param state the state code to change to.
      */
-    public void setMasterThiefState(String state) {
-        masterThiefState = state;
+    public void setMasterThiefState(int state) {
+        switch (state) {
+            case ServerProxyAgent.PLANNING_THE_HEIST:
+            masterThiefState = "PLAN";
+            break;
+            case ServerProxyAgent.DECIDING_WHAT_TO_DO:
+            masterThiefState = "DECI";
+            break;
+            case ServerProxyAgent.ASSEMBLING_A_GROUP:
+            masterThiefState = "AGRP";
+            break;
+            case ServerProxyAgent.WAITING_FOR_ARRIVAL:
+            masterThiefState = "WAIT";
+            break;
+            case ServerProxyAgent.PRESENTING_THE_REPORT:
+            masterThiefState = "PRES";
+            break;
+            default:
+            break;
+        }
         printState();
     }
 
@@ -134,8 +153,24 @@ public class GeneralRepository {
      * @param situation the situation of the thief.
      * @param maxDisplacement the maximum displacement of the thief.
      */
-    public void setOrdinaryThiefState(int id, String state, char situation, int maxDisplacement) {
-        ordinaryThieves[id].setState(state);
+    public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement) {
+        switch (state) {
+            case ServerProxyAgent.CONCENTRATION_SITE:
+            ordinaryThieves[id].setState("CONC");
+            break;
+            case ServerProxyAgent.COLLECTION_SITE:
+            ordinaryThieves[id].setState("COLL");
+            break;
+            case ServerProxyAgent.CRAWLING_INWARDS:
+            ordinaryThieves[id].setState("CRIN");
+            break;
+            case ServerProxyAgent.AT_A_ROOM:
+            ordinaryThieves[id].setState("ROOM");
+            break;
+            case ServerProxyAgent.CRAWLING_OUTWARDS:
+            ordinaryThieves[id].setState("COUT");
+            break;
+        }
         ordinaryThieves[id].setSituation(situation);
         ordinaryThieves[id].setMaxDisplacement((char) (maxDisplacement + '0'));
         printState();
@@ -146,7 +181,7 @@ public class GeneralRepository {
      * @param id the identification of the thief.
      * @param state the state code to change to.
      */
-    public void setOrdinaryThiefState(int id, String state) {
+    public void setOrdinaryThiefState(int id, int state) {
         setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
     }
 

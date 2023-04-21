@@ -58,6 +58,7 @@ public class ConcentrationSite {
     public void prepareAssaultParty(int assaultParty) {
         ServerProxyAgent master = (ServerProxyAgent) Thread.currentThread();
         master.setMasterThiefState(ServerProxyAgent.ASSEMBLING_A_GROUP);
+        generalRepository.setMasterThiefState(master.getMasterThiefState());
         synchronized (this) {
             while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
                 try {
@@ -86,6 +87,7 @@ public class ConcentrationSite {
         finished = true;
         notifyAll();
         ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.PRESENTING_THE_REPORT);
+        generalRepository.setMasterThiefState(((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
         generalRepository.printTail(collectionSite.getPaintings());
     }
 

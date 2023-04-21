@@ -101,6 +101,7 @@ public class AssaultParty {
         thievesReadyToReverse = 0;
         notifyAll();
         masterThief.setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
+        generalRepository.setMasterThiefState(masterThief.getMasterThiefState());
     }
 
     /**
@@ -110,6 +111,7 @@ public class AssaultParty {
     public synchronized boolean crawlIn() {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.CRAWLING_INWARDS);
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState());
         int roomDistance = room.getDistance();
         Situation situation;
         do {
@@ -176,6 +178,7 @@ public class AssaultParty {
     public synchronized boolean crawlOut() {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.CRAWLING_OUTWARDS);
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState());
         Situation situation;
         // System.out.println("currentThief: " + thief.getID() + "; position=" + thiefPositions.get(thief.getID()) + "; MD=" + thief.getMaxDisplacement());
         do {
