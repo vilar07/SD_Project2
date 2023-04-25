@@ -213,4 +213,7 @@ public class CollectionSite {
     private void setEmptyRoom(int room, boolean empty) {
         emptyRooms[room] = empty;
     }
+
+    public void shutdown() {
+    }
 }

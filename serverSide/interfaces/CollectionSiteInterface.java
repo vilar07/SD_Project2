@@ -30,11 +30,13 @@ public class CollectionSiteInterface {
                 break;
             case MessageType.TAKE_A_REST:
                 ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
+                collectionSite.takeARest();
                 outMessage = new Message(MessageType.TAKE_A_REST_DONE,
                         ((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
                 break;
             case MessageType.COLLECT_A_CANVAS:
                 ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
+                collectionSite.collectACanvas();
                 outMessage = new Message(MessageType.COLLECT_A_CANVAS_DONE,
                         ((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
                 break;
@@ -42,6 +44,7 @@ public class CollectionSiteInterface {
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
+                collectionSite.handACanvas(inMessage.getAssaultParty());
                 outMessage = new Message(MessageType.HAND_A_CANVAS_DONE,
                         ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
                         ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefID(),
@@ -50,6 +53,10 @@ public class CollectionSiteInterface {
             case MessageType.GET_NEXT_ASSAULT_PARTY_ID:
                 ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
                 outMessage = new Message(MessageType.GET_NEXT_ASSAULT_PARTY_ID_DONE, collectionSite.getNextAssaultPartyID());
+                break;
+            case MessageType.SHUTDOWN:
+                collectionSite.shutdown();
+                outMessage = new Message(MessageType.SHUTDOWN_DONE);
                 break;
         }
         return outMessage;

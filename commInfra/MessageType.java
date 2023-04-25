@@ -40,4 +40,7 @@ public class MessageType
   public static final int REVERSE_DIRECTION_DONE = 27;
   public static final int CRAWL_OUT_DONE = 28;
   public static final int HAND_A_CANVAS_DONE = 29;
+
+  public static final int SHUTDOWN = 30;
+  public static final int SHUTDOWN_DONE = 31;
 }
