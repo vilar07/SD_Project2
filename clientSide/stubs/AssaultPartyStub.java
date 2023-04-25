@@ -15,14 +15,19 @@ import commInfra.MessageType;
  */
 public class AssaultPartyStub {
     private String hostName;
+
     private int portNumber;
 
-    public AssaultPartyStub(int portNumber) {
+    private int id;
+
+    public AssaultPartyStub(int id, int portNumber) {
+        this.id = id;
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
-    public AssaultPartyStub(String hostName, int portNumber) {
+    public AssaultPartyStub(int id, String hostName, int portNumber) {
+        this.id = id;
         this.hostName = hostName;
         this.portNumber = portNumber;
     }
@@ -40,7 +45,7 @@ public class AssaultPartyStub {
                 Thread.sleep((long) 10);
             } catch (InterruptedException ignored) {}
         }
-        outMessage = new Message(MessageType.SEND_ASSAULT_PARTY, ((MasterThief) Thread.currentThread()).getMasterThiefState());
+        outMessage = new Message(MessageType.SEND_ASSAULT_PARTY, ((MasterThief) Thread.currentThread()).getMasterThiefState(), this.id);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.SEND_ASSAULT_PARTY_DONE) {
@@ -71,7 +76,9 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.CRAWL_IN, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(),
+                ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement(),
+                this.id);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.CRAWL_IN_DONE) {
@@ -114,7 +121,9 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.REVERSE_DIRECTION, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(),
+                ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement(),
+                this.id);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.REVERSE_DIRECTION_DONE) {
@@ -139,7 +148,9 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.CRAWL_OUT, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(),
+                ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement(),
+                this.id);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.CRAWL_OUT_DONE) {

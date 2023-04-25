@@ -51,6 +51,8 @@ public class SharedRegionInterface {
             case MessageType.SEND_ASSAULT_PARTY:
             if (inMessage.getMasterThiefState() != ServerProxyAgent.ASSEMBLING_A_GROUP) {
                 throw new MessageException("Invalid Master Thief state - should be ASSEMBLING_A_GROUP!", inMessage);
+            } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                throw new MessageException("Invalid Assault Party identification!", inMessage);
             }
             break;
             case MessageType.TAKE_A_REST:

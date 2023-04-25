@@ -75,7 +75,7 @@ public class CollectionSiteStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
-        if (inMessage.getOperation() != 'E' || inMessage.getOperation() != 'W' || inMessage.getOperation() != 'P') {
+        if (inMessage.getOperation() != 'E' && inMessage.getOperation() != 'R' && inMessage.getOperation() != 'P') {
             System.out.println("Invalid operation!");
             System.out.println(inMessage.toString());
             System.exit(1);
@@ -219,6 +219,7 @@ public class CollectionSiteStub {
     }
 
     public void shutdown() {
+        // use Socket setSoTimeout() to raise a SocketTimeoutException somehow
         ClientCom com;
         Message outMessage, inMessage;
         com = new ClientCom(hostName, portNumber);

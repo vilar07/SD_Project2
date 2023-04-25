@@ -79,6 +79,7 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
             System.out.println(e.getMessageVal().toString());
             System.exit (1);
         }
+        System.out.println(outMessage);
         serverCom.writeObject(outMessage);
         serverCom.close();
     }

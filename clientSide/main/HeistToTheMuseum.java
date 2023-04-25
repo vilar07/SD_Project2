@@ -29,7 +29,7 @@ public class HeistToTheMuseum
             System.exit(1);
         }
         try
-        { portNumber = Integer.parseInt(args[1]);
+        { portNumber = Integer.parseInt(args[0]);
         }
         catch (NumberFormatException e)
         { System.out.println(args[1] + " is not a number!");
@@ -44,7 +44,7 @@ public class HeistToTheMuseum
         
         AssaultPartyStub[] assaultParties = new AssaultPartyStub[Constants.ASSAULT_PARTIES_NUMBER];
         for(int i = 0; i < assaultParties.length; i++) {
-            assaultParties[i] = new AssaultPartyStub(portNumber);
+            assaultParties[i] = new AssaultPartyStub(i, portNumber);
         }
         MuseumStub museum = new MuseumStub(portNumber);
 
