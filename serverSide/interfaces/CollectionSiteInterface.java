@@ -46,8 +46,8 @@ public class CollectionSiteInterface {
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
                 collectionSite.handACanvas(inMessage.getAssaultParty());
                 outMessage = new Message(MessageType.HAND_A_CANVAS_DONE,
-                        ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
                         ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefID(),
+                        ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
                         ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
                 break;
             case MessageType.GET_NEXT_ASSAULT_PARTY_ID:

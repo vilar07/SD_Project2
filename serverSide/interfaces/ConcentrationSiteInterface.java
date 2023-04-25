@@ -32,15 +32,17 @@ public class ConcentrationSiteInterface {
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
+            boolean needed = concentrationSite.amINeeded();
             outMessage = new Message(MessageType.AM_I_NEEDED_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
-                    inMessage.getOrdinaryThiefMD(), concentrationSite.amINeeded());
+                    inMessage.getOrdinaryThiefMD(), needed);
             break;
             case MessageType.PREPARE_EXCURSION:
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
+            int assaultParty = concentrationSite.prepareExcursion();
             outMessage = new Message(MessageType.PREPARE_EXCURSION_DONE, inMessage.getOrdinaryThiefID(), inMessage.getOrdinaryThiefState(),
-                    inMessage.getOrdinaryThiefMD(), concentrationSite.prepareExcursion());
+                    inMessage.getOrdinaryThiefMD(), assaultParty);
             break;
         }
         return outMessage;

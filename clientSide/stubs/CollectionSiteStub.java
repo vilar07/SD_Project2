@@ -170,7 +170,7 @@ public class CollectionSiteStub {
             System.exit(1);
         }
         if (inMessage.getOrdinaryThiefState() != OrdinaryThief.COLLECTION_SITE) {
-            System.out.println("Invalid Master Thief state!");
+            System.out.println("Invalid Ordinary Thief state!");
             System.out.println(inMessage.toString());
             System.exit(1);
         }

@@ -71,8 +71,8 @@ public class SharedRegionInterface {
             }
             break;
             case MessageType.AM_I_NEEDED:
-            if (inMessage.getOrdinaryThiefState() != ServerProxyAgent.CONCENTRATION_SITE) {
-                throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE!", inMessage);
+            if (inMessage.getOrdinaryThiefState() != ServerProxyAgent.CONCENTRATION_SITE && inMessage.getOrdinaryThiefState() != ServerProxyAgent.COLLECTION_SITE) {
+                throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE or COLLECTION_SITE!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
