@@ -71,7 +71,7 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.CRAWL_IN, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.CRAWL_IN_DONE) {
@@ -109,7 +109,7 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.REVERSE_DIRECTION, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.REVERSE_DIRECTION_DONE) {
@@ -134,7 +134,7 @@ public class AssaultPartyStub {
             } catch (InterruptedException ignored) {}
         }
         outMessage = new Message(MessageType.CRAWL_OUT, ((OrdinaryThief) Thread.currentThread()).getID(), 
-                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState());
+                ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(), ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.CRAWL_OUT_DONE) {

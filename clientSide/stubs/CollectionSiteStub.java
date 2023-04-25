@@ -1,28 +1,87 @@
 package clientSide.stubs;
 
+import clientSide.entities.MasterThief;
+import clientSide.entities.OrdinaryThief;
 import clientSide.room.Room;
+import commInfra.ClientCom;
+import commInfra.Message;
+import commInfra.MessageType;
 
 /**
  * Collection Site where Master Thief plans and paintings are stored
  */
-public interface CollectionSiteStub {
-    /**
-     * Getter for the number of paintings acquired
-     * @return the number of paintings
-     */
-    public int getPaintings();
-    
+public class CollectionSiteStub {
+    private String hostName;
+    private int portNumber;
+
+    public CollectionSiteStub(int portNumber) {
+        this.portNumber = portNumber;
+        this.hostName = "localhost";
+    }
+
+    public CollectionSiteStub(String hostName, int portNumber) {
+        this.hostName = hostName;
+        this.portNumber = portNumber;
+    }
     /**
      * Called by Master Thief to initiate operations
      */
-    public void startOperations();
+    public void startOperations() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.START_OPERATIONS, ((MasterThief) Thread.currentThread()).getMasterThiefState());
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.START_OPERATIONS_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getMasterThiefState() != MasterThief.DECIDING_WHAT_TO_DO) {
+            System.out.println("Invalid Master Thief state!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        ((MasterThief) Thread.currentThread()).setState(inMessage.getMasterThiefState());
+    }
 
     /**
      * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
      * sum up results
      * @return next situation
      */
-    public char appraiseSit();
+    public char appraiseSit() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.APPRAISE_SIT, ((MasterThief) Thread.currentThread()).getMasterThiefState());
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.APPRAISE_SIT_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getOperation() != 'E' || inMessage.getOperation() != 'W' || inMessage.getOperation() != 'P') {
+            System.out.println("Invalid operation!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getOperation();
+    }
 
     /**
      * Master Thief waits while there are still Assault Parties in operation
@@ -48,9 +107,7 @@ public interface CollectionSiteStub {
      */
     public int getNextAssaultPartyID();
 
-    /**
-     * Returns the next empty room. Uses the perception of the Master Thief, not the Museum information.
-     * @return the room.
-     */
-    public Room getNextRoom();
+    public void shutdown() {
+
+    }
 }

@@ -15,9 +15,8 @@ public interface ConcentrationSiteStub {
     /**
      * The Master Thief announces the end of operations
      * and shares the number of paintings acquired in the heist.
-     * @param paintings the number of paintings
      */
-    public void sumUpResults(int paintings);
+    public void sumUpResults();
 
     /**
      * Called by an ordinary thief to wait for orders.
