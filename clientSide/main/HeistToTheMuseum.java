@@ -3,16 +3,13 @@ package clientSide.main;
 import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.ConcentrationSiteStub;
-import clientSide.stubs.GeneralRepositoryStub;
 import clientSide.stubs.MuseumStub;
 import clientSide.utils.Constants;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
-import clientSide.room.Room;
 
 /**
  * Concurrent version of the Heist To The Museum.
@@ -26,7 +23,7 @@ public class HeistToTheMuseum
      */
     public static void main(String[] args) {
         /* getting problem runtime parameters */
-        int portNumber;
+        int portNumber = 0;
         if (args.length != 1)
         { System.out.println("Wrong number of parameters!");
             System.exit(1);

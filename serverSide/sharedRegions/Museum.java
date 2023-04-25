@@ -39,7 +39,7 @@ public class Museum {
      * @param party the party identification.
      * @return true if the thief rolls a canvas, false if the room was already empty.
      */
-    public boolean rollACanvas(int party) {
+    public void rollACanvas(int party) {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.AT_A_ROOM);
         generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
@@ -52,7 +52,6 @@ public class Museum {
                 generalRepository.setRoomState(room.getID(), room.getPaintings());
             }
         }
-        return res;
     }
 
     /**
