@@ -44,8 +44,6 @@ public class HeistToTheMuseum
         }
 
         Random random = new Random(System.currentTimeMillis());
-
-        GeneralRepositoryStub repository = new GeneralRepositoryStub(portNumber);
         
         AssaultPartyStub[] assaultParties = new AssaultPartyStub[Constants.ASSAULT_PARTIES_NUMBER];
         for(int i = 0; i < assaultParties.length; i++) {
@@ -57,10 +55,10 @@ public class HeistToTheMuseum
 
         ConcentrationSiteStub concentrationSite = new ConcentrationSiteStub(portNumber);
 
-        MasterThief masterThief = new MasterThief(collectionSite, concentrationSite, assaultParties, repository);
+        MasterThief masterThief = new MasterThief(collectionSite, concentrationSite, assaultParties);
         OrdinaryThief ordinaryThieves[] = new OrdinaryThief[Constants.NUM_THIEVES - 1];
         for(int i = 0; i < ordinaryThieves.length; i++) {
-            ordinaryThieves[i] = new OrdinaryThief(i, museum, collectionSite, concentrationSite, assaultParties, repository, 
+            ordinaryThieves[i] = new OrdinaryThief(i, museum, collectionSite, concentrationSite, assaultParties, 
                     random.nextInt(Constants.MAX_THIEF_DISPLACEMENT - Constants.MIN_THIEF_DISPLACEMENT + 1) + Constants.MIN_THIEF_DISPLACEMENT
             );
         }
@@ -76,6 +74,6 @@ public class HeistToTheMuseum
                 ot.join();
             }
         } catch (InterruptedException ignored) {}
-        repository.shutdown();
+        collectionSite.shutdown();
     }
 }
