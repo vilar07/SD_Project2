@@ -92,18 +92,9 @@ public class OrdinaryThief extends Thread {
     public int getMaxDisplacement() {
         return maxDisplacement;
     }
-    
-    /**
-     * Returns the Assault Party the Ordinary Thief is a part of
-     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
-     */
-    public int getAssaultParty() {
-        for (AssaultPartyStub assaultParty: assaultParties) {
-            if (assaultParty.isMember(this)) {
-                return assaultParty.getID();
-            }
-        }
-        return -1;
+
+    public int getOrdinaryThiefState() {
+        return state;
     }
 
     /**
