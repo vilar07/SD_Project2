@@ -298,8 +298,8 @@ public class AssaultParty {
      * @param thief the Ordinary Thief.
      */
     public void removeMember(ServerProxyAgent thief) {
-        if (this.thieves.contains(thief.getOrdinaryThiefID())) {
-            this.thieves.remove(thief.getOrdinaryThiefID());
+        if (this.thieves.contains((Integer) thief.getOrdinaryThiefID())) {
+            this.thieves.remove((Integer) thief.getOrdinaryThiefID());
             generalRepository.removeAssaultPartyMember(this.id, thief.getOrdinaryThiefID());
         }
     }
