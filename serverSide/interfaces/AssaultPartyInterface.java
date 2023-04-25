@@ -27,20 +27,25 @@ public class AssaultPartyInterface {
             case MessageType.CRAWL_IN:
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
             assaultParty.crawlIn();
-            outMessage = new Message(MessageType.CRAWL_IN_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState());
+            outMessage = new Message(MessageType.CRAWL_IN_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
+                                            ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
             break;
             case MessageType.REVERSE_DIRECTION:
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
             assaultParty.reverseDirection();
             outMessage = new Message(MessageType.REVERSE_DIRECTION_DONE);
             break;
             case MessageType.CRAWL_OUT:
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
             ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+            ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
             assaultParty.crawlOut();
-            outMessage = new Message(MessageType.CRAWL_OUT_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState());
+            outMessage = new Message(MessageType.CRAWL_OUT_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
+                                            ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
             break;
             default:
             System.out.println("Should never happen!");

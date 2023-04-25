@@ -172,7 +172,7 @@ public class CollectionSite {
     public synchronized void handACanvas(int party) {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.COLLECTION_SITE);
-        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState());
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         this.arrivingThieves.get(party).add(thief);
         notifyAll();
         while (this.arrivingThieves.get(party).contains(thief)) {

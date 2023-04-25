@@ -41,13 +41,15 @@ public class CollectionSiteInterface {
             case MessageType.HAND_A_CANVAS:
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
                 ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+                ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
                 outMessage = new Message(MessageType.HAND_A_CANVAS_DONE,
                         ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
-                        ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefID());
+                        ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefID(),
+                        ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
                 break;
             case MessageType.GET_NEXT_ASSAULT_PARTY_ID:
                 ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
-                outMessage = new Message(MessageType.GET_NEXT_ASSAULT_PARTY_ID_DONE);
+                outMessage = new Message(MessageType.GET_NEXT_ASSAULT_PARTY_ID_DONE, collectionSite.getNextAssaultPartyID());
                 break;
         }
         return outMessage;

@@ -42,7 +42,7 @@ public class Museum {
     public boolean rollACanvas(int party) {
         ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(ServerProxyAgent.AT_A_ROOM);
-        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState());
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         boolean res = false;
         Room room = assaultParties[party].getRoom();
         synchronized (this) {

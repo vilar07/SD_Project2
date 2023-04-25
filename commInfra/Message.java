@@ -29,6 +29,8 @@ public class Message implements Serializable
 
    private int ordinaryThiefID = -1;
 
+   private int ordinaryThiefMD = -1;
+
    private int assaultParty = -1;
 
    private char operation = 0;
@@ -48,11 +50,15 @@ public class Message implements Serializable
    /**
     * Message instantiation (form 2).
     * @param type message type
-    * @param masterThiefState the state of the Master Thief
+    * @param masterThiefStateOrAssaultParty the state of the Master Thief, or the Assault Party ID in the case of the GET_NEXT_ASSAULT_PARTY_ID_DONE message
     */
-   public Message(int type, int masterThiefState) {
+   public Message(int type, int masterThiefStateOrAssaultParty) {
       msgType = type;
-      this.masterThiefState = masterThiefState;
+      if (type == MessageType.GET_NEXT_ASSAULT_PARTY_ID_DONE) {
+         this.assaultParty = masterThiefStateOrAssaultParty;
+      } else {
+         this.masterThiefState = masterThiefStateOrAssaultParty;
+      }
    }
 
    public Message(int type, char operation) {
@@ -60,28 +66,32 @@ public class Message implements Serializable
       this.operation = operation;
    }
 
-   public Message(int type, int state, int id) {
+   public Message(int type, int state, int assaultParty) {
       msgType = type;
-      if (type == MessageType.PREPARE_ASSAULT_PARTY) {
-         this.masterThiefState = state;
-         this.assaultParty = id;
-      } else {
-         this.ordinaryThiefState = state;
-         this.ordinaryThiefID = id;
-      }
-   }
-
-   public Message(int type, int ordinaryThiefID, int ordinaryThiefState, int assaultParty) {
-      msgType = type;
-      this.ordinaryThiefID = ordinaryThiefID;
-      this.ordinaryThiefState = ordinaryThiefState;
+      this.masterThiefState = state;
       this.assaultParty = assaultParty;
    }
 
-   public Message(int type, int ordinaryThiefID, int ordinaryThiefState, boolean neededThief) {
+   public Message(int type, int ordinaryThiefID, int ordinaryThiefState, int ordinaryThiefMD) {
       msgType = type;
       this.ordinaryThiefID = ordinaryThiefID;
       this.ordinaryThiefState = ordinaryThiefState;
+      this.ordinaryThiefMD = ordinaryThiefMD;
+   }
+
+   public Message(int type, int ordinaryThiefID, int ordinaryThiefState, int ordinaryThiefMD, int assaultParty) {
+      msgType = type;
+      this.ordinaryThiefID = ordinaryThiefID;
+      this.ordinaryThiefState = ordinaryThiefState;
+      this.ordinaryThiefMD = ordinaryThiefMD;
+      this.assaultParty = assaultParty;
+   }
+
+   public Message(int type, int ordinaryThiefID, int ordinaryThiefState, int ordinaryThiefMD, boolean neededThief) {
+      msgType = type;
+      this.ordinaryThiefID = ordinaryThiefID;
+      this.ordinaryThiefState = ordinaryThiefState;
+      this.ordinaryThiefMD = ordinaryThiefMD;
       this.neededThief = neededThief;
    }
 
@@ -111,6 +121,10 @@ public class Message implements Serializable
       return this.ordinaryThiefID;
    }
 
+   public int getOrdinaryThiefMD() {
+      return this.ordinaryThiefMD;
+   }
+
    public char getOperation() {
       return this.operation;
    }
@@ -126,6 +140,7 @@ public class Message implements Serializable
               "\nMaster Thief state = " + masterThiefState +
               "\nOrdinary Thief state = " + ordinaryThiefState +
               "\nOrdinary Thief ID = " + ordinaryThiefID +
+              "\nOrdinary Thief MD = " + ordinaryThiefMD +
               "\nAssault Party ID = " + assaultParty +
               "\nOperation = " + operation + 
               (neededThief ? "\nThief is needed": "\nThief is not needed"));

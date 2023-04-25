@@ -3,7 +3,6 @@ package clientSide.entities;
 import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.ConcentrationSiteStub;
-import clientSide.stubs.GeneralRepositoryStub;
 
 /**
  * Master Thief, the thief that commands the heist
@@ -36,11 +35,6 @@ public class MasterThief extends Thread {
     private final AssaultPartyStub[] assaultParties;
 
     /**
-     * Variable holding the General Repository shared region
-     */
-    private final GeneralRepositoryStub generalRepository;
-
-    /**
      * Public constructor for Master Thief
      * Initializes the state as PLANNING_THE_HEIST and her perception that all rooms of the museum
      * are empty
@@ -50,11 +44,10 @@ public class MasterThief extends Thread {
      * @param repository the General Repository
      */
     public MasterThief(CollectionSiteStub collectionSite,
-            ConcentrationSiteStub concentrationSite, AssaultPartyStub[] assaultParties, GeneralRepositoryStub repository) {
+            ConcentrationSiteStub concentrationSite, AssaultPartyStub[] assaultParties) {
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
-        this.generalRepository = repository;
         setState(PLANNING_THE_HEIST);
     }
 
@@ -64,25 +57,6 @@ public class MasterThief extends Thread {
      */
     public void setState(int state) {
         this.state = state;
-        switch (state) {
-            case PLANNING_THE_HEIST:
-            generalRepository.setMasterThiefState("PLAN");
-            break;
-            case DECIDING_WHAT_TO_DO:
-            generalRepository.setMasterThiefState("DECI");
-            break;
-            case ASSEMBLING_A_GROUP:
-            generalRepository.setMasterThiefState("AGRP");
-            break;
-            case WAITING_FOR_ARRIVAL:
-            generalRepository.setMasterThiefState("WAIT");
-            break;
-            case PRESENTING_THE_REPORT:
-            generalRepository.setMasterThiefState("PRES");
-            break;
-            default:
-            break;
-        }
     }
 
     public int getMasterThiefState() {

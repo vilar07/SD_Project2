@@ -18,7 +18,9 @@ public class MuseumInterface {
     public Message processAndReply(Message inMessage) {
         ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefID(inMessage.getOrdinaryThiefID());
         ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefState(inMessage.getOrdinaryThiefState());
+        ((ServerProxyAgent) Thread.currentThread()).setOrdinaryThiefMaxDisplacement(inMessage.getOrdinaryThiefMD());
         museum.rollACanvas(inMessage.getAssaultParty());
-        return new Message(MessageType.ROLL_A_CANVAS_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState());
+        return new Message(MessageType.ROLL_A_CANVAS_DONE, inMessage.getOrdinaryThiefID(), ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
+                                    ((ServerProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
     }
 }

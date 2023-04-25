@@ -104,23 +104,6 @@ public class OrdinaryThief extends Thread {
      */
     public void setState(int state) {
         this.state = state;
-        switch (state) {
-            case CONCENTRATION_SITE:
-            generalRepository.setOrdinaryThiefState(id, "CONC", getSituation(), maxDisplacement);
-            break;
-            case COLLECTION_SITE:
-            generalRepository.setOrdinaryThiefState(id, "COLL", getSituation(), maxDisplacement);
-            break;
-            case CRAWLING_INWARDS:
-            generalRepository.setOrdinaryThiefState(id, "CRIN", getSituation(), maxDisplacement);
-            break;
-            case AT_A_ROOM:
-            generalRepository.setOrdinaryThiefState(id, "ROOM", getSituation(), maxDisplacement);
-            break;
-            case CRAWLING_OUTWARDS:
-            generalRepository.setOrdinaryThiefState(id, "COUT", getSituation(), maxDisplacement);
-            break;
-        }
     }
 
     /**

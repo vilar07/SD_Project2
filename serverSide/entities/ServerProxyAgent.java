@@ -46,6 +46,10 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
         return this.masterThiefState;
     }
 
+    public char getOrdinaryThiefSituation() {
+        return (ordinaryThiefState == CONCENTRATION_SITE || ordinaryThiefState == COLLECTION_SITE) ? 'W' : 'P';
+    }
+
     public void setOrdinaryThiefID(int id) {
         this.ordinaryThiefID = id;
     }
@@ -53,6 +57,10 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
     @Override
     public void setOrdinaryThiefState(int state) {
         this.ordinaryThiefState = state;
+    }
+
+    public void setOrdinaryThiefMaxDisplacement(int maxDisplacement) {
+        this.ordinaryThiefMaxDisplacement = maxDisplacement;
     }
 
     @Override
