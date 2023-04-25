@@ -3,7 +3,6 @@ package clientSide.entities;
 import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.ConcentrationSiteStub;
-import clientSide.stubs.GeneralRepositoryStub;
 import clientSide.stubs.MuseumStub;
 
 /**
@@ -52,11 +51,6 @@ public class OrdinaryThief extends Thread {
     private final CollectionSiteStub collectionSite;
 
     /**
-     * Variable holding the General Repository shared region
-     */
-    private final GeneralRepositoryStub generalRepository;
-
-    /**
      * Ordinary Thief constructor
      * @param id the identification of the thief
      * @param museum the Museum
@@ -66,13 +60,13 @@ public class OrdinaryThief extends Thread {
      * @param generalRepository the General Repository
      * @param maxDisplacement the maximum displacement
      */
-    public OrdinaryThief(int id, MuseumStub museum, CollectionSiteStub collectionSite, ConcentrationSiteStub concentrationSite, AssaultPartyStub[] assaultParties, GeneralRepositoryStub generalRepository, int maxDisplacement) {
+    public OrdinaryThief(int id, MuseumStub museum, CollectionSiteStub collectionSite, ConcentrationSiteStub concentrationSite, 
+                                AssaultPartyStub[] assaultParties, int maxDisplacement) {
         this.id = id;
         this.museum = museum;
         this.collectionSite = collectionSite;
         this.concentrationSite = concentrationSite;
         this.assaultParties = assaultParties;
-        this.generalRepository = generalRepository;
         this.maxDisplacement = maxDisplacement;
         setState(CONCENTRATION_SITE);
     }
@@ -104,14 +98,6 @@ public class OrdinaryThief extends Thread {
      */
     public void setState(int state) {
         this.state = state;
-    }
-
-    /**
-     * Getter for the situation of the thief
-     * @return 'W' if waiting or 'P' if in party
-     */
-    private char getSituation() {
-        return (state == CONCENTRATION_SITE || state == COLLECTION_SITE) ? 'W' : 'P';
     }
 
     /**

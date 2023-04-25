@@ -92,7 +92,7 @@ public class MasterThief extends Thread {
             System.out.println("appraiseSit");
         }
         System.out.println("sumUpResults");
-        concentrationSite.sumUpResults(this.collectionSite.getPaintings());
+        concentrationSite.sumUpResults();
         System.out.println("Terminated");
     }
 }
