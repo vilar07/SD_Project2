@@ -1,4 +1,4 @@
-package serverSide.utils;
+package utils;
 
 /**
  * Util class used in GeneralRepository to represent the rooms, their number of paintings

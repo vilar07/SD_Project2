@@ -2,10 +2,10 @@ package serverSide.sharedRegions;
 
 import java.util.*;
 
-import serverSide.utils.Room;
 import serverSide.entities.ServerProxyAgent;
 import serverSide.main.HeistToTheMuseum;
-import serverSide.utils.Constants;
+import utils.Constants;
+import utils.Room;
 
 /**
  * Collection Site where intelligence and paintings are stored.

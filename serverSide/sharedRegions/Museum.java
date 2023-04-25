@@ -1,7 +1,7 @@
 package serverSide.sharedRegions;
 
 import serverSide.entities.ServerProxyAgent;
-import serverSide.utils.Room;
+import utils.Room;
 
 /**
  * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 

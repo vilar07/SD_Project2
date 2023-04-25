@@ -2,7 +2,7 @@ package clientSide.stubs;
 
 import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
-import clientSide.utils.Constants;
+import utils.Constants;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;

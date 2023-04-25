@@ -4,7 +4,7 @@ import commInfra.Message;
 import commInfra.MessageException;
 import commInfra.MessageType;
 import serverSide.entities.ServerProxyAgent;
-import serverSide.utils.Constants;
+import utils.Constants;
 
 public class SharedRegionInterface {
     private final AssaultPartyInterface[] assaultPartyInterfaces;

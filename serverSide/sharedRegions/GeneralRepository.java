@@ -1,13 +1,13 @@
 package serverSide.sharedRegions;
 
-import serverSide.utils.Room;
 import serverSide.entities.ServerProxyAgent;
-import serverSide.utils.AssaultPartyElemLogging;
-import serverSide.utils.AssaultPartyLogging;
-import serverSide.utils.Constants;
-import serverSide.utils.Logger;
-import serverSide.utils.OrdinaryThiefLogging;
-import serverSide.utils.RoomLogging;
+import utils.AssaultPartyElemLogging;
+import utils.AssaultPartyLogging;
+import utils.Constants;
+import utils.Logger;
+import utils.OrdinaryThiefLogging;
+import utils.Room;
+import utils.RoomLogging;
 
 /**
  * General Repository where logging occurs.

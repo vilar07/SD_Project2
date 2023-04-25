@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import serverSide.entities.ServerProxyAgent;
-import serverSide.utils.Constants;
+import utils.Constants;
 
 /**
  * Concentration Site where ordinary thieves wait for orders.

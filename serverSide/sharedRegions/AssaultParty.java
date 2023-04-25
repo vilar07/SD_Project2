@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import serverSide.entities.ServerProxyAgent;
-import serverSide.utils.Room;
-import serverSide.utils.Constants;
+import utils.Constants;
+import utils.Room;
 
 /**
  * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.

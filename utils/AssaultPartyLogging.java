@@ -1,4 +1,4 @@
-package clientSide.utils;
+package utils;
 
 /**
  * Util class used in GeneralRepository to represent each Assault Party, its room target

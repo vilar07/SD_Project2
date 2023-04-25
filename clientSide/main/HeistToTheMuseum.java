@@ -4,7 +4,7 @@ import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.ConcentrationSiteStub;
 import clientSide.stubs.MuseumStub;
-import clientSide.utils.Constants;
+import utils.Constants;
 
 import java.util.Random;
 
