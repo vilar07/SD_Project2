@@ -73,6 +73,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.PREPARE_EXCURSION:
@@ -80,6 +82,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.CRAWL_IN:
@@ -89,6 +93,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.ROLL_A_CANVAS:
@@ -98,6 +104,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.REVERSE_DIRECTION:
@@ -107,6 +115,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.CRAWL_OUT:
@@ -116,6 +126,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             case MessageType.HAND_A_CANVAS:
@@ -125,6 +137,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                 throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
+            } else if (inMessage.getOrdinaryThiefMD() < Constants.MIN_THIEF_DISPLACEMENT || inMessage.getOrdinaryThiefMD() > Constants.MAX_THIEF_DISPLACEMENT) {
+                throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
             default:

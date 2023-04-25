@@ -2,7 +2,6 @@ package clientSide.stubs;
 
 import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
-import clientSide.room.Room;
 import clientSide.utils.Constants;
 import commInfra.ClientCom;
 import commInfra.Message;
