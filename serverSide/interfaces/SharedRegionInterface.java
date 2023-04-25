@@ -100,8 +100,8 @@ public class SharedRegionInterface {
             }
             break;
             case MessageType.ROLL_A_CANVAS:
-            if (inMessage.getOrdinaryThiefState() != ServerProxyAgent.CONCENTRATION_SITE) {
-                throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE!", inMessage);
+            if (inMessage.getOrdinaryThiefState() != ServerProxyAgent.CRAWLING_INWARDS) {
+                throw new MessageException("Invalid Ordinary Thief state - should be CRAWLING_INWARDS!", inMessage);
             } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
                 throw new MessageException("Invalid Assault Party identification!", inMessage);
             } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
