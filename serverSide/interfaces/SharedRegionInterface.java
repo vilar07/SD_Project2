@@ -143,6 +143,8 @@ public class SharedRegionInterface {
                 throw new MessageException("Invalid Ordinary Thief maximum displacement!", inMessage);
             }
             break;
+            case MessageType.SHUTDOWN:
+            break;
             default:
             throw new MessageException("Invalid message type!", inMessage);
         }
