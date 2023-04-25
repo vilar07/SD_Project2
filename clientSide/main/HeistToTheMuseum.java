@@ -77,9 +77,5 @@ public class HeistToTheMuseum
             }
         } catch (InterruptedException ignored) {}
         repository.shutdown();
-        Arrays.stream(assaultParties).forEach(AssaultPartyStub::shutdown);
-        museum.shutdown();
-        collectionSite.shutdown();
-        concentrationSite.shutdown();
     }
 }
