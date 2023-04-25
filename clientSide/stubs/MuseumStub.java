@@ -38,7 +38,8 @@ public class MuseumStub {
         }
         outMessage = new Message(MessageType.ROLL_A_CANVAS, ((OrdinaryThief) Thread.currentThread()).getID(),
                 ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState(),
-                ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement());
+                ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement(),
+                id);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.ROLL_A_CANVAS_DONE) {
