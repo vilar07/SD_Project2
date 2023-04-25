@@ -4,6 +4,7 @@ import java.util.*;
 
 import serverSide.utils.Room;
 import serverSide.entities.ServerProxyAgent;
+import serverSide.main.HeistToTheMuseum;
 import serverSide.utils.Constants;
 
 /**
@@ -214,6 +215,7 @@ public class CollectionSite {
         emptyRooms[room] = empty;
     }
 
-    public void shutdown() {
+    public synchronized void shutdown () {
+        HeistToTheMuseum.waitConnection = false;
     }
 }

@@ -2,7 +2,6 @@ package serverSide.sharedRegions;
 
 import serverSide.utils.Room;
 import serverSide.entities.ServerProxyAgent;
-import serverSide.main.HeistToTheMuseum;
 import serverSide.utils.AssaultPartyElemLogging;
 import serverSide.utils.AssaultPartyLogging;
 import serverSide.utils.Constants;
@@ -287,9 +286,5 @@ public class GeneralRepository {
             this.rooms[i].setPaintings(rooms[i].getPaintings());
         }
         printState();
-    }
-
-    public synchronized void shutdown () {
-        HeistToTheMuseum.waitConnection = false;
     }
 }
