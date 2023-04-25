@@ -89,6 +89,11 @@ public class AssaultPartyStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
+        if (inMessage.getOrdinaryThiefMD() != ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement()) {
+            System.out.println("Invalid Ordinary Thief maximum displacement!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
         com.close();
         ((OrdinaryThief) Thread.currentThread()).setState(inMessage.getOrdinaryThiefState());
         return false;
@@ -149,6 +154,11 @@ public class AssaultPartyStub {
         }
         if (inMessage.getOrdinaryThiefState() != OrdinaryThief.CRAWLING_OUTWARDS) {
             System.out.println("Invalid Ordinary Thief state!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getOrdinaryThiefMD() != ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement()) {
+            System.out.println("Invalid Ordinary Thief maximum displacement!");
             System.out.println(inMessage.toString());
             System.exit(1);
         }

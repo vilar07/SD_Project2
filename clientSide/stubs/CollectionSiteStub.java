@@ -23,6 +23,7 @@ public class CollectionSiteStub {
         this.hostName = hostName;
         this.portNumber = portNumber;
     }
+
     /**
      * Called by Master Thief to initiate operations
      */
@@ -175,6 +176,11 @@ public class CollectionSiteStub {
         }
         if (inMessage.getOrdinaryThiefID() != ((OrdinaryThief) Thread.currentThread()).getID()) {
             System.out.println("Invalid Ordinary Thief ID!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getOrdinaryThiefMD() != ((OrdinaryThief) Thread.currentThread()).getMaxDisplacement()) {
+            System.out.println("Invalid Ordinary Thief maximum displacement!");
             System.out.println(inMessage.toString());
             System.exit(1);
         }
