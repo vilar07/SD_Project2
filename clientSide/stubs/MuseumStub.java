@@ -46,7 +46,7 @@ public class MuseumStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
-        if (inMessage.getMasterThiefState() != OrdinaryThief.AT_A_ROOM) {
+        if (inMessage.getOrdinaryThiefState() != OrdinaryThief.AT_A_ROOM) {
             System.out.println("Invalid Ordinary Thief state!");
             System.out.println(inMessage.toString());
             System.exit(1);

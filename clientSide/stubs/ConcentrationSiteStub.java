@@ -110,7 +110,7 @@ public class ConcentrationSiteStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
-        if (inMessage.getMasterThiefState() != OrdinaryThief.CONCENTRATION_SITE) {
+        if (inMessage.getOrdinaryThiefState() != OrdinaryThief.CONCENTRATION_SITE) {
             System.out.println("Invalid Ordinary Thief state!");
             System.out.println(inMessage.toString());
             System.exit(1);
@@ -153,7 +153,7 @@ public class ConcentrationSiteStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
-        if (inMessage.getMasterThiefState() != ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState()) {
+        if (inMessage.getOrdinaryThiefState() != ((OrdinaryThief) Thread.currentThread()).getOrdinaryThiefState()) {
             System.out.println("Invalid Ordinary Thief state!");
             System.out.println(inMessage.toString());
             System.exit(1);
