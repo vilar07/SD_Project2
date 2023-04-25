@@ -85,6 +85,10 @@ public class MasterThief extends Thread {
         }
     }
 
+    public int getMasterThiefState() {
+        return state;
+    }
+
     /**
      * Lifecycle of the Master Thief
      */

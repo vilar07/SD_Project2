@@ -1,24 +1,70 @@
 package clientSide.stubs;
 
+import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
 import clientSide.room.Room;
+import commInfra.ClientCom;
+import commInfra.Message;
+import commInfra.MessageType;
 
 /**
- * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
- * Assault Party is shared by the thieves
+ *  Stub to the Assault Party.
+ *
+ *    It instantiates a remote reference to the Assault Party.
+ *    Implementation of a client-server model of type 2 (server replication).
+ *    Communication is based on a communication channel under the TCP protocol.
  */
-public interface AssaultPartyStub {
+public class AssaultPartyStub {
+    private String hostName;
+    private int portNumber;
+
+    public AssaultPartyStub(int portNumber) {
+        this.portNumber = portNumber;
+        this.hostName = "localhost";
+    }
+
+    public AssaultPartyStub(String hostName, int portNumber) {
+        this.hostName = hostName;
+        this.portNumber = portNumber;
+    }
+
     /**
      * Called by the Master Thief to send the Assault Party to the museum
      * After that call, Assault Party can start crawling
      */
-    public void sendAssaultParty();
+    public void sendAssaultParty() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SEND_ASSAULT_PARTY, ((MasterThief) Thread.currentThread()).getMasterThiefState());
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SEND_ASSAULT_PARTY_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getMasterThiefState() != MasterThief.DECIDING_WHAT_TO_DO) {
+            System.out.println("Invalid Master Thief state!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        ((MasterThief) Thread.currentThread()).setState(inMessage.getMasterThiefState());
+    }
 
     /**
      * Called by the Ordinary Thief to crawl in
      * @return false if they have finished the crawling
      */
-    public boolean crawlIn();
+    public boolean crawlIn() {
+
+    }
 
     /**
      * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
