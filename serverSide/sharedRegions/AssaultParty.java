@@ -18,7 +18,7 @@ public class AssaultParty {
     /**
      * Queue with the identifications of the thieves in the party
      */
-    private final List<ServerProxyAgent> thieves;
+    private final List<Integer> thieves;
 
     /**
      * Identification number of the Assault Party
@@ -136,8 +136,8 @@ public class AssaultParty {
                                                         thiefCanvas.get(thief.getOrdinaryThiefID()) ? 1 : 0);
                 updateLineIn();
             } else {
-                ServerProxyAgent nextThief = getNextInLine(situation);
-                nextThiefToCrawl = nextThief.getOrdinaryThiefID();
+                int nextThief = getNextInLine(situation);
+                nextThiefToCrawl = nextThief;
                 notifyAll();
                 while (nextThiefToCrawl != thief.getOrdinaryThiefID()) {
                     try {
@@ -148,8 +148,8 @@ public class AssaultParty {
                 }
             }
         } while (thiefPositions.get(thief.getOrdinaryThiefID()) < roomDistance);
-        ServerProxyAgent nextThief = getNextInLine(whereAmI(thief));
-        nextThiefToCrawl = nextThief.getOrdinaryThiefID();
+        int nextThief = getNextInLine(whereAmI(thief));
+        nextThiefToCrawl = nextThief;
         notifyAll();
         return false;
     }
@@ -205,8 +205,8 @@ public class AssaultParty {
                 // System.out.println("currentThief: " + thief.getID() + "; position=" + thiefPositions.get(thief.getID()) + "; MD=" + thief.getMaxDisplacement() + "; situation=" + situation);
             } else {
                 updateLineOut();
-                ServerProxyAgent nextThief = getNextInLine(situation);
-                nextThiefToCrawl = nextThief.getOrdinaryThiefID();
+                int nextThief = getNextInLine(situation);
+                nextThiefToCrawl = nextThief;
                 notifyAll();
                 while (thief.getOrdinaryThiefID() != nextThiefToCrawl) {
                     try {
@@ -217,8 +217,8 @@ public class AssaultParty {
                 }
             }
         } while (thiefPositions.get(thief.getOrdinaryThiefID()) > 0);
-        ServerProxyAgent nextThief = getNextInLine(whereAmI(thief));
-        nextThiefToCrawl = nextThief.getOrdinaryThiefID();
+        int nextThief = getNextInLine(whereAmI(thief));
+        nextThiefToCrawl = nextThief;
         notifyAll();
         return false;
     }
@@ -276,7 +276,7 @@ public class AssaultParty {
         this.inOperation = false;
         this.thievesReadyToReverse = 0;
         for (ServerProxyAgent thief: thieves) {
-            this.thieves.add(thief);
+            this.thieves.add(thief.getOrdinaryThiefID());
             thiefPositions.put(thief.getOrdinaryThiefID(), 0);
             thiefCanvas.put(thief.getOrdinaryThiefID(), false);
             generalRepository.setAssaultPartyMember(id, thief.getOrdinaryThiefID(), thiefPositions.get(thief.getOrdinaryThiefID()),
@@ -290,7 +290,7 @@ public class AssaultParty {
      * @return true if they are part of the Assault Party, false otherwise.
      */
     public boolean isMember(ServerProxyAgent thief) {
-        return thieves.contains(thief);
+        return thieves.contains(thief.getOrdinaryThiefID());
     }
 
     /**
@@ -298,8 +298,8 @@ public class AssaultParty {
      * @param thief the Ordinary Thief.
      */
     public void removeMember(ServerProxyAgent thief) {
-        if (this.thieves.contains(thief)) {
-            this.thieves.remove(thief);
+        if (this.thieves.contains(thief.getOrdinaryThiefID())) {
+            this.thieves.remove(thief.getOrdinaryThiefID());
             generalRepository.removeAssaultPartyMember(this.id, thief.getOrdinaryThiefID());
         }
     }
@@ -334,13 +334,13 @@ public class AssaultParty {
      * Updates the order of the line when crawling in
      */
     private void updateLineOut() {
-        this.thieves.sort(new Comparator<ServerProxyAgent>() {
+        this.thieves.sort(new Comparator<Integer>() {
             @Override
-            public int compare(ServerProxyAgent t1, ServerProxyAgent t2) {
-                if (thiefPositions.get(t1.getOrdinaryThiefID()) > thiefPositions.get(t2.getOrdinaryThiefID())) {
+            public int compare(Integer t1, Integer t2) {
+                if (thiefPositions.get(t1) > thiefPositions.get(t2)) {
                     return 1;
                 }
-                if (thiefPositions.get(t1.getOrdinaryThiefID()) < thiefPositions.get(t2.getOrdinaryThiefID())) {
+                if (thiefPositions.get(t1) < thiefPositions.get(t2)) {
                     return -1;
                 }
                 return 0;
@@ -352,13 +352,13 @@ public class AssaultParty {
      * Updates the order of the line when crawling out
      */
     private void updateLineIn() {
-        this.thieves.sort(new Comparator<ServerProxyAgent>() {
+        this.thieves.sort(new Comparator<Integer>() {
             @Override
-            public int compare(ServerProxyAgent t1, ServerProxyAgent t2) {
-                if (thiefPositions.get(t1.getOrdinaryThiefID()) > thiefPositions.get(t2.getOrdinaryThiefID())) {
+            public int compare(Integer t1, Integer t2) {
+                if (thiefPositions.get(t1) > thiefPositions.get(t2)) {
                     return -1;
                 }
-                if (thiefPositions.get(t1.getOrdinaryThiefID()) < thiefPositions.get(t2.getOrdinaryThiefID())) {
+                if (thiefPositions.get(t1) < thiefPositions.get(t2)) {
                     return 1;
                 }
                 return 0;
@@ -372,8 +372,8 @@ public class AssaultParty {
      * @return the maximum possible movement
      */
     private int crawlFront(ServerProxyAgent thief) {
-        ServerProxyAgent nextThief = getNextInLine(Situation.FRONT);
-        int thiefSeparation = Math.abs(thiefPositions.get(thief.getOrdinaryThiefID()) - thiefPositions.get(nextThief.getOrdinaryThiefID()));
+        int nextThief = getNextInLine(Situation.FRONT);
+        int thiefSeparation = Math.abs(thiefPositions.get(thief.getOrdinaryThiefID()) - thiefPositions.get(nextThief));
         if (thiefSeparation > Constants.MAX_THIEF_SEPARATION) {
             return 0;
         }
@@ -387,12 +387,12 @@ public class AssaultParty {
      * @return the maximum possible movement
      */
     private int crawlMid(ServerProxyAgent thief, boolean in, int goalPosition) {
-        ServerProxyAgent frontThief = getPreviousInLine(Situation.MID);
-        ServerProxyAgent backThief = getNextInLine(Situation.MID);
+        int frontThief = getPreviousInLine(Situation.MID);
+        int backThief = getNextInLine(Situation.MID);
         int nextPosition;
         int position = thiefPositions.get(thief.getOrdinaryThiefID());
-        int frontPosition = thiefPositions.get(frontThief.getOrdinaryThiefID());
-        int backPosition = thiefPositions.get(backThief.getOrdinaryThiefID());
+        int frontPosition = thiefPositions.get(frontThief);
+        int backPosition = thiefPositions.get(backThief);
         for (int displacement = thief.getOrdinaryThiefMaxDisplacement(); displacement > 0; displacement--) {
             if (in) {
                 nextPosition = position + displacement;
@@ -420,10 +420,10 @@ public class AssaultParty {
      * @return the maximum possible movement
      */
     private int crawlBack(ServerProxyAgent thief, boolean in, int goalPosition) {
-        ServerProxyAgent frontThief = getNextInLine(Situation.BACK);
-        int movement, nextPosition, frontThiefPosition = thiefPositions.get(frontThief.getOrdinaryThiefID()), position = thiefPositions.get(thief.getOrdinaryThiefID());
-        if (thiefPositions.get(frontThief.getOrdinaryThiefID()) != goalPosition) {
-            ServerProxyAgent midThief = getPreviousInLine(Situation.BACK);
+        int frontThief = getNextInLine(Situation.BACK);
+        int movement, nextPosition, frontThiefPosition = thiefPositions.get(frontThief), position = thiefPositions.get(thief.getOrdinaryThiefID());
+        if (thiefPositions.get(frontThief) != goalPosition) {
+            int midThief = getPreviousInLine(Situation.BACK);
             for (int displacement = thief.getOrdinaryThiefMaxDisplacement(); displacement > 0; displacement--) {
                 movement = Math.min(displacement, Constants.MAX_THIEF_SEPARATION + Math.abs(frontThiefPosition - position));
                 if (in) {
@@ -431,8 +431,8 @@ public class AssaultParty {
                 } else {
                     nextPosition = position - movement;
                 }
-                if (nextPosition != thiefPositions.get(frontThief.getOrdinaryThiefID()) && 
-                        (nextPosition != thiefPositions.get(midThief.getOrdinaryThiefID()) || nextPosition == goalPosition)) {
+                if (nextPosition != thiefPositions.get(frontThief) && 
+                        (nextPosition != thiefPositions.get(midThief) || nextPosition == goalPosition)) {
                     return movement;
                 }
             }
@@ -457,7 +457,7 @@ public class AssaultParty {
      * @param situation the situation of the current Ordinary Thief
      * @return the next Ordinary Thief
      */
-    private ServerProxyAgent getPreviousInLine(Situation situation) {
+    private int getPreviousInLine(Situation situation) {
         switch (situation) {
             case FRONT:
             return this.thieves.get(this.thieves.size() - 1);
@@ -469,7 +469,7 @@ public class AssaultParty {
             }
             return this.thieves.get(1);
             default:
-            return null;
+            return -1;
         }
     }
 
@@ -478,7 +478,7 @@ public class AssaultParty {
      * @param situation the situation of the current Ordinary Thief
      * @return the next Ordinary Thief
      */
-    private ServerProxyAgent getNextInLine(Situation situation) {
+    private int getNextInLine(Situation situation) {
         switch (situation) {
             case FRONT:
             if (this.thieves.size() == 1) {
@@ -490,7 +490,7 @@ public class AssaultParty {
             case BACK:
             return this.thieves.get(0);
             default:
-            return null;
+            return -1;
         }
     }
 
