@@ -11,8 +11,8 @@ import commInfra.MessageType;
  * Concentration Site where ordinary thieves wait for orders.
  */
 public class ConcentrationSiteStub {
-    private String hostName;
-    private int portNumber;
+    private final String hostName;
+    private final int portNumber;
 
     public ConcentrationSiteStub(int portNumber) {
         this.portNumber = portNumber;

@@ -11,8 +11,8 @@ import commInfra.MessageType;
  * Collection Site where Master Thief plans and paintings are stored
  */
 public class CollectionSiteStub {
-    private String hostName;
-    private int portNumber;
+    private final String hostName;
+    private final int portNumber;
 
     public CollectionSiteStub(int portNumber) {
         this.portNumber = portNumber;

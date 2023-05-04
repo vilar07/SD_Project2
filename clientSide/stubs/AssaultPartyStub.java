@@ -14,11 +14,11 @@ import commInfra.MessageType;
  *    Communication is based on a communication channel under the TCP protocol.
  */
 public class AssaultPartyStub {
-    private String hostName;
+    private final String hostName;
 
-    private int portNumber;
+    private final int portNumber;
 
-    private int id;
+    private final int id;
 
     public AssaultPartyStub(int id, int portNumber) {
         this.id = id;

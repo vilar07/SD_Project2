@@ -6,11 +6,11 @@ import commInfra.Message;
 import commInfra.MessageType;
 
 /**
- * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
+ * The Museum has rooms inside it. That rooms have paintings that can be stolen by the Ordinary Thieves of the Assault Party
  */
 public class MuseumStub {
-    private String hostName;
-    private int portNumber;
+    private final String hostName;
+    private final int portNumber;
 
     public MuseumStub(int portNumber) {
         this.portNumber = portNumber;
