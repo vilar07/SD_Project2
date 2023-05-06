@@ -94,7 +94,7 @@ public class AssaultParty {
         while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
             try {
                 this.wait();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
 
             }
         }
@@ -275,7 +275,6 @@ public class AssaultParty {
     /**
      * Sets the members of the Assault Party
      * @param thieves array with the Ordinary Thieves' identifications
-     * @param generalRepository the General Repository
      */
     public void setMembers(int[] thieves) {
         this.thieves.clear();
