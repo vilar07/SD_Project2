@@ -132,10 +132,8 @@ public class ConcentrationSite {
     public int prepareExcursion() {
         ConcentrationSiteProxyAgent ordinaryThief = (ConcentrationSiteProxyAgent) Thread.currentThread();
         AssaultPartyStub assaultParty = assaultParties[getAssaultParty(ordinaryThief)];
-        System.out.println(assaultParty.getID());
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
-                System.out.println(assaultParty.isInOperation());
                 try {
                     // Wait for up to 1 second for the isInOperation flag to be set
                     assaultParty.wait(1000);
@@ -145,11 +143,9 @@ public class ConcentrationSite {
                 }
             }
         }
-        System.out.println("HERE");
-        System.out.println(assaultParty.isInOperation());
         return assaultParty.getID();
     }
-    
+
         public synchronized void shutdown () {
         ConcentrationSiteMain.waitConnection = false;
     }
