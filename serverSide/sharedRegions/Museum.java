@@ -1,6 +1,9 @@
 package serverSide.sharedRegions;
 
-import serverSide.entities.ServerProxyAgent;
+import clientSide.stubs.AssaultPartyStub;
+import clientSide.stubs.GeneralRepositoryStub;
+import serverSide.entities.MuseumProxyAgent;
+import utils.Constants;
 import utils.Room;
 
 /**
@@ -16,22 +19,25 @@ public class Museum {
     /**
      * The General Repository where logging occurs.
      */
-    private final GeneralRepository generalRepository;
+    private final GeneralRepositoryStub generalRepository;
 
     /**
      * The Assault Parties shared region.
      */
-    private final AssaultParty[] assaultParties;
+    private final AssaultPartyStub[] assaultParties;
 
     /**
      * Museum constructor, initializes rooms.
      * @param generalRepository the General Repository.
      */
-    public Museum(GeneralRepository generalRepository, AssaultParty[] assaultParties, Room[] rooms) {
+    public Museum(GeneralRepositoryStub generalRepository, AssaultPartyStub[] assaultParties, int[] paintings, int[] distances) {
         this.generalRepository = generalRepository;
         this.assaultParties = assaultParties;
-        this.rooms = rooms;
-        generalRepository.setInitialRoomStates(this.rooms);
+        this.rooms = new Room[Constants.NUM_ROOMS];
+        for (int i = 0; i < this.rooms.length; i++) {
+            this.rooms[i] = new Room(i, distances[i], paintings[i]);
+        }
+        generalRepository.setInitialRoomStates(paintings, distances);
     }
 
     /**
@@ -40,26 +46,30 @@ public class Museum {
      * @return true if the thief rolls a canvas, false if the room was already empty.
      */
     public void rollACanvas(int party) {
-        ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
-        thief.setOrdinaryThiefState(ServerProxyAgent.AT_A_ROOM);
+        MuseumProxyAgent thief = (MuseumProxyAgent) Thread.currentThread();
+        thief.setOrdinaryThiefState(MuseumProxyAgent.AT_A_ROOM);
         generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         boolean res = false;
-        Room room = assaultParties[party].getRoom();
+        int room = assaultParties[party].getRoom();
         synchronized (this) {
-            res = room.rollACanvas();
+            res = rooms[room].rollACanvas();
             if (res) {
                 assaultParties[party].setBusyHands(thief.getOrdinaryThiefID(), res);
-                generalRepository.setRoomState(room.getID(), room.getPaintings());
+                generalRepository.setRoomState(room, rooms[room].getPaintings());
             }
         }
     }
 
     /**
-     * Getter for a specific room of the Museum.
+     * Getter for the distance to a specific room of the Museum.
      * @param id the room identification.
      * @return the room.
      */
-    public Room getRoom(int id) {
-        return rooms[id];
+    public int getRoomDistance(int id) {
+        return rooms[id].getDistance();
+    }
+
+    public int getRoomPaintings(int id) {
+        return rooms[id].getPaintings();
     }
 }

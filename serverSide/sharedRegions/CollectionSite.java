@@ -2,10 +2,14 @@ package serverSide.sharedRegions;
 
 import java.util.*;
 
-import serverSide.entities.ServerProxyAgent;
-import serverSide.main.HeistToTheMuseum;
+import clientSide.entities.MasterThief;
+import clientSide.entities.OrdinaryThief;
+import clientSide.stubs.AssaultPartyStub;
+import clientSide.stubs.GeneralRepositoryStub;
+import clientSide.stubs.MuseumStub;
+import serverSide.entities.CollectionSiteProxyAgent;
+import serverSide.main.GeneralRepositoryMain;
 import utils.Constants;
-import utils.Room;
 
 /**
  * Collection Site where intelligence and paintings are stored.
@@ -29,22 +33,22 @@ public class CollectionSite {
     /**
      * FIFOs of the arriving Ordinary Thieves (one for each Assault Party).
      */
-    private final List<Deque<ServerProxyAgent>> arrivingThieves;
+    private final List<Deque<CollectionSiteProxyAgent>> arrivingThieves;
 
     /**
      * The General Repository where logging occurs.
      */
-    private final GeneralRepository generalRepository;
+    private final GeneralRepositoryStub generalRepository;
 
     /**
      * The array holding the Assault Parties shared regions.
      */
-    private final AssaultParty[] assaultParties;
+    private final AssaultPartyStub[] assaultParties;
 
     /** 
      * The Museum shared region.
      */
-    private final Museum museum;
+    private final MuseumStub museum;
 
     /**
      * Collection Site constructor.
@@ -52,7 +56,7 @@ public class CollectionSite {
      * @param assaultParties the Assault Parties.
      * @param museum the Museum.
      */
-    public CollectionSite(GeneralRepository generalRepository, AssaultParty[] assaultParties, Museum museum) {
+    public CollectionSite(GeneralRepositoryStub generalRepository, AssaultPartyStub[] assaultParties, MuseumStub museum) {
         this.generalRepository = generalRepository;
         this.assaultParties = assaultParties;
         this.museum = museum;
@@ -79,8 +83,8 @@ public class CollectionSite {
     * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
     */
     public void startOperations() {
-        ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
-        generalRepository.setMasterThiefState(((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
+        ((CollectionSiteProxyAgent) Thread.currentThread()).setMasterThiefState(MasterThief.DECIDING_WHAT_TO_DO);
+        generalRepository.setMasterThiefState(((CollectionSiteProxyAgent) Thread.currentThread()).getMasterThiefState());
     }
 
     /**
@@ -98,13 +102,15 @@ public class CollectionSite {
             }
         }
         List<Integer> assaultPartyRooms = new ArrayList<>();
-        Room room;
-        for (AssaultParty assaultPartyInterface: assaultParties) {
+        int room;
+        for (AssaultPartyStub assaultPartyInterface: assaultParties) {
             room = assaultPartyInterface.getRoom();
-            if (room != null) {
-                assaultPartyRooms.add(room.getID());
+            if (room != -1) {
+                assaultPartyRooms.add(room);
             }
         }
+        System.out.println("empty=" + empty);
+        System.out.println("availableParties.size()=" + availableParties.size());
         if (empty && this.availableParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
@@ -112,6 +118,7 @@ public class CollectionSite {
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'R';
         }
+        System.out.println("here");
         if (!empty) {
             return 'P';
         }
@@ -122,8 +129,8 @@ public class CollectionSite {
      * Master Thief waits while there are still Assault Parties in operation
      */
     public synchronized void takeARest() {
-        ServerProxyAgent masterThief = (ServerProxyAgent) Thread.currentThread();
-        masterThief.setMasterThiefState(ServerProxyAgent.WAITING_FOR_ARRIVAL);
+        CollectionSiteProxyAgent masterThief = (CollectionSiteProxyAgent) Thread.currentThread();
+        masterThief.setMasterThiefState(MasterThief.WAITING_FOR_ARRIVAL);
         generalRepository.setMasterThiefState(masterThief.getMasterThiefState());
         while (this.arrivingThieves.get(0).isEmpty() && this.arrivingThieves.get(1).isEmpty()) {
             try {
@@ -138,18 +145,18 @@ public class CollectionSite {
      * Called by the Master Thief to collect all available canvas
      */
     public synchronized void collectACanvas() {
-        ServerProxyAgent masterThief = (ServerProxyAgent) Thread.currentThread();
+        CollectionSiteProxyAgent masterThief = (CollectionSiteProxyAgent) Thread.currentThread();
         for (int i = 0; i < arrivingThieves.size(); i++) {
-            for (ServerProxyAgent arrivingThief: arrivingThieves.get(i)) {
+            for (CollectionSiteProxyAgent arrivingThief: arrivingThieves.get(i)) {
                 if (assaultParties[i].hasBusyHands(arrivingThief.getOrdinaryThiefID())) {
                     paintings++;
                     assaultParties[i].setBusyHands(arrivingThief.getOrdinaryThiefID(), false);
                 } else {
-                    setEmptyRoom(assaultParties[i].getRoom().getID(), true);
+                    setEmptyRoom(assaultParties[i].getRoom(), true);
                 }
                 arrivingThieves.get(i).remove(arrivingThief); 
                 synchronized (assaultParties[i]) {
-                    assaultParties[i].removeMember(arrivingThief);
+                    assaultParties[i].removeMember(arrivingThief.getOrdinaryThiefID());
                     if (assaultParties[i].isEmpty()) {
                         assaultParties[i].setInOperation(false);
                         generalRepository.disbandAssaultParty(i);
@@ -161,7 +168,7 @@ public class CollectionSite {
             }
         }
         notifyAll();
-        masterThief.setMasterThiefState(ServerProxyAgent.DECIDING_WHAT_TO_DO);
+        masterThief.setMasterThiefState(MasterThief.DECIDING_WHAT_TO_DO);
         generalRepository.setMasterThiefState(masterThief.getMasterThiefState());
     }
 
@@ -171,8 +178,8 @@ public class CollectionSite {
      * @param party the identification of the Assault Party the thief belongs to.
      */
     public synchronized void handACanvas(int party) {
-        ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
-        thief.setOrdinaryThiefState(ServerProxyAgent.COLLECTION_SITE);
+        CollectionSiteProxyAgent thief = (CollectionSiteProxyAgent) Thread.currentThread();
+        thief.setOrdinaryThiefState(OrdinaryThief.COLLECTION_SITE);
         generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         this.arrivingThieves.get(party).add(thief);
         notifyAll();
@@ -197,13 +204,21 @@ public class CollectionSite {
      * Returns the next empty room. Uses the perception of the Master Thief, not the Museum information.
      * @return the room.
      */
-    public Room getNextRoom() {
+    public int getNextRoom() {
         for (int i = 0; i < emptyRooms.length; i++) {
             if (!emptyRooms[i]) {
-                return museum.getRoom(i);
+                return i;
             }
         }
-        return null;
+        return -1;
+    }
+
+    public int getRoomDistance(int room) {
+        return museum.getRoomDistance(room);
+    }
+
+    public int getRoomPaintings(int room) {
+        return museum.getRoomPaintings(room);
     }
 
     /**
@@ -216,6 +231,6 @@ public class CollectionSite {
     }
 
     public synchronized void shutdown () {
-        HeistToTheMuseum.waitConnection = false;
+        GeneralRepositoryMain.waitConnection = false;
     }
 }

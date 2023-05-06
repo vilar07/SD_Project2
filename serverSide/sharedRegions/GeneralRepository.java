@@ -1,12 +1,12 @@
 package serverSide.sharedRegions;
 
-import serverSide.entities.ServerProxyAgent;
+import clientSide.entities.MasterThief;
+import clientSide.entities.OrdinaryThief;
 import utils.AssaultPartyElemLogging;
 import utils.AssaultPartyLogging;
 import utils.Constants;
 import utils.Logger;
 import utils.OrdinaryThiefLogging;
-import utils.Room;
 import utils.RoomLogging;
 
 /**
@@ -125,19 +125,19 @@ public class GeneralRepository {
      */
     public void setMasterThiefState(int state) {
         switch (state) {
-            case ServerProxyAgent.PLANNING_THE_HEIST:
+            case MasterThief.PLANNING_THE_HEIST:
             masterThiefState = "PLAN";
             break;
-            case ServerProxyAgent.DECIDING_WHAT_TO_DO:
+            case MasterThief.DECIDING_WHAT_TO_DO:
             masterThiefState = "DECI";
             break;
-            case ServerProxyAgent.ASSEMBLING_A_GROUP:
+            case MasterThief.ASSEMBLING_A_GROUP:
             masterThiefState = "AGRP";
             break;
-            case ServerProxyAgent.WAITING_FOR_ARRIVAL:
+            case MasterThief.WAITING_FOR_ARRIVAL:
             masterThiefState = "WAIT";
             break;
-            case ServerProxyAgent.PRESENTING_THE_REPORT:
+            case MasterThief.PRESENTING_THE_REPORT:
             masterThiefState = "PRES";
             break;
             default:
@@ -155,34 +155,25 @@ public class GeneralRepository {
      */
     public void setOrdinaryThiefState(int id, int state, char situation, int maxDisplacement) {
         switch (state) {
-            case ServerProxyAgent.CONCENTRATION_SITE:
+            case OrdinaryThief.CONCENTRATION_SITE:
             ordinaryThieves[id].setState("CONC");
             break;
-            case ServerProxyAgent.COLLECTION_SITE:
+            case OrdinaryThief.COLLECTION_SITE:
             ordinaryThieves[id].setState("COLL");
             break;
-            case ServerProxyAgent.CRAWLING_INWARDS:
+            case OrdinaryThief.CRAWLING_INWARDS:
             ordinaryThieves[id].setState("CRIN");
             break;
-            case ServerProxyAgent.AT_A_ROOM:
+            case OrdinaryThief.AT_A_ROOM:
             ordinaryThieves[id].setState("ROOM");
             break;
-            case ServerProxyAgent.CRAWLING_OUTWARDS:
+            case OrdinaryThief.CRAWLING_OUTWARDS:
             ordinaryThieves[id].setState("COUT");
             break;
         }
         ordinaryThieves[id].setSituation(situation);
         ordinaryThieves[id].setMaxDisplacement((char) (maxDisplacement + '0'));
         printState();
-    }
-
-    /**
-     * Sets the Ordinary Thief state.
-     * @param id the identification of the thief.
-     * @param state the state code to change to.
-     */
-    public void setOrdinaryThiefState(int id, int state) {
-        setOrdinaryThiefState(id, state, ordinaryThieves[id].getSituation(), ordinaryThieves[id].getMaxDisplacement());
     }
 
     /**
@@ -280,10 +271,10 @@ public class GeneralRepository {
      * Sets the initial room states.
      * @param rooms an array with the rooms.
      */
-    public void setInitialRoomStates(Room[] rooms) {
+    public void setInitialRoomStates(int[] paintings, int[] distances) {
         for (int i = 0; i < this.rooms.length; i++) {
-            this.rooms[i].setDistance(rooms[i].getDistance());
-            this.rooms[i].setPaintings(rooms[i].getPaintings());
+            this.rooms[i].setDistance(distances[i]);
+            this.rooms[i].setPaintings(paintings[i]);
         }
         printState();
     }

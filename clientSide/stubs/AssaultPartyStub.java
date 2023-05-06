@@ -5,6 +5,7 @@ import clientSide.entities.OrdinaryThief;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;
+import utils.Constants;
 
 /**
  *  Stub to the Assault Party.
@@ -30,6 +31,10 @@ public class AssaultPartyStub {
         this.id = id;
         this.hostName = hostName;
         this.portNumber = portNumber;
+    }
+
+    public int getID() {
+        return this.id;
     }
 
     /**
@@ -176,5 +181,224 @@ public class AssaultPartyStub {
         com.close();
         ((OrdinaryThief) Thread.currentThread()).setState(inMessage.getOrdinaryThiefState());
         return false;
+    }
+ 
+    /**
+     * Getter for the room destination
+     * @return the room
+     */
+    public int getRoom() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_ROOM);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_ROOM_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getRoom() < -1 || inMessage.getRoom() > Constants.NUM_ROOMS) {
+            System.out.println("Invalid room xd!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getRoom();
+    }
+
+    public void setBusyHands(int ordinaryThiefID, boolean res) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SET_BUSY_HANDS, ordinaryThiefID, res);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SET_BUSY_HANDS_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
+    public boolean hasBusyHands(int ordinaryThief) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.HAS_BUSY_HANDS, ordinaryThief);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.HAS_BUSY_HANDS_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getOrdinaryThiefCanvas() < 0 || inMessage.getOrdinaryThiefCanvas() > 1) {
+            System.out.println("Invalid Ordinary Thief number of canvas!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getOrdinaryThiefCanvas() == 1;
+    }
+
+    public void removeMember(int ordinaryThief) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.REMOVE_MEMBER, ordinaryThief);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.REMOVE_MEMBER_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
+    public boolean isEmpty() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.IS_ASSAULT_PARTY_EMPTY);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.IS_ASSAULT_PARTY_EMPTY_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.isAssaultPartyEmpty();
+    }
+
+    public void setInOperation(boolean inOperation) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SET_IN_OPERATION, inOperation);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SET_IN_OPERATION_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
+    public void setMembers(int[] ordinaryThieves) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SET_MEMBERS, ordinaryThieves);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SET_MEMBERS_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
+    public boolean isInOperation() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.IS_ASSAULT_PARTY_IN_OPERATION);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.IS_ASSAULT_PARTY_IN_OPERATION_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.isAssaultPartyInOperation();
+    }
+
+    public boolean isMember(int ordinaryThief) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.IS_MEMBER, ordinaryThief);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.IS_MEMBER_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.isMember();
+    }
+
+    public void setRoom(int room, int roomDistance, int roomPaintings) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SET_ROOM, room, roomPaintings, roomDistance);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SET_ROOM_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
     }
 }

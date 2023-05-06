@@ -81,6 +81,7 @@ public class CollectionSiteStub {
             System.exit(1);
         }
         com.close();
+        System.out.println(inMessage.getOperation());
         return inMessage.getOperation();
     }
 
@@ -237,5 +238,109 @@ public class CollectionSiteStub {
             System.exit(1);
         }
         com.close();
+    }
+
+    public int getNextRoom() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_NEXT_ROOM);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_NEXT_ROOM_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getRoom() < -1 || inMessage.getRoom() > Constants.NUM_ROOMS) {
+            System.out.println("Invalid room!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getRoom();
+    }
+
+    public int getRoomPaintings(int room) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_ROOM_PAINTINGS_COLLECTION_SITE, room);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_ROOM_PAINTINGS_COLLECTION_SITE_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getPaintings() > Constants.MAX_PAINTINGS) {
+            System.out.println("Invalid number of paintings!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getPaintings();
+    }
+
+    public int getRoomDistance(int room) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_ROOM_DISTANCE_COLLECTION_SITE, room);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_ROOM_DISTANCE_COLLECTION_SITE_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getDistance() < Constants.MIN_ROOM_DISTANCE || inMessage.getDistance() > Constants.MAX_ROOM_DISTANCE) {
+            System.out.println("Invalid room distance!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getDistance();
+    }
+
+    public int getPaintings() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_TOTAL_PAINTINGS);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_TOTAL_PAINTINGS_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getPaintings() < 0) {
+            System.out.println("Invalid total paintings!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getPaintings();
     }
 }

@@ -4,6 +4,7 @@ import clientSide.entities.OrdinaryThief;
 import commInfra.ClientCom;
 import commInfra.Message;
 import commInfra.MessageType;
+import utils.Constants;
 
 /**
  * The Museum has rooms inside it. That rooms have paintings that can be stolen by the Ordinary Thieves of the Assault Party
@@ -64,5 +65,57 @@ public class MuseumStub {
         }
         com.close();
         ((OrdinaryThief) Thread.currentThread()).setState(inMessage.getOrdinaryThiefState());
+    }
+
+    public int getRoomDistance(int room) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_ROOM_DISTANCE_MUSEUM, room);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_ROOM_DISTANCE_MUSEUM_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getDistance() < Constants.MIN_ROOM_DISTANCE || inMessage.getDistance() > Constants.MAX_ROOM_DISTANCE) {
+            System.out.println("Invalid room distance!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getDistance();
+    }
+
+    public int getRoomPaintings(int room) {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 10);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.GET_ROOM_PAINTINGS_MUSEUM, room);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.GET_ROOM_PAINTINGS_MUSEUM_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        if (inMessage.getDistance() > Constants.MAX_PAINTINGS) {
+            System.out.println("Invalid number of paintings!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+        return inMessage.getPaintings();
     }
 }

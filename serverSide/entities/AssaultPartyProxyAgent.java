@@ -3,11 +3,11 @@ package serverSide.entities;
 import commInfra.Message;
 import commInfra.MessageException;
 import commInfra.ServerCom;
+import serverSide.interfaces.AssaultPartyInterface;
 import serverSide.interfaces.MasterThiefClone;
 import serverSide.interfaces.OrdinaryThiefClone;
-import serverSide.interfaces.SharedRegionInterface;
 
-public class ServerProxyAgent extends Thread implements MasterThiefClone, OrdinaryThiefClone {
+public class AssaultPartyProxyAgent extends Thread implements MasterThiefClone, OrdinaryThiefClone {
      /**
     *  Communication channel.
     */
@@ -21,11 +21,11 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
 
     private int ordinaryThiefMaxDisplacement;
 
-    private final SharedRegionInterface sharedRegionInterface;
+    private final AssaultPartyInterface assaultPartyInterface;
 
-    public ServerProxyAgent(ServerCom serverCom, SharedRegionInterface sharedRegionInterface) {
+    public AssaultPartyProxyAgent(ServerCom serverCom, AssaultPartyInterface assaultPartyInterface) {
         this.serverCom = serverCom;
-        this.sharedRegionInterface = sharedRegionInterface;
+        this.assaultPartyInterface = assaultPartyInterface;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ServerProxyAgent extends Thread implements MasterThiefClone, Ordina
         Message inMessage = null, outMessage = null;
         inMessage = (Message) serverCom.readObject();
         try {
-            outMessage = sharedRegionInterface.processAndReply(inMessage);
+            outMessage = assaultPartyInterface.processAndReply(inMessage);
         } catch (MessageException e) {
             System.out.println("Thread " + getName() + ": " + e.getMessage() + "!");
             System.out.println(e.getMessageVal().toString());

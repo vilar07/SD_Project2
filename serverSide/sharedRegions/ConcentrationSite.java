@@ -3,7 +3,12 @@ package serverSide.sharedRegions;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import serverSide.entities.ServerProxyAgent;
+import clientSide.entities.MasterThief;
+import clientSide.entities.OrdinaryThief;
+import clientSide.stubs.AssaultPartyStub;
+import clientSide.stubs.CollectionSiteStub;
+import clientSide.stubs.GeneralRepositoryStub;
+import serverSide.entities.ConcentrationSiteProxyAgent;
 import utils.Constants;
 
 /**
@@ -13,7 +18,7 @@ public class ConcentrationSite {
     /**
      * FIFO with the thieves waiting for instructions.
      */
-    private final Deque<ServerProxyAgent> thieves;
+    private final Deque<ConcentrationSiteProxyAgent> thieves;
 
     /**
      * Boolean variable that is false until the Master Thief announces the end of the heist.
@@ -23,17 +28,17 @@ public class ConcentrationSite {
     /**
      * The General Repository where logging occurs.
      */
-    private final GeneralRepository generalRepository;
+    private final GeneralRepositoryStub generalRepository;
 
     /**
      * The Assault Party shared regions.
      */
-    private final AssaultParty[] assaultParties;
+    private final AssaultPartyStub[] assaultParties;
 
     /**
      * The Collection Site shared region.
      */
-    private final CollectionSite collectionSite;
+    private final CollectionSiteStub collectionSite;
 
     /**
      * Public constructor for the Concentration Site shared region.
@@ -41,7 +46,7 @@ public class ConcentrationSite {
      * @param assaultParties the Assault Parties.
      * @param collectionSite the Collection Site.
      */
-    public ConcentrationSite(GeneralRepository generalRepository, AssaultParty[] assaultParties, CollectionSite collectionSite) {
+    public ConcentrationSite(GeneralRepositoryStub generalRepository, AssaultPartyStub[] assaultParties, CollectionSiteStub collectionSite) {
         this.generalRepository = generalRepository;
         this.assaultParties = assaultParties;
         this.collectionSite = collectionSite;
@@ -56,8 +61,8 @@ public class ConcentrationSite {
      * @param assaultParty the Assault Party identification
      */
     public void prepareAssaultParty(int assaultParty) {
-        ServerProxyAgent master = (ServerProxyAgent) Thread.currentThread();
-        master.setMasterThiefState(ServerProxyAgent.ASSEMBLING_A_GROUP);
+        ConcentrationSiteProxyAgent master = (ConcentrationSiteProxyAgent) Thread.currentThread();
+        master.setMasterThiefState(MasterThief.ASSEMBLING_A_GROUP);
         generalRepository.setMasterThiefState(master.getMasterThiefState());
         synchronized (this) {
             while (thieves.size() < Constants.ASSAULT_PARTY_SIZE) {
@@ -68,10 +73,11 @@ public class ConcentrationSite {
                 }
             } 
         }
-        assaultParties[assaultParty].setRoom(this.collectionSite.getNextRoom());
-        ServerProxyAgent[] ordinaryThieves = new ServerProxyAgent[Constants.ASSAULT_PARTY_SIZE];
+        int room = this.collectionSite.getNextRoom();
+        assaultParties[assaultParty].setRoom(room, this.collectionSite.getRoomDistance(room), this.collectionSite.getRoomPaintings(room));
+        int[] ordinaryThieves = new int[Constants.ASSAULT_PARTY_SIZE];
         for (int i = 0; i < ordinaryThieves.length; i++) {
-            ordinaryThieves[i] = this.thieves.poll();
+            ordinaryThieves[i] = this.thieves.poll().getOrdinaryThiefID();
         }
         assaultParties[assaultParty].setMembers(ordinaryThieves);
         synchronized (this) {
@@ -86,8 +92,8 @@ public class ConcentrationSite {
     public synchronized void sumUpResults() {
         finished = true;
         notifyAll();
-        ((ServerProxyAgent) Thread.currentThread()).setMasterThiefState(ServerProxyAgent.PRESENTING_THE_REPORT);
-        generalRepository.setMasterThiefState(((ServerProxyAgent) Thread.currentThread()).getMasterThiefState());
+        ((ConcentrationSiteProxyAgent) Thread.currentThread()).setMasterThiefState(MasterThief.PRESENTING_THE_REPORT);
+        generalRepository.setMasterThiefState(((ConcentrationSiteProxyAgent) Thread.currentThread()).getMasterThiefState());
         generalRepository.printTail(collectionSite.getPaintings());
     }
 
@@ -96,8 +102,8 @@ public class ConcentrationSite {
      * @return true if needed, false otherwise
      */
     public synchronized boolean amINeeded() {
-        ServerProxyAgent thief = (ServerProxyAgent) Thread.currentThread();
-        thief.setOrdinaryThiefState(ServerProxyAgent.CONCENTRATION_SITE);
+        ConcentrationSiteProxyAgent thief = (ConcentrationSiteProxyAgent) Thread.currentThread();
+        thief.setOrdinaryThiefState(OrdinaryThief.CONCENTRATION_SITE);
         thieves.add(thief);
         this.notifyAll();
         if (finished) {
@@ -122,8 +128,9 @@ public class ConcentrationSite {
      * @return the Assault Party identification 
      */
     public int prepareExcursion() {
-        ServerProxyAgent ordinaryThief = (ServerProxyAgent) Thread.currentThread();
-        AssaultParty assaultParty = assaultParties[getAssaultParty(ordinaryThief)];
+        ConcentrationSiteProxyAgent ordinaryThief = (ConcentrationSiteProxyAgent) Thread.currentThread();
+        AssaultPartyStub assaultParty = assaultParties[getAssaultParty(ordinaryThief)];
+        System.out.println("assaultParty@ConcentrationSite.prepareExcursion=" + assaultParty.getID());
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {
@@ -133,6 +140,7 @@ public class ConcentrationSite {
                 }
             }
         }
+        System.out.println("HERE");
         return assaultParty.getID();
     }
 
@@ -140,9 +148,9 @@ public class ConcentrationSite {
      * Returns the Assault Party the Ordinary Thief is a part of
      * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
      */
-    public int getAssaultParty(ServerProxyAgent thief) {
-        for (AssaultParty assaultParty: assaultParties) {
-            if (assaultParty.isMember(thief)) {
+    public int getAssaultParty(ConcentrationSiteProxyAgent thief) {
+        for (AssaultPartyStub assaultParty: assaultParties) {
+            if (assaultParty.isMember(thief.getOrdinaryThiefID())) {
                 return assaultParty.getID();
             }
         }
