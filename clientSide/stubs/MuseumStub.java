@@ -42,7 +42,6 @@ public class MuseumStub {
     /**
      * Roll a canvas.
      * @param id the room identification.
-     * @return true if the thief rolls a canvas, false if the room was already empty (there were no more paintings in the room).
      */
     public void rollACanvas(int id) {
         ClientCom com;

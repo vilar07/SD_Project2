@@ -1,1 +1,1 @@
-javadoc -d docs -sourcepath src $(find src -name "*.java")
+javadoc -d docs -sourcepath src $(find -name "*.java")
