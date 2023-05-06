@@ -7,4 +7,4 @@ sshpass -f password ssh sd107@l040101-ws02.ua.pt 'cd test/HeistToTheMuseum ; unz
 echo "Executing program at the server general repository."
 sshpass -f password ssh sd107@l040101-ws02.ua.pt 'cd test/HeistToTheMuseum/dirGeneralRepos ; java serverSide.main.GeneralRepositoryMain 22162'
 echo "Server shutdown."
-sshpass -f password ssh sd107@l040101-ws02.ua.pt 'cd test/HeistToTheMuseum/dirGeneralRepos ; less stat'
+sshpass -f password ssh sd107@l040101-ws02.ua.pt 'cd test/HeistToTheMuseum/dirGeneralRepos ; less heist.log'
