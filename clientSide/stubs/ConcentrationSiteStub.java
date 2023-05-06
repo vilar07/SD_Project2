@@ -11,14 +11,30 @@ import commInfra.MessageType;
  * Concentration Site where ordinary thieves wait for orders.
  */
 public class ConcentrationSiteStub {
+    /**
+     * Name of the machine where the Concentration Site resides.
+     */
     private final String hostName;
+
+    /**
+     * Port number where the Concentration Site is listening.
+     */
     private final int portNumber;
 
+    /**
+     * ConcentrationSiteStub constructor 1, hostName is localhost.
+     * @param portNumber the port number.
+     */
     public ConcentrationSiteStub(int portNumber) {
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
+    /**
+     * ConcentrationSiteStub constructor 2.
+     * @param hostName the host name.
+     * @param portNumber the port number.
+     */
     public ConcentrationSiteStub(String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
@@ -26,7 +42,7 @@ public class ConcentrationSiteStub {
 
     /**
      * Called by the master thief, when enough ordinary thieves are available and there is still a
-     * room with paintings.
+     * room with paintings
      * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault Party.
      * @param assaultParty the Assault Party identification.
      */
@@ -177,6 +193,9 @@ public class ConcentrationSiteStub {
         return inMessage.getAssaultParty();
     }
 
+    /**
+     * Sends the signal to the Concentration Site.
+     */
     public void shutdown() {
         ClientCom com;
         Message outMessage, inMessage;

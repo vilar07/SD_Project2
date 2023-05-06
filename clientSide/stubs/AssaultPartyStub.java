@@ -9,37 +9,61 @@ import utils.Constants;
 
 /**
  *  Stub to the Assault Party.
- *
+ * <p>
  *    It instantiates a remote reference to the Assault Party.
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
  */
 public class AssaultPartyStub {
+    /**
+     * Name of the machine where the Assault Party is located.
+     */
     private final String hostName;
 
+    /**
+     * Port number where the Assault Party is listening.
+     */
     private final int portNumber;
 
+    /**
+     * Identification of the Assault Party.
+     */
     private final int id;
 
+    /**
+     * AssaultPartyStub constructor 1, assumes hostName is localhost.
+     * @param id the identification of the Assault Party.
+     * @param portNumber the port number.
+     */
     public AssaultPartyStub(int id, int portNumber) {
         this.id = id;
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
+    /**
+     * AssaultPartyStub constructor 2.
+     * @param id the identification of the Assault Party.
+     * @param hostName the host name.
+     * @param portNumber the port number.
+     */
     public AssaultPartyStub(int id, String hostName, int portNumber) {
         this.id = id;
         this.hostName = hostName;
         this.portNumber = portNumber;
     }
 
+    /**
+     * Getter for the identification of the Assault Party.
+     * @return the identification of the Assault Party.
+     */
     public int getID() {
         return this.id;
     }
 
     /**
-     * Called by the Master Thief to send the Assault Party to the museum
-     * After that call, Assault Party can start crawling
+     * Called by the Master Thief to send the Assault Party to the museum.
+     * After that call, Assault Party can start crawling.
      */
     public void sendAssaultParty() {
         ClientCom com;
@@ -68,8 +92,8 @@ public class AssaultPartyStub {
     }
 
     /**
-     * Called by the Ordinary Thief to crawl in
-     * @return false if they have finished the crawling
+     * Called by the Ordinary Thief to crawl in.
+     * @return false if they have finished the crawling.
      */
     public boolean crawlIn() {
         ClientCom com;
@@ -113,8 +137,8 @@ public class AssaultPartyStub {
 
     /**
      * Called to awake the first member in the line of Assault Party, by the last party member that rolled a canvas,
-     * so that the Assault Party can crawl out
-     * - Synchronization Point between members of the Assault Party
+     * so that the Assault Party can crawl out.
+     * - Synchronization Point between members of the Assault Party.
      */
     public void reverseDirection() {
         ClientCom com;
@@ -140,8 +164,8 @@ public class AssaultPartyStub {
     }
 
     /**
-     * Called by the Ordinary Thief to crawl out
-     * @return false if they have finished the crawling
+     * Called by the Ordinary Thief to crawl out.
+     * @return false if they have finished the crawling.
      */
     public boolean crawlOut() {
         ClientCom com;
@@ -183,6 +207,9 @@ public class AssaultPartyStub {
         return false;
     }
 
+    /**
+     * Sends the shutdown signal to the Assault Party.
+     */
     public void shutdown() {
         ClientCom com;
         Message outMessage, inMessage;
@@ -204,8 +231,8 @@ public class AssaultPartyStub {
     }
  
     /**
-     * Getter for the room destination
-     * @return the room
+     * Getter for the room destination.
+     * @return the room identification.
      */
     public int getRoom() {
         ClientCom com;
@@ -233,6 +260,11 @@ public class AssaultPartyStub {
         return inMessage.getRoom();
     }
 
+    /**
+     * Setter for the busy hands attribute of a thief.
+     * @param ordinaryThiefID the identification of the Ordinary Thief.
+     * @param res true if they have a canvas, false otherwise.
+     */
     public void setBusyHands(int ordinaryThiefID, boolean res) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -253,6 +285,11 @@ public class AssaultPartyStub {
         com.close();
     }
 
+    /**
+     * Getter for the busy hands attribute of a thief.
+     * @param ordinaryThief the identification of the Ordinary Thief.
+     * @return whether or not they have a canvas.
+     */
     public boolean hasBusyHands(int ordinaryThief) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -279,6 +316,10 @@ public class AssaultPartyStub {
         return inMessage.getOrdinaryThiefCanvas() == 1;
     }
 
+    /**
+     * Removes a member from the Assault Party.
+     * @param ordinaryThief the identification of the Ordinary Thief.
+     */
     public void removeMember(int ordinaryThief) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -299,6 +340,10 @@ public class AssaultPartyStub {
         com.close();
     }
 
+    /**
+     * Returns whether the Assault Party has no members.
+     * @return true if it is empty, false otherwise.
+     */
     public boolean isEmpty() {
         ClientCom com;
         Message outMessage, inMessage;
@@ -320,6 +365,10 @@ public class AssaultPartyStub {
         return inMessage.isAssaultPartyEmpty();
     }
 
+    /**
+     * Sets the Assault Party in operation.
+     * @param inOperation true if the Assault Party is in operation, false otherwise.
+     */
     public void setInOperation(boolean inOperation) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -340,6 +389,10 @@ public class AssaultPartyStub {
         com.close();
     }
 
+    /**
+     * Sets the members of the Assault Party.
+     * @param ordinaryThieves an array with the identification of the Ordinary Thieves.
+     */
     public void setMembers(int[] ordinaryThieves) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -360,6 +413,10 @@ public class AssaultPartyStub {
         com.close();
     }
 
+    /**
+     * Getter for if the Assault Party is in operation.
+     * @return true if it is in operation, false otherwise.
+     */
     public boolean isInOperation() {
         ClientCom com;
         Message outMessage, inMessage;
@@ -381,6 +438,11 @@ public class AssaultPartyStub {
         return inMessage.isAssaultPartyInOperation();
     }
 
+    /**
+     * Checks if a given thief is a member of the Assault Party.
+     * @param ordinaryThief the identification of the Ordinary Thief.
+     * @return true if affirmative, false otherwise.
+     */
     public boolean isMember(int ordinaryThief) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -402,6 +464,12 @@ public class AssaultPartyStub {
         return inMessage.isMember();
     }
 
+    /**
+     * Sets the room destination of the Assault Party.
+     * @param room the room identification.
+     * @param roomDistance the distance to the room.
+     * @param roomPaintings the number of paintings in the room.
+     */
     public void setRoom(int room, int roomDistance, int roomPaintings) {
         ClientCom com;
         Message outMessage, inMessage;

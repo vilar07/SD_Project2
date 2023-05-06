@@ -6,59 +6,77 @@ import clientSide.stubs.ConcentrationSiteStub;
 import clientSide.stubs.MuseumStub;
 
 /**
- * Ordinary Thief, one of the thieves involved in the heist
+ * Ordinary Thief, one of the thieves involved in the heist.
  */
 public class OrdinaryThief extends Thread {
+    /**
+     * Initial state of the Ordinary Thief, when they are at the Concentration Site.
+     */
     public static final int CONCENTRATION_SITE = 1000;
+
+    /**
+     * State of the Ordinary Thief, when they are at the Collection Site.
+     */
     public static final int COLLECTION_SITE = 2000;
+
+    /**
+     * State of the Ordinary Thief, when they are crawling into the Museum room.
+     */
     public static final int CRAWLING_INWARDS = 3000;
+
+    /**
+     * State of the Ordinary Thief, when they are inside a room of the Museum.
+     */
     public static final int AT_A_ROOM = 4000;
+
+    /**
+     * State of the Ordinary Thief, when they are crawling out of the Museum room.
+     */
     public static final int CRAWLING_OUTWARDS = 5000;
 
     /**
-     * Current state of the Ordinary Thief
+     * Current state of the Ordinary Thief.
      */
     private int state;
 
     /**
      * Thief unique id.
      */
-    private int id;
+    private final int id;
 
     /**
-     * Maximum displacement of the Ordinary Thief
+     * Maximum displacement of the Ordinary Thief.
      */
     private final int maxDisplacement;
 
     /**
-     * Array holding the Assault Parties shared regions
+     * Array holding the Assault Parties shared regions.
      */
     private final AssaultPartyStub[] assaultParties;
 
     /**
-     * Variable holding the Concentration Site shared region
+     * Variable holding the Concentration Site shared region.
      */
     private final ConcentrationSiteStub concentrationSite;
 
     /**
-     * Variable holding the Collection Site shared region
+     * Variable holding the Collection Site shared region.
      */
     private final MuseumStub museum;
 
     /**
-     * Variable holding the Collection Site shared region
+     * Variable holding the Collection Site shared region.
      */
     private final CollectionSiteStub collectionSite;
 
     /**
-     * Ordinary Thief constructor
-     * @param id the identification of the thief
-     * @param museum the Museum
-     * @param collectionSite the Collection Site
-     * @param concentrationSite the Concentration Site
-     * @param assaultParties the Assault Parties array
-     * @param generalRepository the General Repository
-     * @param maxDisplacement the maximum displacement
+     * Ordinary Thief constructor.
+     * @param id the identification of the thief.
+     * @param museum the Museum.
+     * @param collectionSite the Collection Site.
+     * @param concentrationSite the Concentration Site.
+     * @param assaultParties the Assault Parties array.
+     * @param maxDisplacement the maximum displacement.
      */
     public OrdinaryThief(int id, MuseumStub museum, CollectionSiteStub collectionSite, ConcentrationSiteStub concentrationSite, 
                                 AssaultPartyStub[] assaultParties, int maxDisplacement) {
@@ -72,36 +90,39 @@ public class OrdinaryThief extends Thread {
     }
 
     /**
-     * Getter for the identification number of the Ordinary Thief
-     * @return the identification number of the Ordinary Thief
+     * Getter for the identification number of the Ordinary Thief.
+     * @return the identification number of the Ordinary Thief.
      */
     public int getID() {
         return id;
     }
 
     /**
-     * Getter for the maximum displacement of the Ordinary Thief
-     * @return the maximum displacement of the Ordinary Thief
+     * Getter for the maximum displacement of the Ordinary Thief.
+     * @return the maximum displacement of the Ordinary Thief.
      */
     public int getMaxDisplacement() {
         return maxDisplacement;
     }
 
+    /**
+     * Getter for the state of the Ordinary Thief.
+     * @return the state of the Ordinary Thief.
+     */
     public int getOrdinaryThiefState() {
         return state;
     }
 
     /**
-     * Setter for the state of the thief
-     * Propagates information to the GeneralRepository
-     * @param state the state
+     * Setter for the state of the thief.
+     * @param state the state.
      */
     public void setState(int state) {
         this.state = state;
     }
 
     /**
-     * Lifecycle of the Ordinary Thief
+     * Lifecycle of the Ordinary Thief.
      */
     @Override
     public void run() {

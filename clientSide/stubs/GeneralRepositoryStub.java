@@ -5,17 +5,33 @@ import commInfra.Message;
 import commInfra.MessageType;
 
 /**
- * The Museum has rooms inside it. That rooms have paintings that can be stolen by the Ordinary Thieves of the Assault Party
+ * The General Repository, where all information is stored and logged.
  */
 public class GeneralRepositoryStub {
+    /**
+     * Name of the machine where the General Repository resides.
+     */
     private final String hostName;
+
+    /**
+     * Port number where the General Repository is listening.
+     */
     private final int portNumber;
 
+    /**
+     * GeneralRepositoryStub constructor 1, hostName is localhost.
+     * @param portNumber the port number.
+     */
     public GeneralRepositoryStub(int portNumber) {
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
+    /**
+     * GeneralRepositoryStub constructor 2.
+     * @param hostName the host name.
+     * @param portNumber the port number.
+     */
     public GeneralRepositoryStub(String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
@@ -273,7 +289,8 @@ public class GeneralRepositoryStub {
 
     /**
      * Sets the initial room states.
-     * @param rooms an array with the rooms.
+     * @param paintings an array with the number of paintings of each room.
+     * @param distances an array with the distance to each room.
      */
     public void setInitialRoomStates(int[] paintings, int[] distances) {
         ClientCom com;
@@ -295,6 +312,9 @@ public class GeneralRepositoryStub {
         com.close();
     }
 
+    /**
+     * Sends the shutdown signal to the General Repository.
+     */
     public void shutdown() {
         ClientCom com;
         Message outMessage, inMessage;

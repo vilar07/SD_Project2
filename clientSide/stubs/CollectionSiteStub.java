@@ -8,24 +8,40 @@ import commInfra.Message;
 import commInfra.MessageType;
 
 /**
- * Collection Site where Master Thief plans and paintings are stored
+ * Collection Site where Master Thief intelligence and paintings are stored.
  */
 public class CollectionSiteStub {
+    /**
+     * Name of the machine where the Collection Site resides.
+     */
     private final String hostName;
+
+    /**
+     * Port number where the Collection Site is listening.
+     */
     private final int portNumber;
 
+    /**
+     * CollectionSiteStub constructor 1, hostName is localhost.
+     * @param portNumber the port number.
+     */
     public CollectionSiteStub(int portNumber) {
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
+    /**
+     * CollectionSiteStub constructor 2.
+     * @param hostName the host name.
+     * @param portNumber the port number.
+     */
     public CollectionSiteStub(String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
     }
 
     /**
-     * Called by Master Thief to initiate operations
+     * Called by Master Thief to initiate operations.
      */
     public void startOperations() {
         ClientCom com;
@@ -55,8 +71,8 @@ public class CollectionSiteStub {
 
     /**
      * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
-     * sum up results
-     * @return next situation
+     * sum up results.
+     * @return next situation.
      */
     public char appraiseSit() {
         ClientCom com;
@@ -85,7 +101,7 @@ public class CollectionSiteStub {
     }
 
     /**
-     * Master Thief waits while there are still Assault Parties in operation
+     * Master Thief waits while there are still Assault Parties in operation.
      */
     public void takeARest() {
         ClientCom com;
@@ -115,7 +131,7 @@ public class CollectionSiteStub {
 
     /**
      * Called by Master Thief to collect all available canvas
-     * - Synchronization point between Master Thief and each individual Ordinary Thief with a canvas
+     * - Synchronization point between Master Thief and each individual Ordinary Thief with a canvas.
      */
     public void collectACanvas() {
         ClientCom com;
@@ -189,8 +205,8 @@ public class CollectionSiteStub {
     }
 
     /**
-     * Get the number of the next Assault Party and remove it from the queue
-     * @return the Assault Party identification
+     * Get the number of the next Assault Party and remove it from the queue.
+     * @return the Assault Party identification.
      */
     public int getNextAssaultPartyID() {
         ClientCom com;
@@ -218,6 +234,9 @@ public class CollectionSiteStub {
         return inMessage.getAssaultParty();
     }
 
+    /**
+     * Sends the shutdown signal to the Collection Site.
+     */
     public void shutdown() {
         // use Socket setSoTimeout() to raise a SocketTimeoutException somehow
         ClientCom com;
@@ -239,6 +258,10 @@ public class CollectionSiteStub {
         com.close();
     }
 
+    /**
+     * Gets the next room which is not empty.
+     * @return the identification of the next room.
+     */
     public int getNextRoom() {
         ClientCom com;
         Message outMessage, inMessage;
@@ -265,6 +288,11 @@ public class CollectionSiteStub {
         return inMessage.getRoom();
     }
 
+    /**
+     * Gets the number of paintings for a given room.
+     * @param room the room identification.
+     * @return the number of paintings.
+     */
     public int getRoomPaintings(int room) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -291,6 +319,11 @@ public class CollectionSiteStub {
         return inMessage.getPaintings();
     }
 
+    /**
+     * Gets the distance to a room.
+     * @param room the room identification.
+     * @return the distance to the room.
+     */
     public int getRoomDistance(int room) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -317,6 +350,10 @@ public class CollectionSiteStub {
         return inMessage.getDistance();
     }
 
+    /**
+     * Getter for the total number of paintings acquired.
+     * @return the total number of paintings.
+     */
     public int getPaintings() {
         ClientCom com;
         Message outMessage, inMessage;

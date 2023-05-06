@@ -7,17 +7,33 @@ import commInfra.MessageType;
 import utils.Constants;
 
 /**
- * The Museum has rooms inside it. That rooms have paintings that can be stolen by the Ordinary Thieves of the Assault Party
+ * The Museum has rooms inside it. Those rooms have paintings that can be stolen by the Ordinary Thieves of the Assault Party.
  */
 public class MuseumStub {
+    /**
+     * Name of the machine where the Museum resides.
+     */
     private final String hostName;
+
+    /**
+     * Port number where the Museum is listening.
+     */
     private final int portNumber;
 
+    /**
+     * MuseumStub constructor 1, hostName is localhost.
+     * @param portNumber the port number.
+     */
     public MuseumStub(int portNumber) {
         this.portNumber = portNumber;
         this.hostName = "localhost";
     }
 
+    /**
+     * MuseumStub constructor 2.
+     * @param hostName the host name.
+     * @param portNumber the port number.
+     */
     public MuseumStub(String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
@@ -26,7 +42,7 @@ public class MuseumStub {
     /**
      * Roll a canvas.
      * @param id the room identification.
-     * @return true if the thief rolls a canvas, false if the room was already empty (There were no more paintings in the room).
+     * @return true if the thief rolls a canvas, false if the room was already empty (there were no more paintings in the room).
      */
     public void rollACanvas(int id) {
         ClientCom com;
@@ -67,6 +83,9 @@ public class MuseumStub {
         ((OrdinaryThief) Thread.currentThread()).setState(inMessage.getOrdinaryThiefState());
     }
 
+    /**
+     * Sends the shutdown signal to the Museum.
+     */
     public void shutdown() {
         ClientCom com;
         Message outMessage, inMessage;
@@ -87,6 +106,11 @@ public class MuseumStub {
         com.close();
     }
 
+    /**
+     * Getter for the distance to a room.
+     * @param room the room identification.
+     * @return the distance to the room.
+     */
     public int getRoomDistance(int room) {
         ClientCom com;
         Message outMessage, inMessage;
@@ -113,6 +137,11 @@ public class MuseumStub {
         return inMessage.getDistance();
     }
 
+    /**
+     * Getter for the number of paintings in a room.
+     * @param room the room identification.
+     * @return the number of paintings in the room.
+     */
     public int getRoomPaintings(int room) {
         ClientCom com;
         Message outMessage, inMessage;

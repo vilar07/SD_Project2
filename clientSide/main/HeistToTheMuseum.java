@@ -13,8 +13,7 @@ import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
 
 /**
- * Concurrent version of the Heist To The Museum.
- * Runs on a single computer.
+ * Distributed version of the Heist To The Museum.
  */
 public class HeistToTheMuseum
 {   
