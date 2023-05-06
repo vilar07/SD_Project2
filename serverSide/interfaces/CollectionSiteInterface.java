@@ -37,7 +37,6 @@ public class CollectionSiteInterface {
                 }
                 ((CollectionSiteProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
                 outMessage = new Message(MessageType.APPRAISE_SIT_DONE, collectionSite.appraiseSit());
-                System.out.println(outMessage.getOperation());
                 break;
             case MessageType.TAKE_A_REST:
                 if (inMessage.getMasterThiefState() != MasterThief.DECIDING_WHAT_TO_DO) {

@@ -9,6 +9,7 @@ import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.GeneralRepositoryStub;
 import serverSide.entities.ConcentrationSiteProxyAgent;
+import serverSide.main.ConcentrationSiteMain;
 import utils.Constants;
 
 /**
@@ -141,6 +142,10 @@ public class ConcentrationSite {
             }
         }
         return assaultParty.getID();
+    }
+    
+    public synchronized void shutdown () {
+        ConcentrationSiteMain.waitConnection = false;
     }
 
     /**

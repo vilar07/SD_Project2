@@ -5,7 +5,6 @@ import clientSide.stubs.CollectionSiteStub;
 import clientSide.stubs.ConcentrationSiteStub;
 import clientSide.stubs.GeneralRepositoryStub;
 import clientSide.stubs.MuseumStub;
-import serverSide.sharedRegions.GeneralRepository;
 import utils.Constants;
 
 import java.util.Random;
@@ -204,8 +203,12 @@ public class HeistToTheMuseum
                 ot.join();
             }
         } catch (InterruptedException ignored) {}
-        // concentrationSite.shutdown();
+        concentrationSite.shutdown();
         collectionSite.shutdown();
-        // generalRepository.shutdown();
+        museum.shutdown();
+        for (AssaultPartyStub assaultParty: assaultParties) {
+            assaultParty.shutdown();
+        }
+        generalRepository.shutdown();
     }
 }

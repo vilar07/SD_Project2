@@ -70,6 +70,10 @@ public class ConcentrationSiteInterface {
                 outMessage = new Message(MessageType.PREPARE_EXCURSION_DONE, inMessage.getOrdinaryThiefID(), inMessage.getOrdinaryThiefState(),
                         inMessage.getOrdinaryThiefMD(), assaultParty);
                 break;
+            case MessageType.SHUTDOWN:
+                concentrationSite.shutdown();
+                outMessage = new Message(MessageType.SHUTDOWN_DONE);
+                break;
             default:
                 throw new MessageException("Invalid message type!", inMessage);
         }

@@ -3,6 +3,7 @@ package serverSide.sharedRegions;
 import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.GeneralRepositoryStub;
 import serverSide.entities.MuseumProxyAgent;
+import serverSide.main.MuseumMain;
 import utils.Constants;
 import utils.Room;
 
@@ -58,6 +59,10 @@ public class Museum {
                 generalRepository.setRoomState(room, rooms[room].getPaintings());
             }
         }
+    }
+    
+    public synchronized void shutdown () {
+        MuseumMain.waitConnection = false;
     }
 
     /**

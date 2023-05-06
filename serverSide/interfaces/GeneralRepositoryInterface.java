@@ -59,8 +59,6 @@ public class GeneralRepositoryInterface {
                 if (inMessage.getRoom() < 0 || inMessage.getRoom() > Constants.NUM_ROOMS) {
                     throw new MessageException("Invalid room identification in SET_ASSAULT_PARTY_ROOM!", inMessage);
                 }
-                System.out.println("inMessage.getAssaultParty()@GeneralRepositoryInterface.SET_ASSAULT_PARTY_ROOM=" + inMessage.getAssaultParty());
-                System.out.println("inMessage.getRoom()@GeneralRepositoryInterface.SET_ASSAULT_PARTY_ROOM=" + inMessage.getRoom());
                 generalRepository.setAssaultPartyRoom(inMessage.getAssaultParty(), inMessage.getRoom());
                 outMessage = new Message(MessageType.SET_ASSAULT_PARTY_ROOM_DONE);
                 break;
@@ -77,10 +75,6 @@ public class GeneralRepositoryInterface {
                 if (inMessage.getOrdinaryThiefCanvas() < 0 || inMessage.getOrdinaryThiefCanvas() > 1) {
                     throw new MessageException("Invalid Ordinary Thief number of canvas in SET_ASSAULT_PARTY_MEMBER!", inMessage);
                 }
-                System.out.println("inMessage.getAssaultParty@GeneralRepositoryInterface.SET_ASSAULT_PARTY_MEMBER=" + inMessage.getAssaultParty());
-                System.out.println("inMessage.getOrdinaryThiefID@GeneralRepositoryInterface.SET_ASSAULT_PARTY_MEMBER=" + inMessage.getOrdinaryThiefID());
-                System.out.println("inMessage.getOrdinaryThiefPosition@GeneralRepositoryInterface.SET_ASSAULT_PARTY_MEMBER=" + inMessage.getOrdinaryThiefPosition());
-                System.out.println("inMessage.getOrdinaryThiefCanvas@GeneralRepositoryInterface.SET_ASSAULT_PARTY_MEMBER=" + inMessage.getOrdinaryThiefCanvas());
                 generalRepository.setAssaultPartyMember(inMessage.getAssaultParty(), inMessage.getOrdinaryThiefID(), inMessage.getOrdinaryThiefPosition(), inMessage.getOrdinaryThiefCanvas());
                 outMessage = new Message(MessageType.SET_ASSAULT_PARTY_MEMBER_DONE);
                 break;
@@ -133,6 +127,10 @@ public class GeneralRepositoryInterface {
                 }
                 generalRepository.setInitialRoomStates(inMessage.getInitialPaintings(), inMessage.getInitialDistances());
                 outMessage = new Message(MessageType.SET_INITIAL_ROOM_STATES_DONE);
+                break;
+            case MessageType.SHUTDOWN:
+                generalRepository.shutdown();
+                outMessage = new Message(MessageType.SHUTDOWN_DONE);
                 break;
             default:
                 throw new MessageException("Invalid message type!", inMessage);

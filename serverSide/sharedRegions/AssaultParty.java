@@ -8,6 +8,7 @@ import java.util.Map;
 
 import clientSide.stubs.GeneralRepositoryStub;
 import serverSide.entities.AssaultPartyProxyAgent;
+import serverSide.main.AssaultPartyMain;
 import utils.Constants;
 import utils.Room;
 
@@ -221,6 +222,10 @@ public class AssaultParty {
         nextThiefToCrawl = nextThief;
         notifyAll();
         return false;
+    }
+
+    public synchronized void shutdown () {
+        AssaultPartyMain.waitConnection = false;
     }
 
     /**

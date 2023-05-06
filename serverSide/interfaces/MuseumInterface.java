@@ -38,6 +38,10 @@ public class MuseumInterface {
                 outMessage = new Message(MessageType.ROLL_A_CANVAS_DONE, inMessage.getOrdinaryThiefID(), ((MuseumProxyAgent) Thread.currentThread()).getOrdinaryThiefState(),
                         ((MuseumProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
                 break;
+            case MessageType.SHUTDOWN:
+                museum.shutdown();
+                outMessage = new Message(MessageType.SHUTDOWN_DONE);
+                break;
             case MessageType.GET_ROOM_DISTANCE_MUSEUM:
                 if (inMessage.getRoom() < 0 || inMessage.getRoom() > Constants.NUM_ROOMS) {
                     throw new MessageException("Invalid room identification in GET_ROOM_DISTANCE_MUSEUM!", inMessage);

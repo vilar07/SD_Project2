@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import clientSide.entities.MasterThief;
 import clientSide.entities.OrdinaryThief;
+import serverSide.main.GeneralRepositoryMain;
 import utils.AssaultPartyElemLogging;
 import utils.AssaultPartyLogging;
 import utils.Constants;
@@ -277,5 +278,9 @@ public class GeneralRepository {
             this.rooms[i].setPaintings(paintings[i]);
         }
         printState();
+    }
+
+    public synchronized void shutdown () {
+        GeneralRepositoryMain.waitConnection = false;
     }
 }

@@ -83,6 +83,10 @@ public class AssaultPartyInterface {
                 outMessage = new Message(MessageType.CRAWL_OUT_DONE, inMessage.getOrdinaryThiefID(), ((AssaultPartyProxyAgent) Thread.currentThread()).getOrdinaryThiefState(), 
                                                 ((AssaultPartyProxyAgent) Thread.currentThread()).getOrdinaryThiefMaxDisplacement());
                 break;
+            case MessageType.SHUTDOWN:
+                assaultParty.shutdown();
+                outMessage = new Message(MessageType.SHUTDOWN_DONE);
+                break;
             case MessageType.GET_ROOM:
                 outMessage = new Message(MessageType.GET_ROOM_DONE, assaultParty.getRoom());
                 break;

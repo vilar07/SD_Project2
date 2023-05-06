@@ -108,7 +108,6 @@ public class GeneralRepositoryStub {
                 Thread.sleep((long) 10);
             } catch (InterruptedException ignored) {}
         }
-        System.out.println(situation);
         outMessage = new Message(MessageType.SET_ORDINARY_STATE, id, state, situation, maxDisplacement);
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
@@ -289,6 +288,26 @@ public class GeneralRepositoryStub {
         com.writeObject(outMessage);
         inMessage = (Message) com.readObject();
         if (inMessage.getMsgType() != MessageType.SET_INITIAL_ROOM_STATES_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
+    public void shutdown() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 1000);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SHUTDOWN);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SHUTDOWN_DONE) {
             System.out.println("Invalid message type!");
             System.out.println(inMessage.toString());
             System.exit(1);

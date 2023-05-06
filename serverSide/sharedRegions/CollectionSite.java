@@ -8,7 +8,7 @@ import clientSide.stubs.AssaultPartyStub;
 import clientSide.stubs.GeneralRepositoryStub;
 import clientSide.stubs.MuseumStub;
 import serverSide.entities.CollectionSiteProxyAgent;
-import serverSide.main.GeneralRepositoryMain;
+import serverSide.main.CollectionSiteMain;
 import utils.Constants;
 
 /**
@@ -189,6 +189,10 @@ public class CollectionSite {
         }
     }
 
+    public synchronized void shutdown () {
+        CollectionSiteMain.waitConnection = false;
+    }
+
     /**
      * Get the number of the next Assault Party and remove it from the queue
      * @return the Assault Party identification
@@ -225,9 +229,5 @@ public class CollectionSite {
      */
     private void setEmptyRoom(int room, boolean empty) {
         emptyRooms[room] = empty;
-    }
-
-    public synchronized void shutdown () {
-        GeneralRepositoryMain.waitConnection = false;
     }
 }

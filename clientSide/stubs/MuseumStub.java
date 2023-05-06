@@ -67,6 +67,26 @@ public class MuseumStub {
         ((OrdinaryThief) Thread.currentThread()).setState(inMessage.getOrdinaryThiefState());
     }
 
+    public void shutdown() {
+        ClientCom com;
+        Message outMessage, inMessage;
+        com = new ClientCom(hostName, portNumber);
+        while (!com.open()) {
+            try {
+                Thread.sleep((long) 1000);
+            } catch (InterruptedException ignored) {}
+        }
+        outMessage = new Message(MessageType.SHUTDOWN);
+        com.writeObject(outMessage);
+        inMessage = (Message) com.readObject();
+        if (inMessage.getMsgType() != MessageType.SHUTDOWN_DONE) {
+            System.out.println("Invalid message type!");
+            System.out.println(inMessage.toString());
+            System.exit(1);
+        }
+        com.close();
+    }
+
     public int getRoomDistance(int room) {
         ClientCom com;
         Message outMessage, inMessage;
