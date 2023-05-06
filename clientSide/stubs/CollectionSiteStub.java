@@ -81,7 +81,6 @@ public class CollectionSiteStub {
             System.exit(1);
         }
         com.close();
-        System.out.println(inMessage.getOperation());
         return inMessage.getOperation();
     }
 

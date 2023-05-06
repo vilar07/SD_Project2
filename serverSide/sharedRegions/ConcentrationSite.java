@@ -104,6 +104,7 @@ public class ConcentrationSite {
     public synchronized boolean amINeeded() {
         ConcentrationSiteProxyAgent thief = (ConcentrationSiteProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(OrdinaryThief.CONCENTRATION_SITE);
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         thieves.add(thief);
         this.notifyAll();
         if (finished) {
@@ -130,7 +131,6 @@ public class ConcentrationSite {
     public int prepareExcursion() {
         ConcentrationSiteProxyAgent ordinaryThief = (ConcentrationSiteProxyAgent) Thread.currentThread();
         AssaultPartyStub assaultParty = assaultParties[getAssaultParty(ordinaryThief)];
-        System.out.println("assaultParty@ConcentrationSite.prepareExcursion=" + assaultParty.getID());
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {
@@ -140,7 +140,6 @@ public class ConcentrationSite {
                 }
             }
         }
-        System.out.println("HERE");
         return assaultParty.getID();
     }
 

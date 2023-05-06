@@ -16,8 +16,6 @@ import utils.Room;
  * Assault Party is shared by the thieves
  */
 public class AssaultParty {
-    private static int assaultPartyID = 0;
-
     /**
      * Queue with the identifications of the thieves in the party
      */
@@ -74,8 +72,8 @@ public class AssaultParty {
      * Public constructor for the Assault Party shared region
      * @param generalRepository the General Repository
      */
-    public AssaultParty(GeneralRepositoryStub generalRepository) {
-        this.id = assaultPartyID++;
+    public AssaultParty(int id, GeneralRepositoryStub generalRepository) {
+        this.id = id;
         this.generalRepository = generalRepository;
         thieves = new LinkedList<>();
         room = null;
@@ -266,7 +264,7 @@ public class AssaultParty {
      */
     public void setRoom(int room, int paintings, int distance) {
         this.room = new Room(room, distance, paintings);
-        generalRepository.setAssaultPartyRoom(id, room);
+        generalRepository.setAssaultPartyRoom(this.id, room);
     }
 
     /**
@@ -284,8 +282,7 @@ public class AssaultParty {
             this.thieves.add(thief);
             thiefPositions.put(thief, 0);
             thiefCanvas.put(thief, false);
-            generalRepository.setAssaultPartyMember(id, thief, thiefPositions.get(thief),
-                                                    thiefCanvas.get(thief) ? 1 : 0);
+            generalRepository.setAssaultPartyMember(this.id, thief, 0, 0);
         }
     }
 

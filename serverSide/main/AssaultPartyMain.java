@@ -3,6 +3,7 @@ package serverSide.main;
 import serverSide.entities.*;
 import serverSide.interfaces.AssaultPartyInterface;
 import serverSide.sharedRegions.*;
+import utils.Constants;
 import commInfra.*;
 import java.net.*;
 
@@ -26,46 +27,58 @@ public class AssaultPartyMain
    *  Main method.
    *
    *    @param args runtime arguments
-   *        args[0] - port number for listening to service requests
-   *        args[1] - name of the platform where is located the server for
+   *        args[0] - identification of the Assault Party
+   *        args[1] - port number for listening to service requests
+   *        args[2] - name of the platform where is located the server for
    *             the general repository
-   *        args[2] - port number where the server for the general repository
+   *        args[3] - port number where the server for the general repository
    *             is listening to service requests
    */
    public static void main (String [] args)
    {
       AssaultParty assaultParty;
+      int assaultPartyID = -1;
       ServerCom serverCom, serverComi;                                         // communication channels
       int portNumber = -1;                                             // port number for listening to service requests
       String generalRepositoryHostName = null;
       int generalRepositoryPortNumber = -1;
 
-      if (args.length != 3)
-         {  System.out.println("Wrong number of parameters!");
-           System.exit(1);
-         }
+      if (args.length != 4)
+      {  System.out.println("Wrong number of parameters!");
+        System.exit(1);
+      }
+      try {
+        assaultPartyID = Integer.parseInt(args[0]);
+      } catch (NumberFormatException e) {
+        System.out.println(args[0] + " is not a number!");
+        System.exit(1);
+      }
+      if (assaultPartyID < 0 || assaultPartyID > Constants.ASSAULT_PARTIES_NUMBER) {
+        System.out.println(args[0] + " is not a valid identification for the Assault Party!");
+        System.exit(1);
+      }
       try
-      { portNumber = Integer.parseInt (args[0]);
+      { portNumber = Integer.parseInt (args[1]);
       }
       catch (NumberFormatException e)
-      { System.out.println(args[0] + " is not a number!");
+      { System.out.println(args[1] + " is not a number!");
         System.exit(1);
       }
       if ((portNumber < 4000) || (portNumber >= 65536))
-         { System.out.println(args[0] + " is not a valid port number!");
+         { System.out.println(args[1] + " is not a valid port number!");
            System.exit(1);
          }
-      generalRepositoryHostName = args[1];
+      generalRepositoryHostName = args[2];
       try
       { 
-        generalRepositoryPortNumber = Integer.parseInt (args[2]);
+        generalRepositoryPortNumber = Integer.parseInt (args[3]);
       }
       catch (NumberFormatException e)
-      { System.out.println(args[2] + " is not a number!");
+      { System.out.println(args[3] + " is not a number!");
         System.exit(1);
       }
       if ((generalRepositoryPortNumber < 4000) || (generalRepositoryPortNumber >= 65536))
-        { System.out.println(args[2] + " is not a valid port number!");
+        { System.out.println(args[3] + " is not a valid port number!");
           System.exit(1);
         }
 
@@ -73,7 +86,7 @@ public class AssaultPartyMain
 
       // Shared regions initialization
       GeneralRepositoryStub generalRepository = new GeneralRepositoryStub(generalRepositoryHostName, generalRepositoryPortNumber);
-      assaultParty = new AssaultParty(generalRepository);
+      assaultParty = new AssaultParty(assaultPartyID, generalRepository);
       AssaultPartyInterface assaultPartyInterface = new AssaultPartyInterface(assaultParty);
 
       serverCom = new ServerCom(portNumber);                                         // listening channel at the public port is established

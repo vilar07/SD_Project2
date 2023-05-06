@@ -109,8 +109,6 @@ public class CollectionSite {
                 assaultPartyRooms.add(room);
             }
         }
-        System.out.println("empty=" + empty);
-        System.out.println("availableParties.size()=" + availableParties.size());
         if (empty && this.availableParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
             return 'E';
         }
@@ -118,7 +116,6 @@ public class CollectionSite {
                 (assaultPartyRooms.size() == 1 && nEmptyRooms == Constants.NUM_ROOMS - 1 && !emptyRooms[assaultPartyRooms.get(0)])) {
             return 'R';
         }
-        System.out.println("here");
         if (!empty) {
             return 'P';
         }
