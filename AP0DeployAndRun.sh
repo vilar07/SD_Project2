@@ -1,11 +1,8 @@
-# global execution
-echo "Transfering data to the ap0 node."
-sshpass -f password ssh sd43@l040101-ws06.ua.pt 'mkdir -p test/MuseumHeist'
-sshpass -f password ssh sd43@l040101-ws06.ua.pt 'rm -rf test/MuseumHeist/*'
-sshpass -f password scp dirAP0.zip sd43@l040101-ws06.ua.pt:test/MuseumHeist
-echo "Decompressing data sent to the AP0 node."
-sshpass -f password ssh sd43@l040101-ws06.ua.pt 'cd test/MuseumHeist ; unzip -uq dirAP0.zip'
-sshpass -f password scp genclass.zip sd43@l040101-ws06.ua.pt:test/MuseumHeist/dirAP0
-sshpass -f password ssh sd43@l040101-ws06.ua.pt 'cd test/MuseumHeist/dirAP0 ; unzip -uq genclass.zip'
-echo "Executing program at the AP0 node."
-sshpass -f password ssh sd43@l040101-ws06.ua.pt 'cd test/MuseumHeist/dirAP0 ; java serverSide.main.ServerAssaultParty 22426 l040101-ws07.ua.pt 22427'
+echo "Transfering data to the Assault Party 0 node."
+sshpass -f password ssh sd107@l040101-ws03.ua.pt 'mkdir -p test/HeistToTheMuseum'
+sshpass -f password ssh sd107@l040101-ws03.ua.pt 'rm -rf test/HeistToTheMuseum/*'
+sshpass -f password scp dirAP0.zip sd107@l040101-ws03.ua.pt:test/HeistToTheMuseum
+echo "Decompressing data sent to the Assault Party 0 node."
+sshpass -f password ssh sd107@l040101-ws03.ua.pt 'cd test/HeistToTheMuseum ; unzip -uq dirAP0.zip'
+echo "Executing program at the Assault Party 0 node."
+sshpass -f password ssh sd107@l040101-ws03.ua.pt 'cd test/HeistToTheMuseum/dirAP0 ; java serverSide.main.AssaultPartyMain 0 22163 l040101-ws02.ua.pt 22162'

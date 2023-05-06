@@ -1,19 +1,8 @@
-# local execution
-#echo "Executing the ccs node."
-#cd /home/marco/Desktop/MuseumHeist/dirCCS
-#java -cp "../genclass.jar:." serverSide.main.ServerControlCollectionSite 22316 127.0.0.1 22312
-#echo "CCS Server shutdown."
-
-
-
-# global execution
-echo "Transfering data to the ccs node."
-sshpass -f password ssh sd202@l040101-ws02.ua.pt 'mkdir -p test/MuseumHeist'
-sshpass -f password ssh sd202@l040101-ws02.ua.pt 'rm -rf test/MuseumHeist/*'
-sshpass -f password scp dirCCS.zip sd202@l040101-ws02.ua.pt:test/MuseumHeist
-echo "Decompressing data sent to the CCS node."
-sshpass -f password ssh sd202@l040101-ws02.ua.pt 'cd test/MuseumHeist ; unzip -uq dirCCS.zip'
-sshpass -f password scp genclass.zip sd202@l040101-ws02.ua.pt:test/MuseumHeist/dirCCS
-sshpass -f password ssh sd202@l040101-ws02.ua.pt 'cd test/MuseumHeist/dirCCS ; unzip -uq genclass.zip'
-echo "Executing program at the CCS node."
-sshpass -f password ssh sd202@l040101-ws02.ua.pt 'cd test/MuseumHeist/dirCCS ; java serverSide.main.ServerControlCollectionSite 22422 l040101-ws07.ua.pt 22427'
+echo "Transfering data to the Collection Site node."
+sshpass -f password ssh sd107@l040101-ws06.ua.pt 'mkdir -p test/HeistToTheMuseum'
+sshpass -f password ssh sd107@l040101-ws06.ua.pt 'rm -rf test/HeistToTheMuseum/*'
+sshpass -f password scp dirCollSite.zip sd107@l040101-ws06.ua.pt:test/HeistToTheMuseum
+echo "Decompressing data sent to the Collection Site node."
+sshpass -f password ssh sd107@l040101-ws06.ua.pt 'cd test/HeistToTheMuseum ; unzip -uq dirCollSite.zip'
+echo "Executing program at the Collection Site node."
+sshpass -f password ssh sd107@l040101-ws06.ua.pt 'cd test/HeistToTheMuseum/dirCollSite ; java serverSide.main.CollectionSiteMain 22166 l040101-ws02.ua.pt 22162 l040101-ws03.ua.pt 22163 l040101-ws04.ua.pt 22164 l040101-ws05.ua.pt 22165'
