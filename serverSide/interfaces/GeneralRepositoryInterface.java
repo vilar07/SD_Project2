@@ -8,13 +8,30 @@ import commInfra.MessageType;
 import serverSide.sharedRegions.GeneralRepository;
 import utils.Constants;
 
+/**
+ * Interface which provides communication to and from the General Repository.
+ */
 public class GeneralRepositoryInterface {
+    /**
+     * The General Repository shared region.
+     */
     private final GeneralRepository generalRepository;
 
+    /**
+     * GeneralRepositoryInterface constructor.
+     * @param generalRepository the General Repository.
+     */
     public GeneralRepositoryInterface(GeneralRepository generalRepository) {
         this.generalRepository = generalRepository;
     }
 
+    /**
+     * Processes incoming messages and replies to the sender or throws an exception if an error occurred or the message
+     * parameters were invalid.
+     * @param inMessage the incoming message.
+     * @return reply message.
+     * @throws MessageException exception containing a short explanation and the incoming message.
+     */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
         switch (inMessage.getMsgType()) {
@@ -53,7 +70,7 @@ public class GeneralRepositoryInterface {
                 outMessage = new Message(MessageType.SET_ORDINARY_STATE_DONE);
                 break;
             case MessageType.SET_ASSAULT_PARTY_ROOM:
-                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party in SET_ASSAULT_PARTY_ROOM!", inMessage);
                 }
                 if (inMessage.getRoom() < 0 || inMessage.getRoom() > Constants.NUM_ROOMS) {
@@ -63,7 +80,7 @@ public class GeneralRepositoryInterface {
                 outMessage = new Message(MessageType.SET_ASSAULT_PARTY_ROOM_DONE);
                 break;
             case MessageType.SET_ASSAULT_PARTY_MEMBER:
-                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party in SET_ASSAULT_PARTY_MEMBER!", inMessage);
                 }
                 if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() > Constants.NUM_THIEVES - 1) {
@@ -79,7 +96,7 @@ public class GeneralRepositoryInterface {
                 outMessage = new Message(MessageType.SET_ASSAULT_PARTY_MEMBER_DONE);
                 break;
             case MessageType.REMOVE_ASSAULT_PARTY_MEMBER:
-                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party in REMOVE_ASSAULT_PARTY_MEMBER!", inMessage);
                 }
                 if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() > Constants.NUM_THIEVES - 1) {
@@ -89,7 +106,7 @@ public class GeneralRepositoryInterface {
                 outMessage = new Message(MessageType.REMOVE_ASSAULT_PARTY_MEMBER_DONE);
                 break;
             case MessageType.DISBAND_ASSAULT_PARTY:
-                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party in DISBAND_ASSAULT_PARTY!", inMessage);
                 }
                 generalRepository.disbandAssaultParty(inMessage.getAssaultParty());

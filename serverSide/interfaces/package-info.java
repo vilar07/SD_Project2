@@ -1,4 +1,4 @@
 /**
- * Contains interfaces for the shared regions and the logger to implement.
+ * Contains interfaces for communication with the shared regions and for the server proxies to simulate the thieves.
  */
 package serverSide.interfaces;

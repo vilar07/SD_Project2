@@ -8,7 +8,7 @@ import utils.Constants;
 import utils.Room;
 
 /**
- * The Museum has rooms inside of it. Those rooms have paintings that can be stolen 
+ * The Museum has rooms inside it. Those rooms have paintings that can be stolen
  * by the Ordinary Thieves of the Assault Party.
  */
 public class Museum {
@@ -44,7 +44,6 @@ public class Museum {
     /**
      * The Ordinary Thief tries to roll a canvas.
      * @param party the party identification.
-     * @return true if the thief rolls a canvas, false if the room was already empty.
      */
     public void rollACanvas(int party) {
         MuseumProxyAgent thief = (MuseumProxyAgent) Thread.currentThread();
@@ -55,12 +54,15 @@ public class Museum {
         synchronized (this) {
             res = rooms[room].rollACanvas();
             if (res) {
-                assaultParties[party].setBusyHands(thief.getOrdinaryThiefID(), res);
+                assaultParties[party].setBusyHands(thief.getOrdinaryThiefID(), true);
                 generalRepository.setRoomState(room, rooms[room].getPaintings());
             }
         }
     }
-    
+
+    /**
+     * Shuts down the Museum server.
+     */
     public synchronized void shutdown () {
         MuseumMain.waitConnection = false;
     }
@@ -68,12 +70,17 @@ public class Museum {
     /**
      * Getter for the distance to a specific room of the Museum.
      * @param id the room identification.
-     * @return the room.
+     * @return the distance to the room.
      */
     public int getRoomDistance(int id) {
         return rooms[id].getDistance();
     }
 
+    /**
+     * Getter for the number of paintings in a specific room of the Museum.
+     * @param id the room identification.
+     * @return the number of paintings in the room.
+     */
     public int getRoomPaintings(int id) {
         return rooms[id].getPaintings();
     }

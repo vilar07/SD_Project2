@@ -10,23 +10,36 @@ import serverSide.sharedRegions.AssaultParty;
 import utils.Constants;
 
 /**
- * Assault Party is constituted by Ordinary Thieves that are going to attack the museum.
- * Assault Party is shared by the thieves
+ * Interface which provides communication to and from the Assault Party.
  */
 public class AssaultPartyInterface {
+    /**
+     * The Assault Party shared region.
+     */
     private final AssaultParty assaultParty;
 
+    /**
+     * AssaultPartyInterface constructor.
+     * @param assaultParty the Assault Party.
+     */
     public AssaultPartyInterface(AssaultParty assaultParty) {
         this.assaultParty = assaultParty;
     }
 
+    /**
+     * Processes incoming messages and replies to the sender or throws an exception if an error occurred or the message
+     * parameters were invalid.
+     * @param inMessage the incoming message.
+     * @return reply message.
+     * @throws MessageException exception containing a short explanation and the incoming message.
+     */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
         switch (inMessage.getMsgType()) {
             case MessageType.SEND_ASSAULT_PARTY:
                 if (inMessage.getMasterThiefState() != MasterThief.ASSEMBLING_A_GROUP) {
                     throw new MessageException("Invalid Master Thief state - should be ASSEMBLING_A_GROUP!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 }
                 ((AssaultPartyProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());
@@ -36,7 +49,7 @@ public class AssaultPartyInterface {
             case MessageType.CRAWL_IN:
                 if (inMessage.getOrdinaryThiefState() != OrdinaryThief.CONCENTRATION_SITE) {
                     throw new MessageException("Invalid Ordinary Thief state - should be CONCENTRATION_SITE!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                     throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
@@ -53,7 +66,7 @@ public class AssaultPartyInterface {
             case MessageType.REVERSE_DIRECTION:
                 if (inMessage.getOrdinaryThiefState() != OrdinaryThief.AT_A_ROOM) {
                     throw new MessageException("Invalid Ordinary Thief state - should be AT_A_ROOM!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                     throw new MessageException("Invalid Ordinary Thief identification!", inMessage);
@@ -69,7 +82,7 @@ public class AssaultPartyInterface {
             case MessageType.CRAWL_OUT:
                 if (inMessage.getOrdinaryThiefState() != OrdinaryThief.AT_A_ROOM) {
                     throw new MessageException("Invalid Ordinary Thief state - should be AT_A_ROOM!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                     throw new MessageException("Invalid Ordinary Thief identification!", inMessage);

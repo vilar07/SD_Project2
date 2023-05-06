@@ -11,12 +11,11 @@ import clientSide.stubs.GeneralRepositoryStub;
 import clientSide.stubs.MuseumStub;
 
 /**
- *    Server side of the Heist To The Museum.
- *
+ *    Collection Site server of the Heist To The Museum.
+ * <p>
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
  */
-
 public class CollectionSiteMain
 {
   /**

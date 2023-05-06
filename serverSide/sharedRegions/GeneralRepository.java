@@ -17,7 +17,7 @@ public class GeneralRepository {
     /**
      * Logger that handles the writing of the internal state of the simulation to the logging file.
      */
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * State of the Master Thief.
@@ -27,17 +27,17 @@ public class GeneralRepository {
     /**
      * Information of the Ordinary Thieves.
      */
-    private OrdinaryThiefLogging[] ordinaryThieves;
+    private final OrdinaryThiefLogging[] ordinaryThieves;
 
     /**
      * Information of the Assault Parties.
      */
-    private AssaultPartyLogging[] assaultParties;
+    private final AssaultPartyLogging[] assaultParties;
 
     /**
      * Information of the rooms in the Museum.
      */
-    private RoomLogging[] rooms;
+    private final RoomLogging[] rooms;
 
     /**
      * Constructor for the General Repository.
@@ -49,7 +49,7 @@ public class GeneralRepository {
         for (int i = 0; i < ordinaryThieves.length; i++) {
             ordinaryThieves[i] = new OrdinaryThiefLogging("----", '-', '-');
         }
-        assaultParties = new AssaultPartyLogging[Constants.ASSAULT_PARTIES_NUMBER];
+        assaultParties = new AssaultPartyLogging[Constants.NUM_ASSAULT_PARTIES];
         for (int i = 0; i < assaultParties.length; i++) {
             AssaultPartyElemLogging[] elems = new AssaultPartyElemLogging[Constants.ASSAULT_PARTY_SIZE];
             for (int j = 0; j < elems.length; j++) {
@@ -221,11 +221,11 @@ public class GeneralRepository {
      */
     public void removeAssaultPartyMember(int party, int thief) {
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
-        for (int i = 0; i < elems.length; i++) {
-            if (elems[i].getID() == (char) (thief + 1 + '0')) {
-                elems[i].setID('-');
-                elems[i].setPos("--");
-                elems[i].setCv('-');
+        for (AssaultPartyElemLogging elem : elems) {
+            if (elem.getID() == (char) (thief + 1 + '0')) {
+                elem.setID('-');
+                elem.setPos("--");
+                elem.setCv('-');
                 printState();
                 return;
             }
@@ -239,10 +239,10 @@ public class GeneralRepository {
     public void disbandAssaultParty(int party) {
         assaultParties[party].setRoom('-');
         AssaultPartyElemLogging[] elems = assaultParties[party].getElems();
-        for (int i = 0; i < elems.length; i++) {
-            elems[i].setID('-');
-            elems[i].setPos("--");
-            elems[i].setCv('-');
+        for (AssaultPartyElemLogging elem : elems) {
+            elem.setID('-');
+            elem.setPos("--");
+            elem.setCv('-');
         }
         printState();
     }
@@ -270,7 +270,8 @@ public class GeneralRepository {
 
     /**
      * Sets the initial room states.
-     * @param rooms an array with the rooms.
+     * @param paintings an array with the rooms' paintings.
+     * @param distances an array with the distance to the rooms.
      */
     public void setInitialRoomStates(int[] paintings, int[] distances) {
         for (int i = 0; i < this.rooms.length; i++) {
@@ -280,6 +281,9 @@ public class GeneralRepository {
         printState();
     }
 
+    /**
+     * Shuts down the General Repository server.
+     */
     public synchronized void shutdown () {
         GeneralRepositoryMain.waitConnection = false;
     }

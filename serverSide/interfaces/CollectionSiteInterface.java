@@ -10,15 +10,29 @@ import serverSide.sharedRegions.CollectionSite;
 import utils.Constants;
 
 /**
- * Collection Site where Master Thief plans and paintings are stored
+ * Interface which provides communication to and from the Collection Site.
  */
 public class CollectionSiteInterface {
+    /**
+     * The Collection Site shared region.
+     */
     private final CollectionSite collectionSite;
 
+    /**
+     * CollectionSiteInterface constructor.
+     * @param collectionSite the Collection Site.
+     */
     public CollectionSiteInterface(CollectionSite collectionSite) {
         this.collectionSite = collectionSite;
     }
 
+    /**
+     * Processes incoming messages and replies to the sender or throws an exception if an error occurred or the message
+     * parameters were invalid.
+     * @param inMessage the incoming message.
+     * @return reply message.
+     * @throws MessageException exception containing a short explanation and the incoming message.
+     */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
         switch (inMessage.getMsgType()) {
@@ -59,7 +73,7 @@ public class CollectionSiteInterface {
             case MessageType.HAND_A_CANVAS:
                 if (inMessage.getOrdinaryThiefState() != OrdinaryThief.CRAWLING_OUTWARDS) {
                     throw new MessageException("Invalid Ordinary Thief state - should be CRAWLING_OUTWARDS!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                     throw new MessageException("Invalid Ordinary Thief identification!", inMessage);

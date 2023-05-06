@@ -184,7 +184,7 @@ public class ConcentrationSiteStub {
             System.out.println(inMessage.toString());
             System.exit(1);
         }
-        if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.ASSAULT_PARTIES_NUMBER) {
+        if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() > Constants.NUM_ASSAULT_PARTIES) {
             System.out.println("Invalid Assault Party!");
             System.out.println(inMessage.toString());
             System.exit(1);

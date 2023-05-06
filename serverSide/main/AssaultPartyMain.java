@@ -10,12 +10,11 @@ import java.net.*;
 import clientSide.stubs.GeneralRepositoryStub;
 
 /**
- *    Server side of the Heist To The Museum.
- *
+ *    Assault Party server of the Heist To The Museum.
+ * <p>
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on a communication channel under the TCP protocol.
  */
-
 public class AssaultPartyMain
 {
   /**
@@ -53,7 +52,7 @@ public class AssaultPartyMain
         System.out.println(args[0] + " is not a number!");
         System.exit(1);
       }
-      if (assaultPartyID < 0 || assaultPartyID > Constants.ASSAULT_PARTIES_NUMBER) {
+      if (assaultPartyID < 0 || assaultPartyID > Constants.NUM_ASSAULT_PARTIES) {
         System.out.println(args[0] + " is not a valid identification for the Assault Party!");
         System.exit(1);
       }

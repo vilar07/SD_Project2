@@ -57,9 +57,9 @@ public class ConcentrationSite {
 
     /**
      * Called by the master thief, when enough ordinary thieves are available and there is still a
-     * room with paintings.
+     * room with paintings
      * - Synchronization point between Master Thief and every Ordinary Thief constituting the Assault Party.
-     * @param assaultParty the Assault Party identification
+     * @param assaultParty the Assault Party identification.
      */
     public void prepareAssaultParty(int assaultParty) {
         ConcentrationSiteProxyAgent master = (ConcentrationSiteProxyAgent) Thread.currentThread();
@@ -88,7 +88,7 @@ public class ConcentrationSite {
 
     /**
      * The Master Thief announces the end of operations
-     * and shares the number of paintings acquired in the heist
+     * and shares the number of paintings acquired in the heist.
      */
     public synchronized void sumUpResults() {
         finished = true;
@@ -99,8 +99,8 @@ public class ConcentrationSite {
     }
 
     /**
-     * Called by an ordinary thief to wait for orders
-     * @return true if needed, false otherwise
+     * Called by an Ordinary Thief to wait for orders.
+     * @return true if needed, false otherwise.
      */
     public synchronized boolean amINeeded() {
         ConcentrationSiteProxyAgent thief = (ConcentrationSiteProxyAgent) Thread.currentThread();
@@ -111,7 +111,7 @@ public class ConcentrationSite {
         if (finished) {
             return false;
         }
-        while (!finished && getAssaultParty(thief) == -1) {
+        while (!finished && getAssaultParty(thief.getOrdinaryThiefID()) == -1) {
             try {
                 this.wait();
             } catch (InterruptedException e) {
@@ -126,12 +126,12 @@ public class ConcentrationSite {
     }
 
     /**
-     * Ordinary Thief waits for the Master Thief to dispatch the designed Assault Party
-     * @return the Assault Party identification 
+     * Ordinary Thief waits for the Master Thief to dispatch the designed Assault Party.
+     * @return the Assault Party identification.
      */
     public int prepareExcursion() {
         ConcentrationSiteProxyAgent ordinaryThief = (ConcentrationSiteProxyAgent) Thread.currentThread();
-        AssaultPartyStub assaultParty = assaultParties[getAssaultParty(ordinaryThief)];
+        AssaultPartyStub assaultParty = assaultParties[getAssaultParty(ordinaryThief.getOrdinaryThiefID())];
         synchronized (assaultParty) {
             while (!assaultParty.isInOperation()) {
                 try {
@@ -146,17 +146,20 @@ public class ConcentrationSite {
         return assaultParty.getID();
     }
 
-        public synchronized void shutdown () {
+    /**
+     * Shuts down the Concentration Site server.
+     */
+    public synchronized void shutdown () {
         ConcentrationSiteMain.waitConnection = false;
     }
 
     /**
-     * Returns the Assault Party the Ordinary Thief is a part of
-     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none
+     * Returns the Assault Party the Ordinary Thief is a part of.
+     * @return the identification of the Assault Party the Ordinary Thief belongs to or -1 if none.
      */
-    public int getAssaultParty(ConcentrationSiteProxyAgent thief) {
+    public int getAssaultParty(int thief) {
         for (AssaultPartyStub assaultParty: assaultParties) {
-            if (assaultParty.isMember(thief.getOrdinaryThiefID())) {
+            if (assaultParty.isMember(thief)) {
                 return assaultParty.getID();
             }
         }

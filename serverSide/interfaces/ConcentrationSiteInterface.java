@@ -10,22 +10,36 @@ import serverSide.sharedRegions.ConcentrationSite;
 import utils.Constants;
 
 /**
- * Concentration Site where ordinary thieves wait for orders.
+ * Interface which provides communication to and from the Concentration Site.
  */
 public class ConcentrationSiteInterface {
+    /**
+     * The Concentration Site shared region.
+     */
     private final ConcentrationSite concentrationSite;
 
+    /**
+     * ConcentrationSiteInterface constructor.
+     * @param concentrationSite the Concentration Site.
+     */
     public ConcentrationSiteInterface(ConcentrationSite concentrationSite) {
         this.concentrationSite = concentrationSite;
     }
 
+    /**
+     * Processes incoming messages and replies to the sender or throws an exception if an error occurred or the message
+     * parameters were invalid.
+     * @param inMessage the incoming message.
+     * @return reply message.
+     * @throws MessageException exception containing a short explanation and the incoming message.
+     */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
         switch (inMessage.getMsgType()) {
             case MessageType.PREPARE_ASSAULT_PARTY:
                 if (inMessage.getMasterThiefState() != MasterThief.DECIDING_WHAT_TO_DO) {
                     throw new MessageException("Invalid Master Thief state - should be DECIDING_WHAT_TO_DO!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 }
                 ((ConcentrationSiteProxyAgent) Thread.currentThread()).setMasterThiefState(inMessage.getMasterThiefState());

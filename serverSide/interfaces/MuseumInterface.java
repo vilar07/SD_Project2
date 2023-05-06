@@ -9,22 +9,36 @@ import serverSide.sharedRegions.Museum;
 import utils.Constants;
 
 /**
- * The Museum has rooms inside of it. That rooms have paintings that can be stolen by the OrdinaryThiefs of the AssaultParty
+ * Interface which provides communication to and from the Museum.
  */
 public class MuseumInterface {
+    /**
+     * The Museum shared region.
+     */
     private final Museum museum;
 
+    /**
+     * MuseumInterface constructor.
+     * @param museum the Museum.
+     */
     public MuseumInterface(Museum museum) {
         this.museum = museum;
     }
-    
+
+    /**
+     * Processes incoming messages and replies to the sender or throws an exception if an error occurred or the message
+     * parameters were invalid.
+     * @param inMessage the incoming message.
+     * @return reply message.
+     * @throws MessageException exception containing a short explanation and the incoming message.
+     */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
         switch (inMessage.getMsgType()) {
             case MessageType.ROLL_A_CANVAS:
                 if (inMessage.getOrdinaryThiefState() != OrdinaryThief.CRAWLING_INWARDS) {
                     throw new MessageException("Invalid Ordinary Thief state - should be CRAWLING_INWARDS!", inMessage);
-                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.ASSAULT_PARTIES_NUMBER) {
+                } else if (inMessage.getAssaultParty() < 0 || inMessage.getAssaultParty() >= Constants.NUM_ASSAULT_PARTIES) {
                     throw new MessageException("Invalid Assault Party identification!", inMessage);
                 } else if (inMessage.getOrdinaryThiefID() < 0 || inMessage.getOrdinaryThiefID() >= Constants.NUM_THIEVES) {
                     throw new MessageException("Invalid Ordinary Thief identification!", inMessage);

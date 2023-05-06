@@ -22,9 +22,9 @@ package utils;
 
     /**
      * Room constructor, the room stores its own position and the mumber of paintings inside.
-     * @param id the room number
-     * @param distance the distance to the room
-     * @param paintings the number of paintings inside the room
+     * @param id the room number.
+     * @param distance the distance to the room.
+     * @param paintings the number of paintings inside the room.
      */
     public Room(int id, int distance, int paintings)
     {
@@ -35,15 +35,15 @@ package utils;
 
     /**
      * Room constructor, the room stores its own position and the mumber of paintings inside.
-     * @param room the room number
+     * @param room the room number.
      */
     public Room(int room) {
         id = room;
     }
 
     /**
-     * Getter for the room identification
-     * @return room identification
+     * Getter for the room identification.
+     * @return room identification.
      */
     public int getID()
     {
@@ -51,8 +51,8 @@ package utils;
     }
     
     /**
-     * Getter for the distance to the room
-     * @return Room position inside the museum
+     * Getter for the distance to the room.
+     * @return Room position inside the museum.
      */
     public int getDistance()
     {
@@ -60,8 +60,8 @@ package utils;
     }
     
     /**
-     * Getter for the number of paintings inside the room
-     * @return number of paintings inside the room
+     * Getter for the number of paintings inside the room.
+     * @return number of paintings inside the room.
      */
     public int getPaintings()
     {
@@ -69,16 +69,16 @@ package utils;
     }
 
     /**
-     * Setter for the distance
-     * @param distance the distance of the room to the outside gathering site
+     * Setter for the distance.
+     * @param distance the distance of the room to the outside gathering site.
      */
     public void setDistance(int distance) {
         this.distance = distance;
     }
 
     /**
-     * Setter for the paintings
-     * @param paintings the number of paintings present in the room
+     * Setter for the paintings.
+     * @param paintings the number of paintings present in the room.
      */
     public void setPaintings(int paintings) {
         this.paintings = paintings;
@@ -86,7 +86,7 @@ package utils;
 
     /**
      * Remove a painting from the room.
-     * @return true if there is still a painting and it is removed.
+     * @return true if there is still a painting, and it is removed.
      */
     public boolean rollACanvas() {
         if (this.paintings > 0) {
@@ -96,4 +96,3 @@ package utils;
         return false;
     }
  }
-

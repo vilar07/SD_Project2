@@ -23,7 +23,7 @@ public class CollectionSite {
     /**
      * Perception of the Master Thief about what rooms are empty.
      */
-    private boolean[] emptyRooms;
+    private final boolean[] emptyRooms;
 
     /**
      * FIFO of the available Assault Parties.
@@ -65,22 +65,22 @@ public class CollectionSite {
         Arrays.fill(emptyRooms, false);
         availableParties = new ArrayDeque<>();
         arrivingThieves = new LinkedList<>();
-        for (int i = 0; i < Constants.ASSAULT_PARTIES_NUMBER; i++) {
+        for (int i = 0; i < Constants.NUM_ASSAULT_PARTIES; i++) {
             availableParties.add(i);
             arrivingThieves.add(new ArrayDeque<>(Constants.ASSAULT_PARTY_SIZE));
         }
     }
 
     /**
-     * Getter for the number of paintings acquired
-     * @return the number of paintings
+     * Getter for the number of paintings acquired.
+     * @return the number of paintings.
      */
     public int getPaintings() {
         return paintings;
     }
 
     /**
-    * This is the first state change in the MasterThief life cycle it changes the MasterThief state to deciding what to do. 
+    * This is the first state change in the MasterThief life cycle, it changes the MasterThief state to deciding what to do.
     */
     public void startOperations() {
         ((CollectionSiteProxyAgent) Thread.currentThread()).setMasterThiefState(MasterThief.DECIDING_WHAT_TO_DO);
@@ -89,8 +89,8 @@ public class CollectionSite {
 
     /**
      * Called by Master Thief to appraise situation: either to take a rest, prepare assault party or
-     * sum up results
-     * @return next situation
+     * sum up results.
+     * @return next situation.
      */
     public synchronized char appraiseSit() {
         boolean empty = true;
@@ -109,7 +109,7 @@ public class CollectionSite {
                 assaultPartyRooms.add(room);
             }
         }
-        if (empty && this.availableParties.size() >= Constants.ASSAULT_PARTIES_NUMBER) {
+        if (empty && this.availableParties.size() >= Constants.NUM_ASSAULT_PARTIES) {
             return 'E';
         }
         if (availableParties.size() == 0 || 
@@ -123,7 +123,7 @@ public class CollectionSite {
     }
 
     /**
-     * Master Thief waits while there are still Assault Parties in operation
+     * Master Thief waits while there are still Assault Parties in operation.
      */
     public synchronized void takeARest() {
         CollectionSiteProxyAgent masterThief = (CollectionSiteProxyAgent) Thread.currentThread();
@@ -139,7 +139,7 @@ public class CollectionSite {
     }
 
     /**
-     * Called by the Master Thief to collect all available canvas
+     * Called by the Master Thief to collect all available canvas.
      */
     public synchronized void collectACanvas() {
         CollectionSiteProxyAgent masterThief = (CollectionSiteProxyAgent) Thread.currentThread();
@@ -183,19 +183,22 @@ public class CollectionSite {
         while (this.arrivingThieves.get(party).contains(thief)) {
             try {
                 wait();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
 
             }
         }
     }
 
+    /**
+     * Shuts down the Collection Site server.
+     */
     public synchronized void shutdown () {
         CollectionSiteMain.waitConnection = false;
     }
 
     /**
-     * Get the number of the next Assault Party and remove it from the queue
-     * @return the Assault Party identification
+     * Get the number of the next Assault Party and remove it from the queue.
+     * @return the Assault Party identification.
      */
     public int getNextAssaultPartyID() {
         return availableParties.poll();
@@ -214,18 +217,28 @@ public class CollectionSite {
         return -1;
     }
 
+    /**
+     * Gets the distance to a room.
+     * @param room the room identification.
+     * @return the distance to the room.
+     */
     public int getRoomDistance(int room) {
         return museum.getRoomDistance(room);
     }
 
+    /**
+     * Gets the number of paintings in a room.
+     * @param room the room identification.
+     * @return the number of paintings in the room.
+     */
     public int getRoomPaintings(int room) {
         return museum.getRoomPaintings(room);
     }
 
     /**
-     * Setter for the empty rooms
-     * @param room the room identification
-     * @param empty true if it is empty, false otherwise
+     * Setter for the empty rooms.
+     * @param room the room identification.
+     * @param empty true if it is empty, false otherwise.
      */
     private void setEmptyRoom(int room, boolean empty) {
         emptyRooms[room] = empty;
