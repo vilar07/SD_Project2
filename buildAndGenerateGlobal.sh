@@ -1,5 +1,5 @@
-#echo "Compiling source code."
-#javac -source 1.8 -target 1.8 */*.java */*/*.java
+echo "Compiling source code."
+javac -source 1.8 -target 1.8 */*.java */*/*.java
 echo "Distributing intermediate code to the different execution environments."
 echo "  General Repository of Information"
 rm -rf dirGeneralRepos
