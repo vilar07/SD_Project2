@@ -95,6 +95,13 @@ public class ConcentrationSite {
         notifyAll();
         ((ConcentrationSiteProxyAgent) Thread.currentThread()).setMasterThiefState(MasterThief.PRESENTING_THE_REPORT);
         generalRepository.setMasterThiefState(((ConcentrationSiteProxyAgent) Thread.currentThread()).getMasterThiefState());
+        while (thieves.size() < Constants.NUM_THIEVES - 1) {
+            try {
+                wait();
+            } catch (InterruptedException ignored) {
+
+            }
+        }
         generalRepository.printTail(collectionSite.getPaintings());
     }
 
@@ -105,21 +112,21 @@ public class ConcentrationSite {
     public synchronized boolean amINeeded() {
         ConcentrationSiteProxyAgent thief = (ConcentrationSiteProxyAgent) Thread.currentThread();
         thief.setOrdinaryThiefState(OrdinaryThief.CONCENTRATION_SITE);
-        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(), thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
+        generalRepository.setOrdinaryThiefState(thief.getOrdinaryThiefID(), thief.getOrdinaryThiefState(),
+                thief.getOrdinaryThiefSituation(), thief.getOrdinaryThiefMaxDisplacement());
         thieves.add(thief);
         this.notifyAll();
         if (finished) {
             return false;
         }
-        while (!finished && getAssaultParty(thief.getOrdinaryThiefID()) == -1) {
+        while (getAssaultParty(thief.getOrdinaryThiefID()) == -1) {
             try {
-                this.wait();
-            } catch (InterruptedException e) {
-
-            } finally {
                 if (finished) {
                     return false;
                 }
+                this.wait();
+            } catch (InterruptedException ignored) {
+
             }
         }
         return true;
