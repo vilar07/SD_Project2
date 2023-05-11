@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"src"},{"l":"src.entities"},{"l":"src.interfaces"},{"l":"src.room"},{"l":"src.sharedRegions"},{"l":"src.utils"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"clientSide.entities"},{"l":"clientSide.main"},{"l":"clientSide.stubs"},{"l":"commInfra"},{"l":"serverSide.entities"},{"l":"serverSide.interfaces"},{"l":"serverSide.main"},{"l":"serverSide.sharedRegions"},{"l":"utils"}]
